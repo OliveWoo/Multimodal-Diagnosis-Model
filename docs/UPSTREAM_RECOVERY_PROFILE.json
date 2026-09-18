@@ -1,0 +1,546 @@
+{
+  "profile_id": "recovered-v19-20260918",
+  "purpose": "Pin the current with-FilmArray deterministic runtime, its canonical standardized-JSON-to-v20 entry, shared model-free mNGS helpers, and offline v19 replay entry.",
+  "files": [
+    {
+      "path": "run_deterministic_v20.py",
+      "sha256": "a5bc28aa4f58b05289493f02f706f4971e73128a06c61058a09f42569637bd66"
+    },
+    {
+      "path": "scripts/offline_guard/sitecustomize.py",
+      "sha256": "5686fec623a5bd874c9633131f314708ca0c5bd5849e3f2baf8b846e377a70d9"
+    },
+    {
+      "path": "scripts/replay_v19_upstream.py",
+      "sha256": "9eb897f283fb45c270f250252bad210d84f6e0ff21bd96e4980b612f66e9f7d4"
+    },
+    {
+      "path": "upstream/README.md",
+      "sha256": "d07583141d49af795863b3a3c69b4ac1b876f24d1d163723fc6afc5409e85fa0"
+    },
+    {
+      "path": "upstream/agents/prompts/CBC_Lab_underlying_prompt.txt",
+      "sha256": "0929360cfb5de001f1beaa83bfe27578a66993bc81850584361aa25f5fff89b0"
+    },
+    {
+      "path": "upstream/agents/prompts/big_prompt.txt",
+      "sha256": "3a0eaca74b71e2efef89922ede8d989f87231ed2080a70e1dca79f578fe17eea"
+    },
+    {
+      "path": "upstream/agents/prompts/culture_agent_prompt.txt",
+      "sha256": "06bc5f1647b8d58a52b96d7618721d269474fa5a46d235a0558e6b0e8412bba1"
+    },
+    {
+      "path": "upstream/agents/prompts/filmarray_GMtest_prompt.txt",
+      "sha256": "89e196bc6a0426fd5eac9d51a35db52f4104f7490d1c2ae2ea292e415a81d84f"
+    },
+    {
+      "path": "upstream/agents/prompts/image_agent_prompt.txt",
+      "sha256": "b0ea51281d8fea8668e69036111da06fe854c51c9a0d7255fda06a7249a0282d"
+    },
+    {
+      "path": "upstream/agents/prompts/mNGS_to_specimen_prompt.txt",
+      "sha256": "305c06840b930802d419d10f92a9b318d359f8fda718832b0125148a5cfcafed"
+    },
+    {
+      "path": "upstream/agents/prompts/molecular_microbiology_prompt.txt",
+      "sha256": "802ccf52ac7183cc4f3e9e0659a6b10b1832815e48b9eb14afa424a806451e05"
+    },
+    {
+      "path": "upstream/analytics/__init__.py",
+      "sha256": "dbfeade6dc4970e8c998c7bb013316e88b109eade5ad62a798b67d0d4538b41c"
+    },
+    {
+      "path": "upstream/analytics/generate_charts.py",
+      "sha256": "4d693767d110b8c3f1888aa85b52524407dab7acf538c1c42f9e440946de9fc2"
+    },
+    {
+      "path": "upstream/analytics/metrics.py",
+      "sha256": "40a374a4a0c811642d498a409ef79f6abd28cdda2fe482e6414c601363f3edc8"
+    },
+    {
+      "path": "upstream/analytics/tracking.py",
+      "sha256": "d40a86c20cd77eb589e67db1181e25e903da0004f56593f6f9a212cbcf475bff"
+    },
+    {
+      "path": "upstream/core/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "upstream/core/llm_parser.py",
+      "sha256": "41ec9c296d9c5e682d8d968ab2ade99c6c1f390b8409c14110c4ec8757291b8d"
+    },
+    {
+      "path": "upstream/core/main.py",
+      "sha256": "de053fec61ca04660492315ecab7ee404c5b704110ea3c2291e72746355e3977"
+    },
+    {
+      "path": "upstream/core/raw_parser.py",
+      "sha256": "b3301011851e7c42eaa8a1fc0c3435292578223ffb4d9f1ff1fba647744534f4"
+    },
+    {
+      "path": "upstream/core/summarize_agent.py",
+      "sha256": "1057817db042af14552dedd28333d6e016b4014c1bbc7d960ceb27e010a179aa"
+    },
+    {
+      "path": "upstream/evaluation/rag_v2_acceptance_cases.json",
+      "sha256": "b97a30590af25408cc6aff4361890d6a6db2d56cfd58aa63c28167787e6ef2e2"
+    },
+    {
+      "path": "upstream/parsers/CBC_parser.py",
+      "sha256": "d4aaa41bd2d1deac2f2a023f28c5b00b5407f96c35a9bf862425e4fe4bb46b79"
+    },
+    {
+      "path": "upstream/parsers/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "upstream/parsers/admission_diagnosis_parser.py",
+      "sha256": "24562446bbc41e56470171fbf90330eabd48f4e7ec7896a19363b772f8370973"
+    },
+    {
+      "path": "upstream/parsers/culture_parser.py",
+      "sha256": "94eccbe168aca441d69ac0198d16efe05884e8bd047361f4cec1fd4611b6db84"
+    },
+    {
+      "path": "upstream/parsers/filmarray_parser.py",
+      "sha256": "878aa79f2ba4e0987e9ce89727588567b0fe97f91887583319a3f1ebc4df1f24"
+    },
+    {
+      "path": "upstream/parsers/gm_test_parser.py",
+      "sha256": "db60ca24dae4056c21c7cfe7b356cd6bb472d2938a088197a7788d190cfd46f3"
+    },
+    {
+      "path": "upstream/parsers/image_parser.py",
+      "sha256": "e235bd19790d63d5094ab5cb16dc469c052c3261a0673be831d0d2132af36777"
+    },
+    {
+      "path": "upstream/parsers/mNGS_parser.py",
+      "sha256": "eeba4b99e666bb18362ab984306c2b517b55ab5e8b9f7e9e3fefd651f59c85f0"
+    },
+    {
+      "path": "upstream/parsers/other_lab_parser.py",
+      "sha256": "20f3f4746e1f81a13016f500457ccfdaa48081de267d2f4476c9a47882e92cf2"
+    },
+    {
+      "path": "upstream/parsers/underlying_parser.py",
+      "sha256": "de9ba36a67a7ee4611bdf968657813b124271ed8aa66f33f1b063b1ac26c7578"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/__init__.py",
+      "sha256": "212b06ed1a26475984da2d62f8baeb7b28e3b71fefe5e3810a903b0384b21a2a"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/__main__.py",
+      "sha256": "87542982f474f2d3ba4df407bb248a2a04224155d522841128b131e6c561b7f3"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/cli.py",
+      "sha256": "674f6cab7d7a7b1ad7f7e072972a6dc3082bf494729329dde05bce87d8a255be"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/modality_classifier.py",
+      "sha256": "ef61ba4c0ff9b629f9f0a1a69968167f33a13b6f9ab25384583a74b43e44a871"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/parsers/__init__.py",
+      "sha256": "7a7bdbf49a7ff02a3aec217d176903619e456101534401e91f80257b0bb575f8"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/parsers/slide_parser.py",
+      "sha256": "0bae77823cf90164c64c2538da4bb61b12c2e9f37bf362d5b97566dd1eab5b5a"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/ppt_reader.py",
+      "sha256": "70753d65992f74b96cc01db411e271b71dadfdf074e7af39abf4c76f0ea2daba"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/slide_extractor.py",
+      "sha256": "14c48b3e11b3bd02f76f635e8faca3f2afe4c854eb2f4827f79f1676f90027e9"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/utils/__init__.py",
+      "sha256": "1380d8edbcc7a5723294ea76f783231bab3dbcfd9472352dde31c59103d3c3d3"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/utils/io.py",
+      "sha256": "976c5e6642ce873f32e7b69f344b28ae74a24d20456d947a229792c84785ab67"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/utils/logging.py",
+      "sha256": "a2667fdefb4c3722daf0b5295ef53980f0fef2845f61dce002d19da59a9114dd"
+    },
+    {
+      "path": "upstream/ppt_patient_parser/vision_hooks.py",
+      "sha256": "d8101f0a8679d36858ffae9eec577c153422bd1c0d77143bd29b9070aba97ac1"
+    },
+    {
+      "path": "upstream/requirements.txt",
+      "sha256": "9d1b0c817a83c5edd020bf35bad713ff75160445f8928446ca4b31c803f8b81b"
+    },
+    {
+      "path": "upstream/rules/impossible_infection_sources.json",
+      "sha256": "87578f56150cf58f78f521cf79d07ac8334bb51fddd5e7296a9cde476c215dd3"
+    },
+    {
+      "path": "upstream/rules/negative_evidence_rules.json",
+      "sha256": "523dbf6bb52704a661f30e7faa4b473013f67923197abbc77cf8481658b5838b"
+    },
+    {
+      "path": "upstream/rules/organism_taxonomy_rules.json",
+      "sha256": "dce946379f826a2b233c4546f4563ec95a9161248226606e917619ffc1425863"
+    },
+    {
+      "path": "upstream/rules/pathogen_aliases.json",
+      "sha256": "3efc456080cd9e24db3e98907d670bbd2d83d20b32f27a4458a10762a05dda6c"
+    },
+    {
+      "path": "upstream/rules/rag_v2_adjudication_output.schema.json",
+      "sha256": "44d00601a70e83131fbfc4fb3b34ec493e20dccd080a7ac6227d83b42a099df5"
+    },
+    {
+      "path": "upstream/rules/rag_v2_adjudication_packet.schema.json",
+      "sha256": "6ef13280a3f1e9373bfa220abe61bf4b818b64341034d38c1209d19099c101e1"
+    },
+    {
+      "path": "upstream/rules/rag_v2_production_input.schema.json",
+      "sha256": "0371c9a34cb8676b685dd0a37eb6b13b26eed9bfcd01437fe6ed5be407f0d2a3"
+    },
+    {
+      "path": "upstream/rules/review_context_rescue_rules.json",
+      "sha256": "04489c4bfd7c3682658a0591492b724a4300bdb72d1b9cd5fcaa3b21035ed6fd"
+    },
+    {
+      "path": "upstream/rules/review_triage_rules.json",
+      "sha256": "ebf07bc63efa2933ba2bfe5d18ef61ce959570de84d101f8f7ddb219901c69df"
+    },
+    {
+      "path": "upstream/tests/test_filmarray_default.py",
+      "sha256": "b0f881d3111782c0a734ee73910383218b8eb02d034aa1bede4f78ab8f2ccb82"
+    },
+    {
+      "path": "upstream/tests/test_mngs_common.py",
+      "sha256": "3987fabaa1acfe894f7367d1eb2045a5a5e39d8eb932d62e2b3e8069c80efba1"
+    },
+    {
+      "path": "upstream/tests/test_run_deterministic_v20_pipeline.py",
+      "sha256": "c58799ec4f6b4d7af55b53961bbd36f3d8cfe5cd63587d0d49f45e644cfb63b5"
+    },
+    {
+      "path": "upstream/tools/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "upstream/tools/add_mngs_to_specimen_evidence.py",
+      "sha256": "474a8b5b4a9c3cc6a89783c3f015ba8896f1e555a6b34c69101f45c08b2dfb1d"
+    },
+    {
+      "path": "upstream/tools/adjudicate_rag_v2_packets.py",
+      "sha256": "3c9bbd3eadbe3b67563ec4a105bad1d3ff104237aa96e64c1f12f76f114afc83"
+    },
+    {
+      "path": "upstream/tools/analyze_llm_agent.py",
+      "sha256": "8daf110df1326fb3c0486d83eb641135e34d2c3e968e63f08c58d259843aa713"
+    },
+    {
+      "path": "upstream/tools/annotate_deterministic_mngs_max_tags.py",
+      "sha256": "8c10270563c1e554d1ac3d0a31bc62cb026de916cbb8b8353393b8c88724b806"
+    },
+    {
+      "path": "upstream/tools/audit_evidence_preservation.py",
+      "sha256": "ef13d869910882877554ccac80f49a018075834c8c9e41312dfcc12147aa57bd"
+    },
+    {
+      "path": "upstream/tools/audit_excel_to_raw_contract.py",
+      "sha256": "d52e00bf4ab349f7ecd57fb48748e10290cbb1003437636fb1f4503e76f2e5f1"
+    },
+    {
+      "path": "upstream/tools/audit_organism_taxonomy_coverage.py",
+      "sha256": "b4ff6ec568c5322364d1b09e8fd9193bdaba116557bf82d6feef114fd53a8d33"
+    },
+    {
+      "path": "upstream/tools/audit_picked_false_positives.py",
+      "sha256": "f849c3bc34f63a205d01d11ad9f58092ddf85510a4eb1312a32f122aba9a786a"
+    },
+    {
+      "path": "upstream/tools/audit_source_to_normalized_contract.py",
+      "sha256": "f2d157ff7ee8b3124b956d5fc4a5744855ea21a7aa680d07be9b2d02b85a0db4"
+    },
+    {
+      "path": "upstream/tools/build_chosen_ranked_mngs_from_excel_mapping.py",
+      "sha256": "11d439f9a9e89511b77329c58f83e3962bb54aa2dcb0a19c602fce73a0154c8b"
+    },
+    {
+      "path": "upstream/tools/build_chosen_ranked_mngs_from_mngs_to_specimen.py",
+      "sha256": "7670d109d62feee81266c0a71396afd63df33f8e27086723dd0501db61877921"
+    },
+    {
+      "path": "upstream/tools/build_context_convergence_shadow.py",
+      "sha256": "4b93abc0a942af950316326033b3d7e902530f7123ebcf83fde7320ecd0fbafb"
+    },
+    {
+      "path": "upstream/tools/build_deterministic_summary.py",
+      "sha256": "bf75dee85450f96ae5948e670d0327170eb241bbd3748797dbdbfcbbc59ce6c7"
+    },
+    {
+      "path": "upstream/tools/build_deterministic_summary_v3_recovered.py",
+      "sha256": "821769fc06b88ee1b0c3b117bb8093ce971795cf9e462eb5d173f6521c6eea5b"
+    },
+    {
+      "path": "upstream/tools/build_mNGS_data_mapping.py",
+      "sha256": "7ab5aaeb5f7b5890cfc06ccb97ca315f67a78a7001fab8ac3a9194b069e5d5aa"
+    },
+    {
+      "path": "upstream/tools/build_missed_candidate_review_queue.py",
+      "sha256": "48641f71336c447b2e89ea6c574c2be8c36240801b519099db5f490c69e84719"
+    },
+    {
+      "path": "upstream/tools/build_mngs_grouped_from_excel.py",
+      "sha256": "ccbfe537f54e3ed67b0018944d1d2e0a37f47dd1a29db77b881557ba70536606"
+    },
+    {
+      "path": "upstream/tools/build_output_only_false_positive_audit.py",
+      "sha256": "462e28598cbf4183e4a47e6e287e82c7aa445e8d2c73217cdb1a28d1d0876fa3"
+    },
+    {
+      "path": "upstream/tools/build_patient_cutoffs_from_mngs.py",
+      "sha256": "0d0b73af1e3b1cc6929a1e57d98471b87886b19cef103f6515efdeb42633805c"
+    },
+    {
+      "path": "upstream/tools/build_patient_database_index.py",
+      "sha256": "2be4dfbda6f12acdca9d7dbb9af7a056a0d833a80fba8f7c5dfc908a1d044234"
+    },
+    {
+      "path": "upstream/tools/build_picked_evidence_axis_audit.py",
+      "sha256": "e80a07c4986305f12feea0c8f4dddd28edc23bf3ed7cb968970f517243e4ab96"
+    },
+    {
+      "path": "upstream/tools/build_rag_prototype_cases.py",
+      "sha256": "4b6a616a8dfa76e76532b72e3ca6bb4f3605e1ce192c81c1a794757dce691835"
+    },
+    {
+      "path": "upstream/tools/build_rag_v2_adjudication_packets.py",
+      "sha256": "189c46d3908cf79f0a00de84b9afac048ebf04fe68080f7363c6b112fada1152"
+    },
+    {
+      "path": "upstream/tools/build_rag_v2_calibration_set.py",
+      "sha256": "e8ce4fa2d59f6e6056910db1f9fc289340321d732c1a9d91e032c742a5807b89"
+    },
+    {
+      "path": "upstream/tools/build_rag_v2_inputs.py",
+      "sha256": "0d85bb51a80055fe2570c8b950f4c339f78eb59849645a1a236f934901ef2cd2"
+    },
+    {
+      "path": "upstream/tools/build_ranked_mngs_from_grouped_folder.py",
+      "sha256": "b635d14f4eac3908d27572a3005c0cbe404dc0ff55fe2eeb318e68f3976852a4"
+    },
+    {
+      "path": "upstream/tools/build_readable_mngs_selected_review_report.py",
+      "sha256": "f8ecec01e681115a06771a11c932d641fa3c309d11f12a10ad1fc3efd6de88a7"
+    },
+    {
+      "path": "upstream/tools/build_review_tier_convergence_shadow_v2.py",
+      "sha256": "f8664add33cf204b2f9e808a943cc70abbff42a0367393ce6f61480f2ffcdec8"
+    },
+    {
+      "path": "upstream/tools/build_syndrome_pattern_shadow_audit.py",
+      "sha256": "8d924e4b254b82a1405c038e5fe90c3e5fcc10bb84e2cd7824d92377e4a679ea"
+    },
+    {
+      "path": "upstream/tools/build_x3_level_views_from_source.py",
+      "sha256": "40c10988d4b315ae988041a636f3675d004e912ec35477d5739f7d4fb47ce759"
+    },
+    {
+      "path": "upstream/tools/candidate_evidence_profile.py",
+      "sha256": "b16cdbe3084f384aae20729096f1ad297b0ff86a0294570d0a7dcbe4c563440a"
+    },
+    {
+      "path": "upstream/tools/check_big_prompt_variability.py",
+      "sha256": "6df15acfccfe3d9eaf2c7498d1119f6550db559cbfd2895ed4f51c629a216adf"
+    },
+    {
+      "path": "upstream/tools/check_excel_duplicates.py",
+      "sha256": "8a0678d0505535af0b60d573769bb63d8f8bb39759af78ebbe8a754e4291e851"
+    },
+    {
+      "path": "upstream/tools/combine_rag_v2_production_inputs.py",
+      "sha256": "5e4da8cc9b8c5fc01fbdcbc76013e08a3164b1f16a9489e08754e271aec91542"
+    },
+    {
+      "path": "upstream/tools/compare_aliasclean_baseline.py",
+      "sha256": "8d48d1cfb19e62d0ddeddd1d745f8ba58656bb66584ebed93647b3d9e0bd3344"
+    },
+    {
+      "path": "upstream/tools/compare_final_summary_llm_vs_deterministic.py",
+      "sha256": "3642e550fc5a8e578c6d9d3992afa0c8251116cda8b80ebc7f727dda2f843aaa"
+    },
+    {
+      "path": "upstream/tools/compare_mngs_max_with_clinical_excel.py",
+      "sha256": "9d373eb1d9b885123de5864ca67c1abd5106bf671b1b9b561d4ed79968af4cec"
+    },
+    {
+      "path": "upstream/tools/compare_mngs_to_specimen_with_excel.py",
+      "sha256": "b4325971e4ec5ba7ed9337437aac76a50d5c6310ee184b2ba29c3b69b73e72bf"
+    },
+    {
+      "path": "upstream/tools/culture_bal_extractor.py",
+      "sha256": "a4f0b29d00647825a13e7d7b47e47be6ae00e441e4bfe025bed0991f59f273ba"
+    },
+    {
+      "path": "upstream/tools/deterministic_mngs_max_scorer.py",
+      "sha256": "c0d460a996b58f53eaa0b5abd94074191fd3c09510b13e411f092d847af8aae5"
+    },
+    {
+      "path": "upstream/tools/deterministic_mngs_max_scorer_v19_recovered.py",
+      "sha256": "8a7a20a15a3021d0547eb1414c97415d37db5579faa09f59ecff2446b6cd9fd9"
+    },
+    {
+      "path": "upstream/tools/evaluate_rag_v2_calibration.py",
+      "sha256": "e38014c3297c3b7a5b30a949bf6bdeeca4e40403012b79eb778bbcf2e9aeadc3"
+    },
+    {
+      "path": "upstream/tools/evidence_preservation.py",
+      "sha256": "f0abb33413780b6986b4bab897d597d75a5b0087118f3ee279ca25c7a33fe485"
+    },
+    {
+      "path": "upstream/tools/explain_deterministic_mngs_max.py",
+      "sha256": "a59549976fe905d100254af6b8d9a9f5a51296951f4ed268e94d77aa6c3e9688"
+    },
+    {
+      "path": "upstream/tools/explain_deterministic_mngs_max_with_tags.py",
+      "sha256": "e15d2c850f25f8ae3ca883b23d54a31de20dd89db123275bec258753cf8229a7"
+    },
+    {
+      "path": "upstream/tools/extract_mngs_candidate_microbes.py",
+      "sha256": "d0b2ca46a600f460c4e45eb9522b881ddb3c6ed75f502ea4c20144f9d80f394e"
+    },
+    {
+      "path": "upstream/tools/filter_mngs_by_cutoff.py",
+      "sha256": "57398ed6b6fbfc394087119ece17c854e8b01e06d72d3daf34b8ca1b7e9d3b3f"
+    },
+    {
+      "path": "upstream/tools/filter_patient_info_by_cutoff.py",
+      "sha256": "2ae8bc18d2ec75b0af84d92af9d420e733a36341a46ed5b5760324e041976e4e"
+    },
+    {
+      "path": "upstream/tools/generate_source_mapping.py",
+      "sha256": "ca6043374549234720b33c0f7cb8bf3125e9c24cd0cfc13a5b94029532efb403"
+    },
+    {
+      "path": "upstream/tools/llm_requester.py",
+      "sha256": "e13123ef486694196e794274425771e5f2ba3c379b1c492efcb96fb51bbb459d"
+    },
+    {
+      "path": "upstream/tools/merge_deterministic_max_with_missed_review.py",
+      "sha256": "0a6cfce4b907ce18ee9e5b3e230ac48965c829c72eb05d17d0fb17787e3b47af"
+    },
+    {
+      "path": "upstream/tools/mngs_common.py",
+      "sha256": "c8cbf540f5a5624296d1d0525cad756b026c2ea554fc968559d505842e3817c2"
+    },
+    {
+      "path": "upstream/tools/normalized_agent_fallback.py",
+      "sha256": "49d8d39353def7df8ccebed3014c2c338bc18660a17f58f2bbc2895bed5beadb"
+    },
+    {
+      "path": "upstream/tools/optimize_low_colonizer_precision.py",
+      "sha256": "0492372a66bd74aa762e602488c57cfef1fb5482b9bfade49faa0a9f26d3afc1"
+    },
+    {
+      "path": "upstream/tools/optimize_low_colonizer_precision_lite.py",
+      "sha256": "219ef4ea83a669424bca0c3fd98269041a6d5cafa932a3d0ceae0624e50eaab6"
+    },
+    {
+      "path": "upstream/tools/optimize_mngs_rank_read_precision.py",
+      "sha256": "f21140830b73ad18ba2d967ab440c56c4618d173cf3c5753eff294cc5b8cf593"
+    },
+    {
+      "path": "upstream/tools/organism_taxonomy_classifier.py",
+      "sha256": "df4696ae819bbb3ff83c0fe236de5828af49280ee157adbcedda63911faca780"
+    },
+    {
+      "path": "upstream/tools/pathogen_normalization.py",
+      "sha256": "6076a87cc3d6f255765de666ebaecfbeddddb52ff06badbc6c230259b8bd91fa"
+    },
+    {
+      "path": "upstream/tools/pathogen_rule_lists.py",
+      "sha256": "a6a1e377e0e1d3654a0bcad775157597bc4a21654d1266c1d7c0d9ad9955567e"
+    },
+    {
+      "path": "upstream/tools/prepare_patient_batch.py",
+      "sha256": "83b7724235158d1cd80da82325e5a6de6489889b0413ab7f554d7d3e7c14f5a8"
+    },
+    {
+      "path": "upstream/tools/rank_mngs_candidate_microbes.py",
+      "sha256": "6e87d0dd160fd9762806d4865427bc390d2eb27e2f48a44dcfd65120534dc821"
+    },
+    {
+      "path": "upstream/tools/recalculate_kh_benchmark_metrics.py",
+      "sha256": "acb987eb7bb61e4dd486bd3b8ff4f147067f55c8c3700770f0d12d598a7e78ea"
+    },
+    {
+      "path": "upstream/tools/rerank_mngs_two_stage_guardrail.py",
+      "sha256": "b996ab7b52f140839521d8286be92d5e57e57d53ab47330c3d1eb191891f7c61"
+    },
+    {
+      "path": "upstream/tools/retriage_existing_missed_review.py",
+      "sha256": "369d95f0968b279ecb5c2490bb66719e443f354827591232e6854a73059aa970"
+    },
+    {
+      "path": "upstream/tools/retrieve_rag_v2_pubmed.py",
+      "sha256": "3a8a56f775ad01298f5b6d2108e2abebee916907ff8f4efba995e736778bcbe8"
+    },
+    {
+      "path": "upstream/tools/review_missed_mngs_candidates.py",
+      "sha256": "dd441bf00358c34288bf656632ead954935c9caabadddde8116537382a7e2f5d"
+    },
+    {
+      "path": "upstream/tools/review_triage_rule_table.py",
+      "sha256": "803c185666bff8ad094a69a7f9edcafa0d8a881cc956db4e9b0422e675277447"
+    },
+    {
+      "path": "upstream/tools/run_deterministic_v20_pipeline.py",
+      "sha256": "8982604c69390a465f584b6678c3b84afccf07a8ca53888c8da82ab3009846ce"
+    },
+    {
+      "path": "upstream/tools/run_mngs_to_specimen_agent.py",
+      "sha256": "26361f05f915cb4c0f28e36862148212c764d710cadcab6c47297ba86976ee28"
+    },
+    {
+      "path": "upstream/tools/run_mngs_to_specimen_full_pipeline.py",
+      "sha256": "65cd81b6f958f5bfff07d1872dc0d43e3842e918aa6bbfa6ec08a06ac4d25ca6"
+    },
+    {
+      "path": "upstream/tools/run_mngs_to_specimen_v4_deterministic.py",
+      "sha256": "e9cd0184a2b39d426187508784d4de46abab9baa75080c560cd11b4b314915a9"
+    },
+    {
+      "path": "upstream/tools/source_provenance.py",
+      "sha256": "e2ec612af8ed6fc69953ec89a78b5fef1495e347378e97a36039a49cd4b294ba"
+    },
+    {
+      "path": "upstream/tools/split_mngs_by_patient.py",
+      "sha256": "3a0f61c6af8d5220046d99499a72a3c8e8880cddbad503c86812b0b619653b90"
+    },
+    {
+      "path": "upstream/tools/split_mngs_candidates_for_llm.py",
+      "sha256": "481c0a55d29fc56063e3b8071cdf121b6fefe75f65c831b5a4506b570f8ddc87"
+    },
+    {
+      "path": "upstream/tools/split_mngs_to_specimen_outputs_by_patient.py",
+      "sha256": "754fffe08325c54403043b74b7713649501eb6766856eea74be75d549829d88e"
+    },
+    {
+      "path": "upstream/tools/split_ranked_mngs_by_patient.py",
+      "sha256": "538c6778625d9580fc6f43ae4d40ffa00c2f95d5d3c85bc4c047b78e4cc92608"
+    },
+    {
+      "path": "upstream/tools/token_count.py",
+      "sha256": "57691e002563f655de8e2b092700c782712b6a69e27d88a52a30db470de994f4"
+    },
+    {
+      "path": "upstream/utils.py",
+      "sha256": "a7b730118b60f77e12705573fca047ebc3fbeed0756daa4fcb2650fbd9c8cfb6"
+    }
+  ]
+}

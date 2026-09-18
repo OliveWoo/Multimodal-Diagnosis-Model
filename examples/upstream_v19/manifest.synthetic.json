@@ -1,0 +1,22 @@
+{
+  "schema": "research.upstream_v19_replay.v1",
+  "synthetic_only": true,
+  "cases": [
+    {
+      "case_key": "synthetic_900001",
+      "patient_id": "900001",
+      "ranked": {
+        "path": "ranked.synthetic.json",
+        "sha256": "ea39d0fca24fb7d473365f643747549ed5357ba6e684c6f6fa48edd877e5729e"
+      },
+      "summary": {
+        "path": "summary.synthetic.json",
+        "sha256": "8ccd895f16786aed22f65a3ec2297e75b9a7026e34c3f8650dcf19126f4b3b96"
+      },
+      "expected_scorer": {
+        "path": "expected_scorer.synthetic.json",
+        "sha256": "5ed4e9ac61b9dd1e0164e4e1a97e0ad40b257b9c5800eb57fb88894d27b87cc7"
+      }
+    }
+  ]
+}

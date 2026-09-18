@@ -1,0 +1,23 @@
+{
+  "patient_id": "900001",
+  "records": [
+    {
+      "specimen_name": "BAL",
+      "candidates": [
+        {
+          "organism_name": "Pseudomonas aeruginosa",
+          "source_category": "Bacterial",
+          "reads": 10000,
+          "ranking": {
+            "rank_priority": 1,
+            "reads_percentile": 0.99,
+            "possibility_level": "high"
+          }
+        }
+      ]
+    }
+  ],
+  "ranking_metadata": {
+    "synthetic": true
+  }
+}

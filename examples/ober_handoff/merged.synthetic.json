@@ -1,0 +1,19 @@
+{
+  "patient_id": "SYNTHETIC_CASE_A",
+  "deterministic_max": {
+    "best_available_summary": {
+      "picked_pathogens": [{"organism_name": "Synthetic organism Alpha", "basis_level": "Level 2"}]
+    },
+    "pathogen_candidates": [
+      {"organism_name": "Synthetic organism Alpha", "integrated_causative_level": "Level 2"},
+      {"organism_name": "Synthetic organism Beta", "integrated_causative_level": "Level 4"},
+      {"organism_name": "Synthetic organism Gamma", "integrated_causative_level": "Level 5"}
+    ]
+  },
+  "llm_missed_candidate_review": {
+    "review_high_priority": [{"organism_name": "Synthetic organism Beta"}],
+    "review_context_needed": [],
+    "review_low_specificity": [{"organism_name": "Synthetic organism Gamma"}],
+    "omitted_with_reason": []
+  }
+}

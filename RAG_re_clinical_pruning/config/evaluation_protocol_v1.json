@@ -1,0 +1,33 @@
+{
+  "schema_version": "rag_re_clinical_pruning.evaluation_protocol.v1",
+  "primary_scope": "all_labeled_exact_frozen_synonyms",
+  "sensitivity_scope": "answer_positive_only_genus_relaxed",
+  "primary_arm": "L5_PLUS_DIRECT_CONVERGENT_RESCUE",
+  "arm_order": [
+    "S0_E0",
+    "S_Q_WEAK_RAW",
+    "S_Q_GUARD",
+    "S_D_BLOCK_DIAGNOSTIC",
+    "S_R_DIRECT",
+    "S_R_CONVERGENT",
+    "S_R_HIGH_STRICT",
+    "S_R_HIGH_ANY",
+    "S_R_CONTEXT_A",
+    "L0_E0",
+    "L1_WEAK_RAW",
+    "L2_DIRECT_RESTORE",
+    "L3_CONTEXT_REVIEW",
+    "L4_PLUS_GUARD_REVIEW",
+    "L5_PLUS_DIRECT_CONVERGENT_RESCUE",
+    "L6_PLUS_HIGH_STRICT",
+    "L7_PLUS_HIGH_ANY",
+    "L8_PLUS_CONTEXT_A"
+  ],
+  "recall_safety": {
+    "auto_max_absolute_recall_drop": 0.1,
+    "review_inclusive_max_absolute_recall_drop": 0.035,
+    "max_explicitly_pruned_tp": 1
+  },
+  "recall_safety_behavior": "evaluation_only_no_prediction_mutation",
+  "missing_artifact_policy": "retain_in_denominator_as_empty_prediction_and_do_not_credit_no_path_tn"
+}

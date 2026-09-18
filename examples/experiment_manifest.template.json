@@ -1,0 +1,18 @@
+{
+  "template_only": true,
+  "experiment_id": null,
+  "paper_table_or_figure": null,
+  "paper_version_status": "pending author confirmation",
+  "code_commit_or_source_manifest_sha256": null,
+  "input_identity_mapping_sha256": null,
+  "cohort_manifest_sha256": null,
+  "prompt_sha256": {},
+  "config_sha256": {},
+  "model_and_parameters": {},
+  "frozen_predictions_sha256": {},
+  "gold_version_and_sha256": null,
+  "evaluation_policy_and_alias_sha256": null,
+  "metrics_sha256": null,
+  "development_or_untouched_test": "pending",
+  "data_access_and_license_status": "pending"
+}

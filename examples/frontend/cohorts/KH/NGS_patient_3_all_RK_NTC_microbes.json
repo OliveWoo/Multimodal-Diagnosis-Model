@@ -1,0 +1,18 @@
+[
+  {
+    "specimen_code": "SYN-K-001",
+    "collected_time": "2025-01-02",
+    "specimen_site": "synthetic",
+    "pathogens": {
+      "bacterial": [
+        {
+          "name": "Synthetic bacterium",
+          "reads": 12
+        }
+      ],
+      "viral": [],
+      "fungal": [],
+      "others": []
+    }
+  }
+]

@@ -1,0 +1,48 @@
+{
+  "schema_version": "research.full_pipeline_config.v1",
+  "env_file": null,
+  "cohorts": {
+    "KH": {
+      "input_root": "frontend/cohorts/KH",
+      "hospital": "KH",
+      "dataset": "KH_standardized_json",
+      "source_kind": "all_rk_ntc",
+      "patients": []
+    },
+    "two_hospital": {
+      "input_root": "frontend/cohorts/two_hospital",
+      "hospital": "two_hospital",
+      "dataset": "two_hospital_standardized_json",
+      "source_kind": "mngs_grouped",
+      "patients": []
+    }
+  },
+  "missed_review": {
+    "model": "gpt-5",
+    "reasoning_effort": "medium",
+    "max_workers": 1,
+    "keep_prompt": true,
+    "keep_raw": true
+  },
+  "rag_re": {
+    "config": "../RAG_re/config/formal_merge_full_a.json",
+    "skip_literature": false
+  },
+  "casefit": {
+    "config": "../RAG_re_casefit/config/default.json"
+  },
+  "clinical_config": "../RAG_re_clinical/config/clinical_v1.json",
+  "evidence": {
+    "candidate_window_days": 2,
+    "window_mode": "date",
+    "anchor_source": "auto"
+  },
+  "rationale": {
+    "prompt": "../mngs_candidate_evidence_pipeline_20260902/mngs_candidate_evidence_pipeline/prompts/llm_reason_generator_zh_v1_citation_scope.txt",
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "low",
+    "max_output_tokens": 4000,
+    "max_excluded_candidates": 5,
+    "retries": 1
+  }
+}

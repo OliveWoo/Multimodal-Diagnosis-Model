@@ -1,0 +1,12 @@
+# Versions present during the 2026-09-17 offline audit, Python 3.13.7 on Windows.
+# This is a replay environment snapshot, NOT the historical paper environment.
+openai==2.3.0
+requests==2.32.5
+pandas==2.3.3
+openpyxl==3.1.5
+matplotlib==3.10.8
+tiktoken==0.12.0
+python-pptx==1.0.2
+Pillow==12.0.0
+pydantic==2.12.0
+python-dotenv==1.1.1

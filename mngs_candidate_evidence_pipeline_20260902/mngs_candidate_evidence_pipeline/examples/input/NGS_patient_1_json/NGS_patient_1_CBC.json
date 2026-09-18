@@ -1,0 +1,14 @@
+[
+  {
+    "test": "CBC",
+    "reported_time": "2024-01-10 09:00",
+    "item": "WBC",
+    "value": "12.0"
+  },
+  {
+    "test": "CBC",
+    "reported_time": "2024-01-20 09:00",
+    "item": "WBC",
+    "value": "8.0"
+  }
+]

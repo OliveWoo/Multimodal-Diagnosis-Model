@@ -1,0 +1,53 @@
+{
+  "validated_on": "2026-09-18",
+  "scope": "cohort-separated saved-input staging and identity validation",
+  "full_raw_to_ober_reproduced": false,
+  "master_prefix_counts": {
+    "K": 53,
+    "T": 19,
+    "V": 35
+  },
+  "kh": {
+    "source_cases": 33,
+    "sections_equal": 297,
+    "clinical_sections_per_case": 8,
+    "specimen_binding_unique": 33,
+    "workbook_label_candidates": 24,
+    "without_workbook_label_candidate": 9,
+    "ober_delivery_cases": 30,
+    "direct_raw_benchmark_cases": 30,
+    "workbook_candidate_scope": "Filename labels in unpacked workbooks and indexed archive members; differently named files remain possible",
+    "indexed_archive_excel_members_checked": 15,
+    "missing_labels_matching_archive_member_filename": 0
+  },
+  "two_hospital": {
+    "master_candidates": 54,
+    "source_cases": 48,
+    "sections_equal": 480,
+    "clinical_sections_per_case": 9,
+    "master_to_source_clinical_equal": 432,
+    "master_to_source_grouped_different": 42,
+    "empty_grouped_cases": 6,
+    "source_flat_all_rk_ntc_vs_upstream_grouped_different": 47,
+    "rich_moderate_root_cases": 27,
+    "ober_delivery_cases": 25,
+    "ober_summary_source_rich_moderate": 20,
+    "ober_summary_source_full": 5,
+    "direct_raw_benchmark_cases": 11
+  },
+  "workbooks": {
+    "source_paths": 33,
+    "unique_content_hashes": 25,
+    "filename_patient_labels": 27
+  },
+  "new_cohort_tests": 15,
+  "python_tests_passed": 309,
+  "node_tests_passed": 8,
+  "paid_api_calls": 0,
+  "limitations": [
+    "Missing original KH workbooks and complete formatter lineage",
+    "Historical 54-to-48 inclusion/exclusion recipe",
+    "Complete generation recipe for richer two-hospital grouped mNGS",
+    "Table 1 identity and actual paper cohort/run unconfirmed"
+  ]
+}

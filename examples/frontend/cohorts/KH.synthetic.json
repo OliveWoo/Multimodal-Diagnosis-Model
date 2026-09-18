@@ -1,0 +1,62 @@
+{
+  "schema_version": "research_frontend.cohort.v1",
+  "cohort": "KH",
+  "clinical_id_namespace": "kmuh_case_code",
+  "operation": "prepare_verified_snapshot",
+  "source_boundary": "saved_clinical_and_mngs",
+  "dataset_id": "synthetic_KH",
+  "code_profile_sha256": "89b2898605c155f6399e6bf076172b50d542e3cfb1ad427d504fedabbcb4bb4b",
+  "source_index": {
+    "path": "source_index.synthetic.json",
+    "sha256": "187868ea510142d6c0884ef906488d4fb4680beaeeff93a37d9db16e002f9e8c"
+  },
+  "cases": [
+    {
+      "patient_id": "P3",
+      "master_patient_id": "P8",
+      "case_code": "K003",
+      "specimen_code": "SYN-K-001",
+      "clinical": {
+        "admission_diagnosis": {
+          "path": "KH/NGS_patient_3_admission_diagnosis.json",
+          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+        },
+        "underlying": {
+          "path": "KH/NGS_patient_3_underlying.json",
+          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+        },
+        "CBC": {
+          "path": "KH/NGS_patient_3_CBC.json",
+          "sha256": "d13f32bfbb935979b5443780ea0f3a2c2bdf95f828d5e94ee359c74544310023"
+        },
+        "other_lab": {
+          "path": "KH/NGS_patient_3_other_lab.json",
+          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+        },
+        "culture": {
+          "path": "KH/NGS_patient_3_culture.json",
+          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+        },
+        "filmarray": {
+          "path": "KH/NGS_patient_3_filmarray.json",
+          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+        },
+        "gm_test": {
+          "path": "KH/NGS_patient_3_gm_test.json",
+          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+        },
+        "image": {
+          "path": "KH/NGS_patient_3_image.json",
+          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+        }
+      },
+      "anchor_status": "specimen_checked",
+      "mngs_anchor": {
+        "path": "KH/NGS_patient_3_all_RK_NTC_microbes.json",
+        "sha256": "bc5327111ab34b1e2e4cc7e8c98841b26ec47a712d48f015fd496e87fa64f120"
+      }
+    }
+  ],
+  "subsets": {},
+  "synthetic": true
+}

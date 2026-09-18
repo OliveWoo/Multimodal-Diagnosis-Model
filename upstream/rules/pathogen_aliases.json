@@ -1,0 +1,720 @@
+{
+  "aliases": {
+    "cmv": {
+      "canonical_key": "humanbetaherpesvirus5",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "CMV"
+    },
+    "cytomegalovirus": {
+      "canonical_key": "humanbetaherpesvirus5",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "CMV"
+    },
+    "humancytomegalovirus": {
+      "canonical_key": "humanbetaherpesvirus5",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "CMV"
+    },
+    "hhv5": {
+      "canonical_key": "humanbetaherpesvirus5",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "CMV"
+    },
+    "humanbetaherpesvirus5": {
+      "canonical_key": "humanbetaherpesvirus5",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "CMV"
+    },
+    "ebv": {
+      "canonical_key": "humangammaherpesvirus4",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "EBV"
+    },
+    "epsteinbarrvirus": {
+      "canonical_key": "humangammaherpesvirus4",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "EBV"
+    },
+    "hhv4": {
+      "canonical_key": "humangammaherpesvirus4",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "EBV"
+    },
+    "humanherpesvirus4": {
+      "canonical_key": "humangammaherpesvirus4",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "EBV"
+    },
+    "humangammaherpesvirus4": {
+      "canonical_key": "humangammaherpesvirus4",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "EBV"
+    },
+    "hhv6": {
+      "canonical_key": "humanbetaherpesvirus6",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HHV-6"
+    },
+    "humanbetaherpesvirus6": {
+      "canonical_key": "humanbetaherpesvirus6",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HHV-6"
+    },
+    "hhv6a": {
+      "canonical_key": "humanbetaherpesvirus6a",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HHV-6A"
+    },
+    "humanbetaherpesvirus6a": {
+      "canonical_key": "humanbetaherpesvirus6a",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HHV-6A"
+    },
+    "hhv6b": {
+      "canonical_key": "humanbetaherpesvirus6b",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HHV-6B"
+    },
+    "humanbetaherpesvirus6b": {
+      "canonical_key": "humanbetaherpesvirus6b",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HHV-6B"
+    },
+    "hhv7": {
+      "canonical_key": "humanbetaherpesvirus7",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HHV-7"
+    },
+    "humanbetaherpesvirus7": {
+      "canonical_key": "humanbetaherpesvirus7",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HHV-7"
+    },
+    "hsv": {
+      "canonical_key": "humanalphaherpesvirus1",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HSV"
+    },
+    "hsv1": {
+      "canonical_key": "humanalphaherpesvirus1",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HSV-1"
+    },
+    "herpessimplexvirus": {
+      "canonical_key": "humanalphaherpesvirus1",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HSV"
+    },
+    "herpessimplexvirus1": {
+      "canonical_key": "humanalphaherpesvirus1",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HSV-1"
+    },
+    "hhv1": {
+      "canonical_key": "humanalphaherpesvirus1",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HSV-1"
+    },
+    "humanalphaherpesvirus1": {
+      "canonical_key": "humanalphaherpesvirus1",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HSV-1"
+    },
+    "hsv2": {
+      "canonical_key": "humanalphaherpesvirus2",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HSV-2"
+    },
+    "herpessimplexvirus2": {
+      "canonical_key": "humanalphaherpesvirus2",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HSV-2"
+    },
+    "hhv2": {
+      "canonical_key": "humanalphaherpesvirus2",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HSV-2"
+    },
+    "humanalphaherpesvirus2": {
+      "canonical_key": "humanalphaherpesvirus2",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "HSV-2"
+    },
+    "vzv": {
+      "canonical_key": "humanalphaherpesvirus3",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "VZV"
+    },
+    "varicellazostervirus": {
+      "canonical_key": "humanalphaherpesvirus3",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "VZV"
+    },
+    "hhv3": {
+      "canonical_key": "humanalphaherpesvirus3",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "VZV"
+    },
+    "humanalphaherpesvirus3": {
+      "canonical_key": "humanalphaherpesvirus3",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "VZV"
+    },
+    "covid": {
+      "canonical_key": "severeacuterespiratorysyndromerelatedcoronavirus",
+      "relationship": "same_pathogen_or_alias",
+      "note": "SARS-CoV-2/COVID-19 label",
+      "display_name": "SARS-CoV-2"
+    },
+    "coronavirus": {
+      "canonical_key": "severeacuterespiratorysyndromerelatedcoronavirus",
+      "relationship": "same_pathogen_or_alias",
+      "note": "SARS-CoV-2/COVID-19 label",
+      "display_name": "SARS-CoV-2"
+    },
+    "covid19": {
+      "canonical_key": "severeacuterespiratorysyndromerelatedcoronavirus",
+      "relationship": "same_pathogen_or_alias",
+      "note": "SARS-CoV-2/COVID-19 label",
+      "display_name": "SARS-CoV-2"
+    },
+    "sarscov2": {
+      "canonical_key": "severeacuterespiratorysyndromerelatedcoronavirus",
+      "relationship": "same_pathogen_or_alias",
+      "note": "SARS-CoV-2/COVID-19 label",
+      "display_name": "SARS-CoV-2"
+    },
+    "sarsrelatedcoronavirus": {
+      "canonical_key": "severeacuterespiratorysyndromerelatedcoronavirus",
+      "relationship": "same_pathogen_or_alias",
+      "note": "SARS-CoV-2/COVID-19 label",
+      "display_name": "SARS-CoV-2"
+    },
+    "severeacuterespiratorysyndromerelatedcoronavirus": {
+      "canonical_key": "severeacuterespiratorysyndromerelatedcoronavirus",
+      "relationship": "same_pathogen_or_alias",
+      "note": "SARS-CoV-2/COVID-19 label",
+      "display_name": "SARS-CoV-2"
+    },
+    "severeacuterespiratorysyndromecoronavirus2": {
+      "canonical_key": "severeacuterespiratorysyndromerelatedcoronavirus",
+      "relationship": "same_pathogen_or_alias",
+      "note": "SARS-CoV-2/COVID-19 label",
+      "display_name": "SARS-CoV-2"
+    },
+    "pjp": {
+      "canonical_key": "pneumocystisjirovecii",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Pneumocystis jirovecii"
+    },
+    "pneumocystis": {
+      "canonical_key": "pneumocystisjirovecii",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Pneumocystis jirovecii"
+    },
+    "pneumocystiscarinii": {
+      "canonical_key": "pneumocystisjirovecii",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Pneumocystis jirovecii"
+    },
+    "pneumocystisjirovecii": {
+      "canonical_key": "pneumocystisjirovecii",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Pneumocystis jirovecii"
+    },
+    "influenzaa": {
+      "canonical_key": "influenzaa",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza A virus"
+    },
+    "influenzaavirus": {
+      "canonical_key": "influenzaa",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza A virus"
+    },
+    "influenzavirusa": {
+      "canonical_key": "influenzaa",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza A virus"
+    },
+    "influenzatypea": {
+      "canonical_key": "influenzaa",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza A virus"
+    },
+    "influenzaatypea": {
+      "canonical_key": "influenzaa",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza A virus"
+    },
+    "influenzavirusatypea": {
+      "canonical_key": "influenzaa",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza A virus"
+    },
+    "influenxaa": {
+      "canonical_key": "influenzaa",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza A virus"
+    },
+    "influenxaavirus": {
+      "canonical_key": "influenzaa",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza A virus"
+    },
+    "flua": {
+      "canonical_key": "influenzaa",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza A virus"
+    },
+    "influenzab": {
+      "canonical_key": "influenzab",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza B virus"
+    },
+    "influenzabvirus": {
+      "canonical_key": "influenzab",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza B virus"
+    },
+    "influenzavirusb": {
+      "canonical_key": "influenzab",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza B virus"
+    },
+    "influenzatypeb": {
+      "canonical_key": "influenzab",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza B virus"
+    },
+    "influenzavirusbtype": {
+      "canonical_key": "influenzab",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza B virus"
+    },
+    "flub": {
+      "canonical_key": "influenzab",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Influenza B virus"
+    },
+    "haemophilusinfluenza": {
+      "canonical_key": "haemophilusinfluenzae",
+      "relationship": "misspelling_or_truncated_species_label",
+      "display_name": "Haemophilus influenzae"
+    },
+    "haemophilusinfluenzae": {
+      "canonical_key": "haemophilusinfluenzae",
+      "relationship": "same_species_or_alias",
+      "display_name": "Haemophilus influenzae"
+    },
+    "legionellapneumophilasubsppneumophila": {
+      "canonical_key": "legionellapneumophila",
+      "relationship": "same_species_or_alias",
+      "display_name": "Legionella pneumophila"
+    },
+    "legionellapneumophilasubspneumophila": {
+      "canonical_key": "legionellapneumophila",
+      "relationship": "same_species_or_alias",
+      "display_name": "Legionella pneumophila"
+    },
+    "legionellapneumophila": {
+      "canonical_key": "legionellapneumophila",
+      "relationship": "same_species_or_alias",
+      "display_name": "Legionella pneumophila"
+    },
+    "metamycoplasmasalivarium": {
+      "canonical_key": "mycoplasmasalivarium",
+      "relationship": "updated_taxonomy_or_alias",
+      "display_name": "Mycoplasma salivarium"
+    },
+    "mycoplasmasalivarium": {
+      "canonical_key": "mycoplasmasalivarium",
+      "relationship": "updated_taxonomy_or_alias",
+      "display_name": "Mycoplasma salivarium"
+    },
+    "metamycoplasmahominis": {
+      "canonical_key": "mycoplasmahominis",
+      "relationship": "updated_taxonomy_or_alias",
+      "display_name": "Mycoplasma hominis"
+    },
+    "mycoplasmahominis": {
+      "canonical_key": "mycoplasmahominis",
+      "relationship": "updated_taxonomy_or_alias",
+      "display_name": "Mycoplasma hominis"
+    },
+    "metamycoplasmaorale": {
+      "canonical_key": "mycoplasmaorale",
+      "relationship": "updated_taxonomy_or_alias",
+      "display_name": "Mycoplasma orale"
+    },
+    "mycoplasmaorale": {
+      "canonical_key": "mycoplasmaorale",
+      "relationship": "updated_taxonomy_or_alias",
+      "display_name": "Mycoplasma orale"
+    },
+    "candidaglabrata": {
+      "canonical_key": "candidaglabrata",
+      "relationship": "updated_taxonomy_or_alias",
+      "note": "Candida glabrata / Nakaseomyces glabratus",
+      "display_name": "Candida glabrata"
+    },
+    "nakaseomycesglabratus": {
+      "canonical_key": "candidaglabrata",
+      "relationship": "updated_taxonomy_or_alias",
+      "note": "Candida glabrata / Nakaseomyces glabratus",
+      "display_name": "Candida glabrata"
+    },
+    "candidaalbican": {
+      "canonical_key": "candidaalbicans",
+      "relationship": "same_species_or_alias",
+      "display_name": "Candida albicans"
+    },
+    "candidaalbicans": {
+      "canonical_key": "candidaalbicans",
+      "relationship": "same_species_or_alias",
+      "display_name": "Candida albicans"
+    },
+    "candidaduobushaemulonis": {
+      "canonical_key": "candidahaemuloniicomplex",
+      "relationship": "species_complex_or_alias",
+      "display_name": "Candida haemulonii complex"
+    },
+    "candidahaemuloniicomplex": {
+      "canonical_key": "candidahaemuloniicomplex",
+      "relationship": "species_complex_or_alias",
+      "display_name": "Candida haemulonii complex"
+    },
+    "candidaheamuloniicomplex": {
+      "canonical_key": "candidahaemuloniicomplex",
+      "relationship": "species_complex_or_alias",
+      "display_name": "Candida haemulonii complex"
+    },
+    "yeast": {
+      "canonical_key": "yeastfungalevidence",
+      "relationship": "broad_morphology_label",
+      "note": "Yeast/Candida evidence",
+      "display_name": "Yeast/Candida evidence"
+    },
+    "yeastlikeorganism": {
+      "canonical_key": "yeastfungalevidence",
+      "relationship": "broad_morphology_label",
+      "note": "Yeast/Candida evidence",
+      "display_name": "Yeast/Candida evidence"
+    },
+    "yeastcandidaevidence": {
+      "canonical_key": "yeastfungalevidence",
+      "relationship": "broad_morphology_label",
+      "note": "Yeast/Candida evidence",
+      "display_name": "Yeast/Candida evidence"
+    },
+    "candida": {
+      "canonical_key": "yeastfungalevidence",
+      "relationship": "broad_morphology_label",
+      "note": "Yeast/Candida evidence",
+      "display_name": "Yeast/Candida evidence"
+    },
+    "candidaspp": {
+      "canonical_key": "yeastfungalevidence",
+      "relationship": "broad_morphology_label",
+      "note": "Yeast/Candida evidence",
+      "display_name": "Yeast/Candida evidence"
+    },
+    "aspergillosis": {
+      "canonical_key": "aspergillusspp",
+      "relationship": "disease_or_test_label",
+      "note": "Aspergillus/aspergillosis evidence",
+      "display_name": "Aspergillus spp."
+    },
+    "aspergillus": {
+      "canonical_key": "aspergillusspp",
+      "relationship": "disease_or_test_label",
+      "note": "Aspergillus/aspergillosis evidence",
+      "display_name": "Aspergillus spp."
+    },
+    "aspergillusspp": {
+      "canonical_key": "aspergillusspp",
+      "relationship": "disease_or_test_label",
+      "note": "Aspergillus/aspergillosis evidence",
+      "display_name": "Aspergillus spp."
+    },
+    "aspergillusspecies": {
+      "canonical_key": "aspergillusspp",
+      "relationship": "disease_or_test_label",
+      "note": "Aspergillus/aspergillosis evidence",
+      "display_name": "Aspergillus spp."
+    },
+    "aspergillusdna": {
+      "canonical_key": "aspergillusspp",
+      "relationship": "disease_or_test_label",
+      "note": "Aspergillus/aspergillosis evidence",
+      "display_name": "Aspergillus spp."
+    },
+    "aspergillosisdna": {
+      "canonical_key": "aspergillusspp",
+      "relationship": "disease_or_test_label",
+      "note": "Aspergillus/aspergillosis evidence",
+      "display_name": "Aspergillus spp."
+    },
+    "kp": {
+      "canonical_key": "klebsiellapneumoniae",
+      "relationship": "same_species_or_alias",
+      "display_name": "Klebsiella pneumoniae"
+    },
+    "kpneumoniae": {
+      "canonical_key": "klebsiellapneumoniae",
+      "relationship": "same_species_or_alias",
+      "display_name": "Klebsiella pneumoniae"
+    },
+    "crkp": {
+      "canonical_key": "klebsiellapneumoniae",
+      "relationship": "resistance_phenotype",
+      "note": "CRKP phenotype",
+      "display_name": "Klebsiella pneumoniae"
+    },
+    "carbapenemresistantklebsiellapneumoniae": {
+      "canonical_key": "klebsiellapneumoniae",
+      "relationship": "resistance_phenotype",
+      "note": "CRKP phenotype",
+      "display_name": "Klebsiella pneumoniae"
+    },
+    "creklebsiellapneumoniae": {
+      "canonical_key": "klebsiellapneumoniae",
+      "relationship": "resistance_phenotype",
+      "note": "CRKP phenotype",
+      "display_name": "Klebsiella pneumoniae"
+    },
+    "klebsiellapneumoniae": {
+      "canonical_key": "klebsiellapneumoniae",
+      "display_name": "Klebsiella pneumoniae"
+    },
+    "klebsiellavariicola": {
+      "canonical_key": "klebsiellavariicola",
+      "display_name": "Klebsiella variicola"
+    },
+    "klebsiellapneumoniaegroup": {
+      "canonical_key": "klebsiellapneumoniaegroup",
+      "relationship": "species_complex_or_alias",
+      "note": "Klebsiella pneumoniae group evidence",
+      "display_name": "Klebsiella pneumoniae group"
+    },
+    "mrsa": {
+      "canonical_key": "staphylococcusaureus",
+      "relationship": "resistance_phenotype",
+      "note": "MRSA phenotype",
+      "display_name": "Staphylococcus aureus"
+    },
+    "methicillinresistantstaphylococcusaureus": {
+      "canonical_key": "staphylococcusaureus",
+      "relationship": "resistance_phenotype",
+      "note": "MRSA phenotype",
+      "display_name": "Staphylococcus aureus"
+    },
+    "staphylococcusaureus": {
+      "canonical_key": "staphylococcusaureus",
+      "display_name": "Staphylococcus aureus"
+    },
+    "vrefm": {
+      "canonical_key": "enterococcusfaecium",
+      "relationship": "resistance_phenotype",
+      "note": "VRE phenotype",
+      "display_name": "Enterococcus faecium"
+    },
+    "vre": {
+      "canonical_key": "enterococcusfaecium",
+      "relationship": "resistance_phenotype",
+      "note": "VRE phenotype",
+      "display_name": "Enterococcus faecium"
+    },
+    "vreenterococcusfaecium": {
+      "canonical_key": "enterococcusfaecium",
+      "relationship": "resistance_phenotype",
+      "note": "VRE phenotype",
+      "display_name": "Enterococcus faecium"
+    },
+    "vancomycinresistantenterococcusfaecium": {
+      "canonical_key": "enterococcusfaecium",
+      "relationship": "resistance_phenotype",
+      "note": "VRE phenotype",
+      "display_name": "Enterococcus faecium"
+    },
+    "enterococcusfaeciumvre": {
+      "canonical_key": "enterococcusfaecium",
+      "relationship": "resistance_phenotype",
+      "note": "VRE phenotype",
+      "display_name": "Enterococcus faecium"
+    },
+    "enterococcusfaecium": {
+      "canonical_key": "enterococcusfaecium",
+      "display_name": "Enterococcus faecium"
+    },
+    "enterobactercloacaecomplex": {
+      "canonical_key": "enterobactercloacaecomplex",
+      "relationship": "species_complex_or_group_label",
+      "note": "Enterobacter cloacae complex group-level evidence",
+      "display_name": "Enterobacter cloacae complex"
+    },
+    "enterobacterhormaechei": {
+      "canonical_key": "enterobacterhormaechei",
+      "display_name": "Enterobacter hormaechei"
+    },
+    "enterobacterquasihormaechei": {
+      "canonical_key": "enterobacterquasihormaechei",
+      "display_name": "Enterobacter quasihormaechei"
+    },
+    "ecoli": {
+      "canonical_key": "escherichiacoli",
+      "relationship": "same_species_or_alias",
+      "display_name": "Escherichia coli"
+    },
+    "escherichiacoli": {
+      "canonical_key": "escherichiacoli",
+      "relationship": "same_species_or_alias",
+      "display_name": "Escherichia coli"
+    },
+    "acinetobacterbaumanniicomplex": {
+      "canonical_key": "acinetobactercalcoaceticusbaumanniicomplex",
+      "relationship": "same_group_label_or_alias",
+      "note": "Acinetobacter baumannii complex evidence",
+      "display_name": "Acinetobacter calcoaceticus-baumannii complex"
+    },
+    "acinetobactercalcoaceticusbaumanniicomplex": {
+      "canonical_key": "acinetobactercalcoaceticusbaumanniicomplex",
+      "relationship": "same_group_label_or_alias",
+      "note": "Acinetobacter baumannii complex evidence",
+      "display_name": "Acinetobacter calcoaceticus-baumannii complex"
+    },
+    "acinetobactercalcoaceticusbaumanniiacomplex": {
+      "canonical_key": "acinetobactercalcoaceticusbaumanniicomplex",
+      "relationship": "same_group_label_or_alias",
+      "note": "Acinetobacter baumannii complex evidence",
+      "display_name": "Acinetobacter calcoaceticus-baumannii complex"
+    },
+    "acinetocalcbaumanniicomplex": {
+      "canonical_key": "acinetobactercalcoaceticusbaumanniicomplex",
+      "relationship": "same_group_label_or_alias",
+      "note": "Acinetobacter baumannii complex evidence",
+      "display_name": "Acinetobacter calcoaceticus-baumannii complex"
+    },
+    "acinetocalcbaumannii": {
+      "canonical_key": "acinetobactercalcoaceticusbaumanniicomplex",
+      "relationship": "same_group_label_or_alias",
+      "note": "Acinetobacter baumannii complex evidence",
+      "display_name": "Acinetobacter calcoaceticus-baumannii complex"
+    },
+    "acinetocalcbaumanni": {
+      "canonical_key": "acinetobactercalcoaceticusbaumanniicomplex",
+      "relationship": "same_group_label_or_alias",
+      "note": "Acinetobacter baumannii complex evidence",
+      "display_name": "Acinetobacter calcoaceticus-baumannii complex"
+    },
+    "acinetobacterbaumannii": {
+      "canonical_key": "acinetobacterbaumannii",
+      "display_name": "Acinetobacter baumannii"
+    },
+    "humanpapillomavirustype16": {
+      "canonical_key": "humanpapillomavirus16",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Human papillomavirus 16"
+    },
+    "humanpapillomavirus16": {
+      "canonical_key": "humanpapillomavirus16",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "Human papillomavirus 16"
+    },
+    "humanalphaherpesvirus3varicellazostervirus": {
+      "canonical_key": "humanalphaherpesvirus3",
+      "relationship": "same_pathogen_or_alias",
+      "display_name": "VZV"
+    },
+    "lactobacillusrhamnosus": {
+      "canonical_key": "lacticaseibacillusrhamnosus",
+      "relationship": "updated_taxonomy_or_alias",
+      "display_name": "Lacticaseibacillus rhamnosus"
+    },
+    "lacticaseibacillusrhamnosus": {
+      "canonical_key": "lacticaseibacillusrhamnosus",
+      "relationship": "updated_taxonomy_or_alias",
+      "display_name": "Lacticaseibacillus rhamnosus"
+    },
+    "elizabethkingiaspp": {
+      "canonical_key": "elizabethkingia",
+      "relationship": "broad_morphology_label",
+      "display_name": "Elizabethkingia spp."
+    }
+  },
+  "approved_group_member_matches": {
+    "klebsiellapneumoniaegroup": [
+      "klebsiellapneumoniae"
+    ],
+    "acinetobacterbaumanniicomplex": [
+      "acinetobacterbaumannii"
+    ],
+    "acinetobactercalcoaceticusbaumanniicomplex": [
+      "acinetobacterbaumannii"
+    ],
+    "acinetobactercalcoaceticusbaumanniiacomplex": [
+      "acinetobacterbaumannii"
+    ],
+    "acinetocalcbaumanniicomplex": [
+      "acinetobacterbaumannii"
+    ],
+    "acinetocalcbaumannii": [
+      "acinetobacterbaumannii"
+    ],
+    "acinetocalcbaumanni": [
+      "acinetobacterbaumannii"
+    ],
+    "enterobactercloacaecomplex": [
+      "enterobacterhormaechei"
+    ]
+  },
+  "canonical_display_names": {
+    "humanbetaherpesvirus5": "CMV",
+    "humangammaherpesvirus4": "EBV",
+    "humanbetaherpesvirus6": "HHV-6",
+    "humanbetaherpesvirus6a": "HHV-6A",
+    "humanbetaherpesvirus6b": "HHV-6B",
+    "humanbetaherpesvirus7": "HHV-7",
+    "humanalphaherpesvirus1": "HSV-1",
+    "humanalphaherpesvirus2": "HSV-2",
+    "humanalphaherpesvirus3": "VZV",
+    "severeacuterespiratorysyndromerelatedcoronavirus": "SARS-CoV-2",
+    "pneumocystisjirovecii": "Pneumocystis jirovecii",
+    "influenzaa": "Influenza A virus",
+    "influenzab": "Influenza B virus",
+    "haemophilusinfluenzae": "Haemophilus influenzae",
+    "legionellapneumophila": "Legionella pneumophila",
+    "mycoplasmasalivarium": "Mycoplasma salivarium",
+    "mycoplasmahominis": "Mycoplasma hominis",
+    "mycoplasmaorale": "Mycoplasma orale",
+    "candidaglabrata": "Candida glabrata",
+    "candidaalbicans": "Candida albicans",
+    "candidahaemuloniicomplex": "Candida haemulonii complex",
+    "yeastfungalevidence": "Yeast/Candida evidence",
+    "aspergillusspp": "Aspergillus spp.",
+    "klebsiellapneumoniae": "Klebsiella pneumoniae",
+    "klebsiellavariicola": "Klebsiella variicola",
+    "klebsiellapneumoniaegroup": "Klebsiella pneumoniae group",
+    "staphylococcusaureus": "Staphylococcus aureus",
+    "enterococcusfaecium": "Enterococcus faecium",
+    "enterobactercloacaecomplex": "Enterobacter cloacae complex",
+    "enterobacterhormaechei": "Enterobacter hormaechei",
+    "enterobacterquasihormaechei": "Enterobacter quasihormaechei",
+    "escherichiacoli": "Escherichia coli",
+    "acinetobacterbaumannii": "Acinetobacter baumannii",
+    "acinetobactercalcoaceticusbaumanniicomplex": "Acinetobacter calcoaceticus-baumannii complex",
+    "humanpapillomavirus16": "Human papillomavirus 16",
+    "lacticaseibacillusrhamnosus": "Lacticaseibacillus rhamnosus",
+    "elizabethkingia": "Elizabethkingia spp."
+  },
+  "representative_genus_groups": {
+    "acinetobacter": "acinetobacter",
+    "aspergillus": "aspergillus",
+    "chryseobacterium": "chryseobacterium",
+    "elizabethkingia": "elizabethkingia",
+    "klebsiella": "klebsiella",
+    "ralstonia": "ralstonia",
+    "sphingomonas": "sphingomonas",
+    "stenotrophomonas": "stenotrophomonas"
+  }
+}

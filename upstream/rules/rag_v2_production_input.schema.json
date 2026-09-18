@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.csie-project/rag_v2_production_input.schema.json",
+  "title": "mNGS RAG v2 production case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "dataset_label",
+    "patient_id",
+    "organism",
+    "current_model_state",
+    "local_evidence",
+    "rag_task",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "rag_production_case_v2.0"},
+    "case_id": {"type": "string", "minLength": 1},
+    "dataset_label": {"type": "string", "minLength": 1},
+    "patient_id": {"type": "string", "minLength": 1},
+    "organism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["display_name", "canonical_key", "pathogen_category"],
+      "properties": {
+        "display_name": {"type": "string", "minLength": 1},
+        "canonical_key": {"type": "string", "minLength": 1},
+        "classification": {"type": ["string", "null"]},
+        "pathogen_category": {"type": "string", "minLength": 1},
+        "taxonomy_unknown": {"type": "boolean"},
+        "taxonomy_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "profile_version",
+            "canonical_key",
+            "biological_class",
+            "primary_rule_family",
+            "clinical_traits",
+            "mapping_status",
+            "classification_confidence",
+            "needs_literature_review",
+            "routing_only"
+          ],
+          "properties": {
+            "profile_version": {"type": "string"},
+            "input_name": {"type": "string"},
+            "display_name": {"type": "string"},
+            "canonical_key": {"type": "string"},
+            "taxid": {"type": ["integer", "null"]},
+            "taxonomic_rank": {"type": "string"},
+            "biological_class": {"type": "string"},
+            "supplied_biological_class": {"type": "string"},
+            "biological_class_conflict": {"type": "boolean"},
+            "primary_rule_family": {"type": "string"},
+            "secondary_rule_families": {"type": "array", "items": {"type": "string"}},
+            "clinical_traits": {"type": "array", "items": {"type": "string"}},
+            "mapping_status": {"type": "string"},
+            "classification_confidence": {"type": "string"},
+            "rule_source": {"type": "string"},
+            "matched_rule_ids": {"type": "array", "items": {"type": "string"}},
+            "needs_literature_review": {"type": "boolean"},
+            "routing_only": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "current_model_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_tier", "formal_picked", "current_formal_picked_pathogens", "competing_pathogens"],
+      "properties": {
+        "source_tier": {"enum": ["picked", "review_high_priority", "review_context_needed"]},
+        "formal_picked": {"type": "boolean"},
+        "current_formal_picked_pathogens": {"type": "array", "items": {"type": "string"}},
+        "competing_pathogens": {"type": "array", "items": {"type": "object"}},
+        "current_review_reason": {"type": "string"},
+        "risk_if_ignored": {"type": "string"},
+        "why_not_auto_upgrade": {"type": "string"},
+        "suggested_next_check": {"type": "string"}
+      }
+    },
+    "local_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_context",
+        "mngs_evidence",
+        "same_organism_hospital_evidence",
+        "same_genus_or_related_hospital_evidence",
+        "negative_evidence"
+      ],
+      "properties": {
+        "case_context": {"type": "object"},
+        "mngs_evidence": {"type": "object"},
+        "same_organism_hospital_evidence": {"type": "array", "items": {"type": "object"}},
+        "same_genus_or_related_hospital_evidence": {"type": "array", "items": {"type": "object"}},
+        "negative_evidence": {"type": "array", "items": {"type": "object"}},
+        "candidate_evidence_profile": {"type": "object"},
+        "data_gaps": {"type": "array"}
+      }
+    },
+    "rag_task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["knowledge_card_key", "retrieval_priority", "fixed_questions", "suggested_search_queries", "required_output_schema"],
+      "properties": {
+        "knowledge_card_key": {"type": "string", "minLength": 1},
+        "retrieval_priority": {"enum": ["high", "standard"]},
+        "fixed_questions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "suggested_search_queries": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "required_output_schema": {"const": "rag_adjudication_v2.0"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["merged_suffix", "deterministic_rule_version", "review_policy_version"],
+      "properties": {
+        "merged_suffix": {"type": "string", "minLength": 1},
+        "deterministic_rule_version": {"type": ["string", "null"]},
+        "review_policy_version": {"type": ["string", "null"]},
+        "candidate_evidence_profile_version": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "test": "Synthetic radiology",
+    "collected_time": "2024-01-10 15:00",
+    "findings": [
+      "Synthetic opacity"
+    ]
+  },
+  {
+    "test": "Synthetic radiology",
+    "collected_time": "2024-01-20 15:00",
+    "findings": [
+      "Synthetic follow-up"
+    ]
+  }
+]

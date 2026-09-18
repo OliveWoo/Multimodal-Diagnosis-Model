@@ -1,0 +1,305 @@
+{
+  "description": "Current replay adapter and unchanged research modules; not a historical commit",
+  "files": [
+    {
+      "path": "reference_versions/shared_upstream/analytics/__init__.py",
+      "sha256": "dbfeade6dc4970e8c998c7bb013316e88b109eade5ad62a798b67d0d4538b41c"
+    },
+    {
+      "path": "reference_versions/shared_upstream/analytics/generate_charts.py",
+      "sha256": "c5cec9e049b2cd02ac5473cdaa8e2c9b75e7d8173c0625abcf167cdf55722f82"
+    },
+    {
+      "path": "reference_versions/shared_upstream/analytics/metrics.py",
+      "sha256": "40a374a4a0c811642d498a409ef79f6abd28cdda2fe482e6414c601363f3edc8"
+    },
+    {
+      "path": "reference_versions/shared_upstream/analytics/tracking.py",
+      "sha256": "953941c8bfef015f93f3b895fc0069baa8650468cf6178559401620a8dbc9980"
+    },
+    {
+      "path": "reference_versions/shared_upstream/core/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference_versions/shared_upstream/core/llm_parser.py",
+      "sha256": "8abc204ac2f133694764da2c54ace4bfd65adb952284b3f95886c9ba22fbb171"
+    },
+    {
+      "path": "reference_versions/shared_upstream/core/main.py",
+      "sha256": "de053fec61ca04660492315ecab7ee404c5b704110ea3c2291e72746355e3977"
+    },
+    {
+      "path": "reference_versions/shared_upstream/core/raw_parser.py",
+      "sha256": "b3301011851e7c42eaa8a1fc0c3435292578223ffb4d9f1ff1fba647744534f4"
+    },
+    {
+      "path": "reference_versions/shared_upstream/core/summarize_agent.py",
+      "sha256": "0d4b4137335ba9d000170a9bf5e036bbc3d021004a94af385790a7cfc89d5690"
+    },
+    {
+      "path": "reference_versions/shared_upstream/parsers/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference_versions/shared_upstream/parsers/admission_diagnosis_parser.py",
+      "sha256": "24562446bbc41e56470171fbf90330eabd48f4e7ec7896a19363b772f8370973"
+    },
+    {
+      "path": "reference_versions/shared_upstream/parsers/CBC_parser.py",
+      "sha256": "d4aaa41bd2d1deac2f2a023f28c5b00b5407f96c35a9bf862425e4fe4bb46b79"
+    },
+    {
+      "path": "reference_versions/shared_upstream/parsers/culture_parser.py",
+      "sha256": "94eccbe168aca441d69ac0198d16efe05884e8bd047361f4cec1fd4611b6db84"
+    },
+    {
+      "path": "reference_versions/shared_upstream/parsers/filmarray_parser.py",
+      "sha256": "878aa79f2ba4e0987e9ce89727588567b0fe97f91887583319a3f1ebc4df1f24"
+    },
+    {
+      "path": "reference_versions/shared_upstream/parsers/gm_test_parser.py",
+      "sha256": "db60ca24dae4056c21c7cfe7b356cd6bb472d2938a088197a7788d190cfd46f3"
+    },
+    {
+      "path": "reference_versions/shared_upstream/parsers/image_parser.py",
+      "sha256": "e235bd19790d63d5094ab5cb16dc469c052c3261a0673be831d0d2132af36777"
+    },
+    {
+      "path": "reference_versions/shared_upstream/parsers/mNGS_parser.py",
+      "sha256": "eeba4b99e666bb18362ab984306c2b517b55ab5e8b9f7e9e3fefd651f59c85f0"
+    },
+    {
+      "path": "reference_versions/shared_upstream/parsers/other_lab_parser.py",
+      "sha256": "20f3f4746e1f81a13016f500457ccfdaa48081de267d2f4476c9a47882e92cf2"
+    },
+    {
+      "path": "reference_versions/shared_upstream/parsers/underlying_parser.py",
+      "sha256": "de9ba36a67a7ee4611bdf968657813b124271ed8aa66f33f1b063b1ac26c7578"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/__init__.py",
+      "sha256": "212b06ed1a26475984da2d62f8baeb7b28e3b71fefe5e3810a903b0384b21a2a"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/__main__.py",
+      "sha256": "87542982f474f2d3ba4df407bb248a2a04224155d522841128b131e6c561b7f3"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/cli.py",
+      "sha256": "5df93b367e9f6607539da593bd95ff65426cbb1199fb29765549d51676bfb73a"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/modality_classifier.py",
+      "sha256": "ef61ba4c0ff9b629f9f0a1a69968167f33a13b6f9ab25384583a74b43e44a871"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/parsers/__init__.py",
+      "sha256": "7a7bdbf49a7ff02a3aec217d176903619e456101534401e91f80257b0bb575f8"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/parsers/slide_parser.py",
+      "sha256": "e13e05670f40afc2993d0a4a9b3ab2082b25ca7366431ac1bbb2d9336e1cf8d3"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/ppt_reader.py",
+      "sha256": "70753d65992f74b96cc01db411e271b71dadfdf074e7af39abf4c76f0ea2daba"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/slide_extractor.py",
+      "sha256": "14c48b3e11b3bd02f76f635e8faca3f2afe4c854eb2f4827f79f1676f90027e9"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/utils/__init__.py",
+      "sha256": "1380d8edbcc7a5723294ea76f783231bab3dbcfd9472352dde31c59103d3c3d3"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/utils/io.py",
+      "sha256": "976c5e6642ce873f32e7b69f344b28ae74a24d20456d947a229792c84785ab67"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/utils/logging.py",
+      "sha256": "a2667fdefb4c3722daf0b5295ef53980f0fef2845f61dce002d19da59a9114dd"
+    },
+    {
+      "path": "reference_versions/shared_upstream/ppt_patient_parser/vision_hooks.py",
+      "sha256": "cf096be66b08075e2f0f318232445b7b2325a7a934d5b1ff6c62f3c19d26f904"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tests/__init__.py",
+      "sha256": "42351e7e044957acf3fe67dbe493ec8fe949474118d036657ef4a9a6be78a02e"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/analyze_llm_agent.py",
+      "sha256": "f176338f9789d6af6e860c45f4f3a260e3412a6c6b731890df9294f4791c6159"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/batch_split_runner.py",
+      "sha256": "e79327424c66ab53ed69e84e5d3f536ef37edc331e0e35e432db5c1be7539631"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/build_mNGS_data_mapping.py",
+      "sha256": "efba3348a2a2e78fc04877af989c976a8c052fca222c0b2b7eaea8fc988d47d3"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/build_mngs_grouped_from_excel.py",
+      "sha256": "ccbfe537f54e3ed67b0018944d1d2e0a37f47dd1a29db77b881557ba70536606"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/build_patient_cutoffs_from_mngs.py",
+      "sha256": "0d0b73af1e3b1cc6929a1e57d98471b87886b19cef103f6515efdeb42633805c"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/check_excel_duplicates.py",
+      "sha256": "8a0678d0505535af0b60d573769bb63d8f8bb39759af78ebbe8a754e4291e851"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/compare_mngs_max_with_excel.py",
+      "sha256": "e02fba945d04fc3d7056abdec67d2021f0b9779b04a634c9a3c3b43aa529cfe4"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/compare_mngs_to_specimen_with_excel.py",
+      "sha256": "24740eab5e46757b25046f92caa04b27e64e140a615c9d2bcb4a289848c98d86"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/culture_bal_extractor.py",
+      "sha256": "e32968636b296e16a3902f67331b39249da762e2dd3418fe10932b87b035879c"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/export_legacy_patient_json.py",
+      "sha256": "fab1ba19a41cc6202de992bf2b2c61e039e6a5d9695c0bdd7e5f5617e51206af"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/extract_mngs_candidate_microbes.py",
+      "sha256": "d0b2ca46a600f460c4e45eb9522b881ddb3c6ed75f502ea4c20144f9d80f394e"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/filter_mngs_by_cutoff.py",
+      "sha256": "57398ed6b6fbfc394087119ece17c854e8b01e06d72d3daf34b8ca1b7e9d3b3f"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/filter_patient_info_by_cutoff.py",
+      "sha256": "2ae8bc18d2ec75b0af84d92af9d420e733a36341a46ed5b5760324e041976e4e"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/generate_source_mapping.py",
+      "sha256": "ca6043374549234720b33c0f7cb8bf3125e9c24cd0cfc13a5b94029532efb403"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/import_ppt_labs_to_patient_exports.py",
+      "sha256": "e45f4914d5eb4d4c8668bc18ef7522878ecfe2354f95465f4601bf3b758b2377"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/link_ppt_slides_to_excel_patients.py",
+      "sha256": "4fe679e2fdce52d08d0c99a5b59e333c5ce0571af4372ae4bb68e47f3ed7cf0c"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/llm_requester.py",
+      "sha256": "52db4f2cc423835d008e0491f97d71f63fb7ad8f2fbad7b3ec9bf9e59529fdef"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/llm_scheduler.py",
+      "sha256": "bcfd2cce978b837408ca24fd2d97360e3c3d6db98880f3788de3eac7c7d65b26"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/mngs_big_agent.py",
+      "sha256": "5013f7b6121c4334a267d6a8e889c951b0fbe16aa81b8e5b55d51065dec88202"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/optimize_low_colonizer_precision.py",
+      "sha256": "f2d84e8151a29d00abe6534f794a879e86522de541a1c2a97812a26505c87751"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/parse_table1_standardized.py",
+      "sha256": "44a8c6438584498be1ac63f3cbd256891b9acaf309fe63c04c1c4a9a09b0b45e"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/parse_table1_workbook.py",
+      "sha256": "9549fd25572e76a89792ec224c596a75b7ca2595eba06b0ed3639693d0414b2b"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/run_mngs_to_specimen_agent.py",
+      "sha256": "d9a1f44e9d33c5d0ad248963aa25f259fa86d33856e4fd1c566fc5a9fa066edf"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/run_mngs_to_specimen_full_pipeline.py",
+      "sha256": "0d90ab09f91e22023ab21028bb40ee1a990adba6b9a4dccb0e3b7624dafedff6"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/split_excel_master_by_patient.py",
+      "sha256": "22cd964bce67f75ba72d6df229b6df5e74eadb3a539b11b208681bc49db06db3"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/split_mngs_by_patient.py",
+      "sha256": "3a0f61c6af8d5220046d99499a72a3c8e8880cddbad503c86812b0b619653b90"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/split_mngs_candidates_for_llm.py",
+      "sha256": "481c0a55d29fc56063e3b8071cdf121b6fefe75f65c831b5a4506b570f8ddc87"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/table1_sections.py",
+      "sha256": "0d66fd3f53dd33c0ce855bc26a1e6dd1dc7c5299407a8a06d75ae7b047cc90a7"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/table1_standardizer_engine.py",
+      "sha256": "4d9b26958a337eac2931803581fb03eca8aa0de06a4e850daa7c9553d0a13a27"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/time_window.py",
+      "sha256": "cdae897686989995e4b4bdd472e73a26cc0b871c4c942c23c559847d5efbf193"
+    },
+    {
+      "path": "reference_versions/shared_upstream/tools/token_count.py",
+      "sha256": "57691e002563f655de8e2b092700c782712b6a69e27d88a52a30db470de994f4"
+    },
+    {
+      "path": "reference_versions/shared_upstream/utils.py",
+      "sha256": "a7b730118b60f77e12705573fca047ebc3fbeed0756daa4fcb2650fbd9c8cfb6"
+    },
+    {
+      "path": "reference_versions/shared_upstream/prompts/admission diagnosis_prompt.txt",
+      "sha256": "fd43b0a3349ca6b071cb27518fafbb5a832ebfecbc9a9323ace1f2dab20b6b64"
+    },
+    {
+      "path": "reference_versions/shared_upstream/prompts/CBC_prompt.txt",
+      "sha256": "8c54903d0dde26f9085513e896fe706e6bda162c91896eaf96f8282b7296e115"
+    },
+    {
+      "path": "reference_versions/shared_upstream/prompts/culture_prompt.txt",
+      "sha256": "0a1f49bb8c2b0360a435dad44ab8be92c37e0280eb3d7dad310349ad1fb8393c"
+    },
+    {
+      "path": "reference_versions/shared_upstream/prompts/filmarray_prompt.txt",
+      "sha256": "48e1b779f8fd949489557931eb23e59b35e076b92bd1f96e3614e1db6483e070"
+    },
+    {
+      "path": "reference_versions/shared_upstream/prompts/gm test_prompt.txt",
+      "sha256": "1e35ed1362c48456b3de9e521e8d90a5ad960e93783d41460e78488d6c5f0a58"
+    },
+    {
+      "path": "reference_versions/shared_upstream/prompts/image_prompt.txt",
+      "sha256": "b0a2ef61eef6e8f15557b728073567cec8de358c0eeb311da5493e03198c352a"
+    },
+    {
+      "path": "reference_versions/shared_upstream/prompts/molecular microbiology_prompt.txt",
+      "sha256": "4cab47b7ec1a1fac5584a9bd83b4c37c6b33cb03b86febafc8c4102c4eb25832"
+    },
+    {
+      "path": "reference_versions/shared_upstream/prompts/other lab_prompt.txt",
+      "sha256": "4447e41bee46464e7726c50273671468d703294371c4754439f678bbc5783fd1"
+    },
+    {
+      "path": "reference_versions/shared_upstream/prompts/underlying_prompt.txt",
+      "sha256": "311ad2096ece5038f838a5b2bb66d9a37fc23adecb2bb662f93a61d5a74a5997"
+    },
+    {
+      "path": "frontend/pipeline.py",
+      "sha256": "82ee832701f070ce327183935932f33217bc1acd7febb0006267ce1284f34c9b"
+    }
+  ]
+}

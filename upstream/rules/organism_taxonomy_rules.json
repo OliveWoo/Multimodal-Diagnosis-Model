@@ -1,0 +1,276 @@
+{
+  "schema_version": "organism_taxonomy_rules_v1",
+  "profile_version": "organism_taxonomy_profile_v1",
+  "purpose": "Answer-blind clinical rule routing. Classification never determines patient-level causality or output tier by itself.",
+  "families": {
+    "typical_respiratory_pathogen": {
+      "description_zh": "常見或典型肺部致病菌",
+      "default_traits": ["pulmonary_pathogen", "direct_pulmonary_evidence_preferred"]
+    },
+    "hospital_or_nonfermenter_gnb": {
+      "description_zh": "院內感染相關或非發酵革蘭陰性菌",
+      "default_traits": ["pulmonary_pathogen", "healthcare_associated", "colonization_possible", "device_context_relevant"]
+    },
+    "high_consequence_opportunistic": {
+      "description_zh": "後果較嚴重且高度依賴宿主風險的機會感染病原",
+      "default_traits": ["host_risk_dependent", "targeted_confirmation_preferred", "high_consequence_if_missed"]
+    },
+    "mold_or_opportunistic_fungus": {
+      "description_zh": "黴菌、雙型性真菌或非 Candida 機會性真菌",
+      "default_traits": ["host_risk_dependent", "targeted_confirmation_preferred", "invasive_evidence_relevant"]
+    },
+    "candida_or_yeast": {
+      "description_zh": "Candida 或其他酵母菌",
+      "default_traits": ["colonization_possible", "species_identity_matters", "invasive_evidence_relevant"]
+    },
+    "herpes_or_reactivation_virus": {
+      "description_zh": "可能潛伏、再活化或脫落的疱疹病毒",
+      "default_traits": ["reactivation_possible", "shedding_possible", "viral_load_or_targeted_confirmation_preferred", "host_risk_dependent"]
+    },
+    "oral_aspiration_or_anaerobe": {
+      "description_zh": "口腔、吸入性肺炎相關菌或厭氧菌",
+      "default_traits": ["aspiration_pattern_relevant", "polymicrobial_pattern_relevant", "colonization_possible"]
+    },
+    "skin_airway_colonizer_prone": {
+      "description_zh": "皮膚或氣道定植傾向較高的菌",
+      "default_traits": ["colonization_possible", "contamination_possible", "repeat_or_invasive_support_preferred"]
+    },
+    "environmental_low_specificity": {
+      "description_zh": "環境、水源或低肺部特異性菌",
+      "default_traits": ["environmental_association", "contamination_possible", "direct_support_preferred"]
+    },
+    "gi_urinary_or_nonpulmonary_prone": {
+      "description_zh": "較常見於腸胃道、泌尿道或其他肺外來源的菌",
+      "default_traits": ["nonpulmonary_source_prone", "pulmonary_source_confirmation_required"]
+    },
+    "other_respiratory_virus": {
+      "description_zh": "非疱疹病毒的呼吸道病毒",
+      "default_traits": ["pulmonary_pathogen", "targeted_confirmation_preferred"]
+    },
+    "unmapped_or_uncertain": {
+      "description_zh": "尚未有足夠中央規則可分類的菌",
+      "default_traits": ["taxonomy_review_required", "do_not_auto_pick_from_taxonomy"]
+    }
+  },
+  "exact_profiles": {
+    "pneumocystisjirovecii": {
+      "rule_id": "TAX-EXACT-PJP",
+      "taxid": 42068,
+      "taxonomic_rank": "species",
+      "biological_class": "fungus",
+      "primary_rule_family": "high_consequence_opportunistic",
+      "clinical_traits": ["pulmonary_pathogen", "host_risk_dependent", "colonization_possible", "targeted_confirmation_preferred"],
+      "literature_review_recommended": false
+    },
+    "mycobacteriumtuberculosis": {
+      "rule_id": "TAX-EXACT-MTB",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "high_consequence_opportunistic",
+      "clinical_traits": ["pulmonary_pathogen", "targeted_confirmation_preferred", "infection_control_relevant"]
+    },
+    "legionellapneumophila": {
+      "rule_id": "TAX-EXACT-LEGIONELLA-PNEUMOPHILA",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "typical_respiratory_pathogen",
+      "clinical_traits": ["pulmonary_pathogen", "atypical_pneumonia_pathogen"]
+    },
+    "streptococcuspneumoniae": {
+      "rule_id": "TAX-EXACT-STREP-PNEUMONIAE",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "typical_respiratory_pathogen",
+      "clinical_traits": ["pulmonary_pathogen"]
+    },
+    "haemophilusinfluenzae": {
+      "rule_id": "TAX-EXACT-HAEMOPHILUS-INFLUENZAE",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "typical_respiratory_pathogen",
+      "clinical_traits": ["pulmonary_pathogen", "airway_colonization_possible"]
+    },
+    "moraxellacatarrhalis": {
+      "rule_id": "TAX-EXACT-MORAXELLA-CATARRHALIS",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "typical_respiratory_pathogen",
+      "clinical_traits": ["pulmonary_pathogen", "airway_colonization_possible"]
+    },
+    "staphylococcusaureus": {
+      "rule_id": "TAX-EXACT-STAPH-AUREUS",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "typical_respiratory_pathogen",
+      "clinical_traits": ["pulmonary_pathogen", "healthcare_associated", "species_identity_matters"]
+    },
+    "pseudomonasaeruginosa": {
+      "rule_id": "TAX-EXACT-PSEUDOMONAS-AERUGINOSA",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "hospital_or_nonfermenter_gnb",
+      "clinical_traits": ["pulmonary_pathogen", "healthcare_associated", "colonization_possible", "environmental_association"]
+    },
+    "acinetobacterbaumannii": {
+      "rule_id": "TAX-EXACT-ACINETOBACTER-BAUMANNII",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "hospital_or_nonfermenter_gnb",
+      "clinical_traits": ["pulmonary_pathogen", "healthcare_associated", "colonization_possible"]
+    },
+    "stenotrophomonasmaltophilia": {
+      "rule_id": "TAX-EXACT-STENOTROPHOMONAS-MALTOPHILIA",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "hospital_or_nonfermenter_gnb",
+      "clinical_traits": ["pulmonary_pathogen", "healthcare_associated", "colonization_possible", "host_risk_dependent"]
+    },
+    "corynebacteriumstriatum": {
+      "rule_id": "TAX-EXACT-CORYNEBACTERIUM-STRIATUM",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "skin_airway_colonizer_prone",
+      "clinical_traits": ["colonization_possible", "pulmonary_pathogen_possible", "healthcare_associated", "repeat_or_invasive_support_preferred"]
+    },
+    "corynebacteriumjeikeium": {
+      "rule_id": "TAX-EXACT-CORYNEBACTERIUM-JEIKEIUM",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "skin_airway_colonizer_prone",
+      "clinical_traits": ["colonization_possible", "opportunistic_pathogen", "host_risk_dependent", "repeat_or_invasive_support_preferred"]
+    },
+    "corynebacteriumresistens": {
+      "rule_id": "TAX-EXACT-CORYNEBACTERIUM-RESISTENS",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "skin_airway_colonizer_prone",
+      "clinical_traits": ["colonization_possible", "opportunistic_pathogen_possible", "host_risk_dependent", "repeat_or_invasive_support_preferred"]
+    },
+    "mycoplasmapneumoniae": {
+      "rule_id": "TAX-EXACT-MYCOPLASMA-PNEUMONIAE",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "typical_respiratory_pathogen",
+      "clinical_traits": ["pulmonary_pathogen", "atypical_pneumonia_pathogen", "targeted_confirmation_preferred"]
+    },
+    "mycoplasmasalivarium": {
+      "rule_id": "TAX-EXACT-MYCOPLASMA-SALIVARIUM",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "clinical_traits": ["oral_commensal", "colonization_possible", "opportunistic_pathogen_possible"]
+    },
+    "moraxellaosloensis": {
+      "rule_id": "TAX-EXACT-MORAXELLA-OSLOENSIS",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "clinical_traits": ["upper_airway_commensal", "colonization_possible", "opportunistic_pathogen_possible"]
+    },
+    "clostridioidesdifficile": {
+      "rule_id": "TAX-EXACT-CLOSTRIDIOIDES-DIFFICILE",
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "gi_urinary_or_nonpulmonary_prone",
+      "clinical_traits": ["gi_pathogen", "pulmonary_source_confirmation_required"]
+    },
+    "humanalphaherpesvirus1": {
+      "rule_id": "TAX-EXACT-HSV1",
+      "taxonomic_rank": "species",
+      "biological_class": "virus",
+      "primary_rule_family": "herpes_or_reactivation_virus",
+      "clinical_traits": ["reactivation_possible", "shedding_possible", "pulmonary_pathogen_possible"]
+    },
+    "humanalphaherpesvirus2": {
+      "rule_id": "TAX-EXACT-HSV2",
+      "taxonomic_rank": "species",
+      "biological_class": "virus",
+      "primary_rule_family": "herpes_or_reactivation_virus",
+      "clinical_traits": ["reactivation_possible", "shedding_possible", "pulmonary_pathogen_possible"]
+    },
+    "humanalphaherpesvirus3": {
+      "rule_id": "TAX-EXACT-VZV",
+      "taxonomic_rank": "species",
+      "biological_class": "virus",
+      "primary_rule_family": "herpes_or_reactivation_virus",
+      "clinical_traits": ["reactivation_possible", "pulmonary_pathogen", "disseminated_syndrome_relevant"]
+    },
+    "humanbetaherpesvirus5": {
+      "rule_id": "TAX-EXACT-CMV",
+      "taxonomic_rank": "species",
+      "biological_class": "virus",
+      "primary_rule_family": "herpes_or_reactivation_virus",
+      "clinical_traits": ["reactivation_possible", "shedding_possible", "host_risk_dependent", "pulmonary_pathogen_possible"]
+    },
+    "humangammaherpesvirus4": {
+      "rule_id": "TAX-EXACT-EBV",
+      "taxonomic_rank": "species",
+      "biological_class": "virus",
+      "primary_rule_family": "herpes_or_reactivation_virus",
+      "clinical_traits": ["reactivation_possible", "shedding_possible", "low_pulmonary_specificity"]
+    },
+    "severeacuterespiratorysyndromecoronavirus2": {
+      "rule_id": "TAX-EXACT-SARS-COV-2",
+      "taxonomic_rank": "species",
+      "biological_class": "virus",
+      "primary_rule_family": "other_respiratory_virus",
+      "clinical_traits": ["pulmonary_pathogen", "targeted_confirmation_preferred"]
+    },
+    "severeacuterespiratorysyndromerelatedcoronavirus": {
+      "rule_id": "TAX-EXACT-SARS-RELATED-CORONAVIRUS",
+      "taxonomic_rank": "group_or_species_label",
+      "biological_class": "virus",
+      "primary_rule_family": "other_respiratory_virus",
+      "clinical_traits": ["pulmonary_pathogen", "targeted_confirmation_preferred"]
+    }
+  },
+  "genus_profiles": {
+    "candida": {"rule_id": "TAX-GENUS-CANDIDA", "biological_class": "fungus", "primary_rule_family": "candida_or_yeast", "clinical_traits": ["colonization_possible", "species_identity_matters", "invasive_evidence_relevant"]},
+    "nakaseomyces": {"rule_id": "TAX-GENUS-NAKASEOMYCES", "biological_class": "fungus", "primary_rule_family": "candida_or_yeast", "clinical_traits": ["colonization_possible", "species_identity_matters", "invasive_evidence_relevant"]},
+    "trichosporon": {"rule_id": "TAX-GENUS-TRICHOSPORON", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["opportunistic_yeast", "host_risk_dependent", "invasive_evidence_relevant"]},
+    "cryptococcus": {"rule_id": "TAX-GENUS-CRYPTOCOCCUS", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["pulmonary_pathogen", "host_risk_dependent", "targeted_confirmation_preferred"]},
+    "aspergillus": {"rule_id": "TAX-GENUS-ASPERGILLUS", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["pulmonary_pathogen_possible", "colonization_possible", "host_risk_dependent", "invasive_evidence_relevant"]},
+    "mucor": {"rule_id": "TAX-GENUS-MUCOR", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["high_consequence_if_missed", "host_risk_dependent", "invasive_evidence_relevant"]},
+    "rhizopus": {"rule_id": "TAX-GENUS-RHIZOPUS", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["high_consequence_if_missed", "host_risk_dependent", "invasive_evidence_relevant"]},
+    "fusarium": {"rule_id": "TAX-GENUS-FUSARIUM", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["host_risk_dependent", "invasive_evidence_relevant"]},
+    "talaromyces": {"rule_id": "TAX-GENUS-TALAROMYCES", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["host_risk_dependent", "species_identity_matters"]},
+    "nocardia": {"rule_id": "TAX-GENUS-NOCARDIA", "biological_class": "bacterium", "primary_rule_family": "high_consequence_opportunistic", "clinical_traits": ["pulmonary_pathogen", "host_risk_dependent", "targeted_confirmation_preferred"]},
+    "mycobacterium": {"rule_id": "TAX-GENUS-MYCOBACTERIUM", "biological_class": "bacterium", "primary_rule_family": "high_consequence_opportunistic", "clinical_traits": ["pulmonary_pathogen_possible", "colonization_possible", "targeted_confirmation_preferred", "species_identity_matters"]},
+    "legionella": {"rule_id": "TAX-GENUS-LEGIONELLA", "biological_class": "bacterium", "primary_rule_family": "typical_respiratory_pathogen", "clinical_traits": ["pulmonary_pathogen_possible", "atypical_pneumonia_pathogen", "targeted_confirmation_preferred"]},
+    "chlamydia": {"rule_id": "TAX-GENUS-CHLAMYDIA", "biological_class": "bacterium", "primary_rule_family": "typical_respiratory_pathogen", "clinical_traits": ["pulmonary_pathogen_possible", "atypical_pneumonia_pathogen", "targeted_confirmation_preferred"]},
+    "chlamydophila": {"rule_id": "TAX-GENUS-CHLAMYDOPHILA", "biological_class": "bacterium", "primary_rule_family": "typical_respiratory_pathogen", "clinical_traits": ["pulmonary_pathogen_possible", "atypical_pneumonia_pathogen", "targeted_confirmation_preferred"]},
+    "coxiella": {"rule_id": "TAX-GENUS-COXIELLA", "biological_class": "bacterium", "primary_rule_family": "typical_respiratory_pathogen", "clinical_traits": ["pulmonary_pathogen_possible", "atypical_pneumonia_pathogen", "targeted_confirmation_preferred"]},
+    "klebsiella": {"rule_id": "TAX-GENUS-KLEBSIELLA", "biological_class": "bacterium", "primary_rule_family": "typical_respiratory_pathogen", "secondary_rule_families": ["hospital_or_nonfermenter_gnb"], "clinical_traits": ["pulmonary_pathogen_possible", "healthcare_associated", "species_identity_matters"]},
+    "escherichia": {"rule_id": "TAX-GENUS-ESCHERICHIA", "biological_class": "bacterium", "primary_rule_family": "hospital_or_nonfermenter_gnb", "clinical_traits": ["pulmonary_pathogen_possible", "nonpulmonary_source_prone"]},
+    "enterobacter": {"rule_id": "TAX-GENUS-ENTEROBACTER", "biological_class": "bacterium", "primary_rule_family": "hospital_or_nonfermenter_gnb", "clinical_traits": ["pulmonary_pathogen_possible", "healthcare_associated", "species_identity_matters"]},
+    "serratia": {"rule_id": "TAX-GENUS-SERRATIA", "biological_class": "bacterium", "primary_rule_family": "hospital_or_nonfermenter_gnb", "clinical_traits": ["pulmonary_pathogen_possible", "healthcare_associated", "species_identity_matters"]},
+    "burkholderia": {"rule_id": "TAX-GENUS-BURKHOLDERIA", "biological_class": "bacterium", "primary_rule_family": "hospital_or_nonfermenter_gnb", "clinical_traits": ["pulmonary_pathogen_possible", "host_risk_dependent", "species_identity_matters"]},
+    "pseudomonas": {"rule_id": "TAX-GENUS-PSEUDOMONAS-DEFAULT", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "opportunistic_pathogen_possible", "species_identity_matters"]},
+    "acinetobacter": {"rule_id": "TAX-GENUS-ACINETOBACTER-DEFAULT", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "opportunistic_pathogen_possible", "species_identity_matters"]},
+    "stenotrophomonas": {"rule_id": "TAX-GENUS-STENOTROPHOMONAS-DEFAULT", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "opportunistic_pathogen_possible", "species_identity_matters"]},
+    "cronobacter": {"rule_id": "TAX-GENUS-CRONOBACTER", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "opportunistic_pathogen_possible", "targeted_confirmation_preferred"]},
+    "achromobacter": {"rule_id": "TAX-GENUS-ACHROMOBACTER", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "secondary_rule_families": ["hospital_or_nonfermenter_gnb"], "clinical_traits": ["environmental_association", "opportunistic_pathogen_possible", "colonization_possible"]},
+    "chryseobacterium": {"rule_id": "TAX-GENUS-CHRYSEOBACTERIUM", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "opportunistic_pathogen_possible", "device_context_relevant"]},
+    "elizabethkingia": {"rule_id": "TAX-GENUS-ELIZABETHKINGIA", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "opportunistic_pathogen_possible", "device_context_relevant"]},
+    "ralstonia": {"rule_id": "TAX-GENUS-RALSTONIA", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "contamination_possible", "device_context_relevant"]},
+    "sphingomonas": {"rule_id": "TAX-GENUS-SPHINGOMONAS", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "opportunistic_pathogen_possible"]},
+    "corynebacterium": {"rule_id": "TAX-GENUS-CORYNEBACTERIUM", "biological_class": "bacterium", "primary_rule_family": "skin_airway_colonizer_prone", "clinical_traits": ["colonization_possible", "contamination_possible", "species_identity_matters", "repeat_or_invasive_support_preferred"]},
+    "staphylococcus": {"rule_id": "TAX-GENUS-STAPHYLOCOCCUS", "biological_class": "bacterium", "primary_rule_family": "skin_airway_colonizer_prone", "clinical_traits": ["colonization_possible", "species_identity_matters", "repeat_or_invasive_support_preferred"]},
+    "cutibacterium": {"rule_id": "TAX-GENUS-CUTIBACTERIUM", "biological_class": "bacterium", "primary_rule_family": "skin_airway_colonizer_prone", "clinical_traits": ["skin_commensal", "contamination_possible", "device_context_relevant"]},
+    "enterococcus": {"rule_id": "TAX-GENUS-ENTEROCOCCUS", "biological_class": "bacterium", "primary_rule_family": "gi_urinary_or_nonpulmonary_prone", "clinical_traits": ["gi_commensal", "urinary_source_possible", "pulmonary_pathogen_possible", "pulmonary_source_confirmation_required"]},
+    "bacteroides": {"rule_id": "TAX-GENUS-BACTEROIDES", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "secondary_rule_families": ["gi_urinary_or_nonpulmonary_prone"], "clinical_traits": ["anaerobe", "aspiration_pattern_relevant", "gi_commensal", "polymicrobial_pattern_relevant"]},
+    "prevotella": {"rule_id": "TAX-GENUS-PREVOTELLA", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["anaerobe", "oral_commensal", "aspiration_pattern_relevant", "polymicrobial_pattern_relevant"]},
+    "fusobacterium": {"rule_id": "TAX-GENUS-FUSOBACTERIUM", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["anaerobe", "oral_commensal", "aspiration_pattern_relevant"]},
+    "porphyromonas": {"rule_id": "TAX-GENUS-PORPHYROMONAS", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["anaerobe", "oral_commensal", "aspiration_pattern_relevant"]},
+    "parvimonas": {"rule_id": "TAX-GENUS-PARVIMONAS", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["anaerobe", "oral_commensal", "aspiration_pattern_relevant"]},
+    "veillonella": {"rule_id": "TAX-GENUS-VEILLONELLA", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["anaerobe", "oral_commensal", "aspiration_pattern_relevant"]},
+    "rothia": {"rule_id": "TAX-GENUS-ROTHIA", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_commensal", "colonization_possible", "opportunistic_pathogen_possible"]},
+    "capnocytophaga": {"rule_id": "TAX-GENUS-CAPNOCYTOPHAGA", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_commensal", "opportunistic_pathogen_possible"]}
+  },
+  "key_prefix_profiles": [
+    {"rule_id": "TAX-PREFIX-RESP-VIRUS", "prefixes": ["influenza", "parainfluenza", "humanrespirovirus", "humanrhinovirus", "rhinovirus", "respiratorysyncytialvirus", "humanmetapneumovirus", "adenovirus"], "biological_class": "virus", "primary_rule_family": "other_respiratory_virus", "clinical_traits": ["pulmonary_pathogen", "targeted_confirmation_preferred"]},
+    {"rule_id": "TAX-PREFIX-HERPES", "prefixes": ["humanalphaherpesvirus", "humanbetaherpesvirus", "humangammaherpesvirus"], "biological_class": "virus", "primary_rule_family": "herpes_or_reactivation_virus", "clinical_traits": ["reactivation_possible", "shedding_possible", "host_risk_dependent"]},
+    {"rule_id": "TAX-PREFIX-ENVIRONMENTAL", "prefixes": ["acidovorax", "brevundimonas", "comamonas", "delftia", "flavobacterium", "phytobacter", "xanthomonas", "novosphingobium", "sphingobium", "microbacterium", "micrococcus", "kocuria", "agrobacterium"], "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "contamination_possible", "opportunistic_pathogen_possible"]},
+    {"rule_id": "TAX-PREFIX-ORAL-ASPIRATION", "prefixes": ["phocaeicola", "segatella", "parabacteroides", "peptostreptococcus", "finegoldia", "actinomyces", "leptotrichia", "gemella", "lactobacillus", "abiotrophia"], "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_or_gi_commensal", "aspiration_pattern_relevant", "colonization_possible"]}
+  ]
+}

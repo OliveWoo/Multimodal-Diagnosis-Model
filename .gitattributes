@@ -1,0 +1,10 @@
+* text=auto eol=lf
+
+*.xlsx binary
+*.xls binary
+*.xlsm binary
+*.pptx binary
+*.pdf binary
+*.zip binary
+*.7z binary
+*.rar binary

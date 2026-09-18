@@ -1,0 +1,24 @@
+{
+  "validated_on": "2026-09-18",
+  "scorer_recovered_from_cache": true,
+  "original_source_text_recovered": false,
+  "scorer_functions_matching": 130,
+  "summary_functions_matching": 50,
+  "cases": 55,
+  "v19_scorer_full_content_equal_excluding_source_containers": 55,
+  "frozen_merge_picked_order_and_candidate_levels_equal": 55,
+  "summary_from_current_agents_full_equal": 29,
+  "summary_explanation_only_difference": 23,
+  "summary_hospital_evidence_difference": 3,
+  "rebuilt_summary_to_scorer_full_equal": 52,
+  "python_tests_passed": 273,
+  "node_tests_passed": 8,
+  "paid_api_calls": 0,
+  "github_pushed": false,
+  "limitations": [
+    "Not raw-to-final end-to-end regeneration",
+    "Frozen advisory review is not regenerated",
+    "Recovery is not an original historical source text/commit",
+    "Actual paper cohort/run designation and publication permissions remain unconfirmed"
+  ]
+}

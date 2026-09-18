@@ -1,0 +1,2 @@
+# This project has no third-party Python dependencies.
+# Runtime requirement: Python 3.10 or newer.

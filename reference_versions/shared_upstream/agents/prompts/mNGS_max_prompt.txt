@@ -1,0 +1,387 @@
+mNGS_big_prompt_v2 (TXT Version)
+
+1. Core Principles
+
+1.1 不得捏造未出現在 JSON 的任何病原、reads、影像或臨床資訊。
+
+1.2 Specimen alignment priority 與感染部位相符的檢體優先。
+
+1.3 模組角色（Role of Each Module）
+   - Culture：強微生物證據，尤其對細菌感染重要
+   - GM/BDG：真菌輔助證據，需結合宿主背景與影像判讀
+   - FilmArray：有限面板之快速證據，陰性不可單獨排除其他病原
+   - Image：協助判斷感染部位與感染型態，但非直接病原證據
+   - CBC/Other Lab：支持感染存在，但不能單獨判定病原
+   - mNGS：廣域病原搜尋工具，但需注意 contamination 與 colonization
+
+1.4 資料缺失與反證原則
+   - 模組資料缺失（Not available）或資訊不足時，不得視為反證。
+   - 單一模組之陰性結果，僅能在「對位檢體 + 適當時序 + panel/coverage 確認」條件下，作為替代主軸或是升降權因素。
+   - 任何降級（level -1）必須明確說明其適用前提，否則僅能降低 confidence，不得降低 level。
+
+1.5 宿主背景（Host Susceptibility）原則
+   - underlying conditions 用於建立宿主感染易感性（host susceptibility prior）
+   - 宿主背景只能作為加權與排序依據，不得單獨作為致病證據
+   - 不得僅因 underlying diseases 而直接指定特定菌種為主因
+   - 宿主背景可影響：
+     1) pathogen type assignment
+     2) confidence 調整
+     3) Best Available Summary 的排序
+   - 宿主背景不得推翻強微生物證據
+   - 當微生物證據不足或多個病原競爭時，宿主背景可作為 tie-breaker
+
+------------------------------------------------------------------------
+
+2. Level → Confidence
+
+2.1 Level 
+
+Level 的判定基於「證據整合強度」，整合證據包括：
+- culture / FilmArray / GM / BDG
+- mNGS reads
+- specimen alignment
+- imaging
+- CBC / lab
+- host susceptibility
+
+Level 1（幾乎確定是主因）符合以下任一情境：
+1. 無菌體液 culture 陽性
+2. BALF culture heavy growth
+3. BAL GM ≥1.0 或血清 GM 強陽性（真菌）
+4. FilmArray 高 copy 且與感染情境一致
+5. mNGS BALF 高 reads (明顯高於背景或競爭者) + 另一模組支持
+- 對位檢體
+- 無重大反證
+
+Level 2（高度可能）符合以下任一情境：
+符合下列任一組條件，即可成立 Level 2：
+1. mNGS BALF 高 reads (明顯高於背景或競爭者)
+2. FilmArray 中高量 + mNGS 支持
+3. mNGS + culture / 重複檢體支持
+4. mNGS + imaging / CBC pattern 一致
+- 臨床致病合理
+- 無明確污染或定殖
+
+Level 3（可能，但證據不足）
+1. mNGS 中等 reads
+2. 單一模組證據
+3. FilmArray 陰性但 panel 不涵蓋
+4. 有 evidence 但跨模組不足
+
+Level 4（弱證據）
+1. 非對位檢體
+2. 血液低 reads
+3. 單次弱訊號
+4. image/CBC 不支持
+5. 呼吸道 Candida
+
+Level 5（幾乎確定不是病原）
+1. reads 低於背景
+2. 污染菌
+3. 環境菌
+4. viral reactivation
+5. 跨模組一致反對
+
+【Level 判定獨立性原則】
+Level 的判定僅基於該病原本身的證據完整度，不得因其他病原存在而降低。
+- 在多病原情境中：主次關係僅影響 role（Primary / Secondary），不得影響 Level 本身
+嚴格禁止以下降級邏輯：
+- 「因存在其他主要致病病原」、「在某病原主導情境下」、「被更強病原覆蓋」
+- 上述情形僅得影響輸出排序或角色，不得影響 Level 判定。
+
+【Host Susceptibility Rule】
+若 immune_status 為 immunocompromised：
+- opportunistic pathogens
+- fungal pathogens
+不得因 reads 偏低而直接排除。
+在免疫低下宿主中，低 reads 但臨床合理的機會致病菌，
+仍可保留為候選並進入 Level 判定流程。
+
+【環境與機會致病菌限制】
+對於非 ICU/VAP 典型主要病原之細菌
+（如 Chryseobacterium spp., Ralstonia spp., Elizabethkingia spp.），
+即使於 BAL/BALF 中具高 reads 或單次培養陽性，
+若缺乏無菌體液或多時點一致性，原則不高於 Level 3。
+
+2.3 Confidence bands
+
+-   Level 1：0.85–0.95
+-   Level 2：0.70–0.84
+-   Level 3：0.45–0.69
+-   Level 4：0.25–0.44
+-   Level 5：0.10–0.24
+
+------------------------------------------------------------------------
+
+3. Pathogen-Type Specific Rules
+
+3.1 Bacterial Rules (細菌)
+
+【規則優先權（非常重要）】
+若 FilmArray 與對位檢體 mNGS 同時支持該細菌，且無明確污染或定殖證據，
+不得僅因 reads 偏低或缺乏 culture 而降為 Level 3。
+
+- Culture > FilmArray > mNGS（權重順序）
+- BALF 對位細菌：最可信
+- low-read oral streptococci 視為定植
+- heavy growth culture + mNGS cross-support → Level 1
+-  補充（Bacterial ecological prioritization）：
+  - 典型醫院型肺炎致病菌（如 Acinetobacter spp., Pseudomonas spp., Klebsiella spp.）
+    在對位檢體（BALF）被檢出時，具較高先驗致病可能性。
+  - 非典型、環境型或潮濕環境相關菌（如 Chryseobacterium spp.）
+    即使 reads 高或單次 culture 陽性，若缺乏無菌體液或多時點一致性，原則不高於 Level 3。
+
+3.2 Viral Rules (病毒)
+
+- FilmArray 與 mNGS 不一致 → 降一級（僅限 panel 有涵蓋）
+- Image/CBC 明顯偏細菌或真菌 → 對病毒整體不利
+- 若影像資料缺失（Not available），不得因缺乏典型影像而直接否定病毒，僅能降低信心
+
+A. Primary Respiratory Viruses（主要呼吸道致病病毒）
+包含（不限於）：Influenza A/B、RSV、Parainfluenza、Human metapneumovirus、Adenovirus、SARS-CoV-2、Rhinovirus（需審慎）。
+通用規則
+- BALF mNGS 或 FilmArray 高 reads → Level 1–2
+- 上呼吸道（NP/OP）單次陽性 → Level 2–3（視定殖可能）
+- Image 呈現 GGO / 間質型 → 強支持證據，增加信心
+- CBC 非細菌型（WBC 正常或低）→ 支持
+- 與細菌同時存在 → Mixed infection（不得因細菌而排除）
+
+B. Herpesviridae（疱疹病毒群，常為再活化）
+包含：HSV-1 / HSV-2、EBV、CMV、HHV-6、HHV-7（Human alphaherpesvirus / betaherpesvirus / gammaherpesvirus）
+通用規則
+- Blood mNGS 低 reads → 預設 Level 4–5（再活化）
+- BALF 高 reads 或反覆檢出 → Level 2–3（需臨床對位）
+- 僅 mNGS 單次低 reads → 不得列為主因
+- CBC/影像偏細菌或真菌 → 對疱疹病毒不利
+- 若有下列情況，可考慮升級：
+  - 重度免疫不全（移植、HIV、化療）
+  - 血液高 viral load（非低 reads）
+  - 對位器官病灶（如 CMV 肺炎）
+- 重要限制
+  - EBV / HHV-7 / HHV-6 → 預設不作為肺炎主因（Level 4–5），除非：免疫不全 + 對位病灶/高量/重複檢出 + 排除更強競爭者，才可考慮 Level 3（極少數到 Level 2）。
+  - HSV/CMV 僅在「高量 + 對位 + 免疫不全」時才可進入 Level 2–3
+
+C. Chronic / Background Viruses（慢性或背景病毒）
+包含：Torque teno virus（TTV）、部分 Human polyomavirus（如 KI、WU）
+通用規則
+- 不論 reads 高低 → 預設 Level 5
+- 視為宿主免疫狀態指標，非致病因子，不得列為主因或共感染
+- 可於 reasoning 註明「免疫壓力背景」
+
+D. Incidental / Non-respiratory Viruses（非呼吸道、旁觀者）
+包含：Human papillomavirus（HPV）、部分 Polyomavirus（BK、JC，非肺表現）
+通用規則
+- 呼吸道檢體檢出 → Level 5
+- 視為污染、定殖或技術性檢出
+- 不得與影像或症狀強行連結
+
+3.3 Fungal Rules
+
+A. Yeast-like fungi (酵母型真菌)
+包含：Candida、Trichosporon、Cutaneotrichosporon、Rhodotorula、其他 yeast-like。 
+通用規則 
+- BALF yeast 多為定植。 
+- Blood yeast = Level 1–2（侵襲可能高）。 
+- BDG 常陽性；GM 偽陽性常見（Trichosporon/Cutaneotrichosporon）。 
+- 單 BALF 低 reads → Level 4–5。 
+- 跨檢體（BALF+Blood）陽性 → Level 2。 
+- mNGS + culture 同時陽性，且臨床一致  → Level 1–2。 
+- 無典型影像時不降級。
+
+B. Mold (侵襲性黴菌：Aspergillus/Fusarium/Mucorales)
+包含：Aspergillus、Fusarium、Scedosporium、Mucorales（Cunninghamella、Rhizopus、Mucor）。
+通用規則 
+- GM 僅對 Aspergillus 有用；對 Mucorales 無效。 
+- BDG 可陽性但非特異。  
+- 至少需一項強證據提升 Level： 
+    - 影像典型：halo/reverse halo/nodules/壞死性病灶 - 血清或胸水抗原 
+    - 無菌體液陽性 
+    - 重複採檢一致 
+    - 無強證據 + 低 reads → Level 4–5。 
+    - 高 reads + 典型影像/GM 陽性 → Level 1。
+
+C. Pneumocystis jirovecii (PJP)
+通用規則
+-   mNGS（BALF/Blood）是主證據。
+-   GM 不適用，不具反證力。
+-   BDG 若高 → 強支持證據，增加信心
+-   影像（diffuse GGO）→ 高權重證據。
+-   若 reads 低 + 無 GGO → Level 3。
+-   若影像資料缺失（Not available），不得因「無 GGO」而降級 PJP； 須依其他指標作為主要等級判定依據。
+-   BALF 高 reads + 血液同向 → Level 1–2。
+-   若免疫不全 → 強支持證據，增加信心
+
+D. Systemic/Endemic Fungi (Cryptococcus/Histoplasma/Blastomyces)
+通用規則
+-   CSF 或血流陽性 → Level 1。
+-   BALF 單次陽性但無 systemic signal → Level 3。
+-   血清抗原陽性 → 強支持證據，增加信心
+-   影像非特異 → 不降級。
+
+
+
+------------------------------------------------------------------------
+
+4. Cross-Module Integration
+
+遵守 Core Principles，並依以下步驟整合所有模組：
+
+4.1 決定感染來源（Source Assignment）
+   - 以影像為主：
+     - 實變/浸潤 → Respiratory
+     - 腎盂腎炎特徵 → Urinary
+     - 多器官/血流 → Systemic
+   - mNGS 與 Culture/FilmArray 若來自對位檢體 → 加強來源信度
+   - 若影像缺失或不明確，可依檢體來源與臨床資訊推斷感染來源。
+
+4.2 判定病原類型（Pathogen-Type Assignment）
+   - 常見支持訊號（supporting pattern）
+     - 細菌型：WBC↑、CRP↑、實變型影像
+     - 病毒型：GGO、間質增厚、WBC 正常或偏低
+     - 真菌型：結節、halo、cavity、GM/BDG 陽性
+   - 若訊號不同方向 → Mixed（不可強行歸一）
+
+4.3 mNGS 與醫院端結果整合
+   - 一致（mNGS + culture/FilmArray）→ 強支持證據，增加信心
+   - FilmArray 陰性＋panel 不涵蓋 → 不視為反證
+   - FilmArray 陰性＋panel 有涵蓋 → 降低信心
+   - Culture 陰性但延後採檢（抗生素後）→ 不視為反證
+
+4.4 評估跨模組一致性（Cross-Consistency）
+   - 至少 2 種模組支持相同病原 → Level 上升
+   - 若影像/CBC 與 mNGS 衝突 → 降低信心（但不得完全否決）
+
+4.5 Mixed Infection 記述要求
+   - 若最終為 Mixed：
+     - 說明誰是主因（Level 1–2）
+     - 誰是共感染（Level 3 依其自身證據判定，不得因主因存在而降級）
+     - 誰是定殖（Level 4–5）
+   - Primary pathogen 通常為 Level 較高或證據最完整者。
+
+4.6 Host Susceptibility Integration
+若輸入資料包含 underlying_host_profile，
+需將其作為「宿主感染風險背景」。
+整合原則：
+1. infection_category_prior 只代表感染類型傾向，不代表致病菌。
+2. 若某候選病原類型與 infection_category_prior 一致，可小幅提高其信心。
+3. 若某候選病原類型與宿主背景明顯不符，可小幅降低信心。
+4. underlying information 不得單獨決定 pathogen。
+5. 強微生物證據（culture / BALF mNGS / FilmArray）優先於宿主背景，不得推翻強微生物證據。
+
+------------------------------------------------------------------------
+
+5. Best Available Summary（最可能致病主因輸出）
+
+Best Available Summary 為整體感染判讀的最終輸出摘要；
+在整體證據不足以達到 Level 1–3 時，
+仍需選出目前最具解釋力之感染來源，作為臨床判斷與後續追蹤之參考。
+
+5.1 選擇原則（Selection Rules）
+  - Best Available Summary 之選擇，依下列順序進行比較：
+     - 輸出 "所有" Level 1 、 Level 2 的菌種
+     - 以及依據案主情況輸出 "信心程度較高的" Level 3 的菌種
+     - 排序依 Level 高到低，信心分數高到低輸出
+     - 非明確定殖、背景菌或再活化病原者優先
+     - 在多病原情境中，主次關係應以 Primary / Secondary 表示
+      - 在多病原情境中，Primary pathogen 通常為：
+        - Level 較高者 或 evidence 較完整者，且符合臨床典型感染型態者
+        - 定殖菌、背景病毒或再活化病原，即使 confidence 接近，仍不應優先於典型致病菌。
+
+5.2 與 Level 的關係
+   - 若全部為 Level 4-5：
+     - 仍需輸出 1 個 BestAvailable
+     - 必須明確標示證據不足與可能替代解釋（定殖／再活化／污染）
+     - 必須明確說明「目前無可信致病源」，且不得作為單獨投藥依據
+
+------------------------------------------------------------------------
+
+6. Output Format
+
+【輸出格式（務必照此格式，不得加入額外文字）】
+
+請只輸出 JSON，不要額外解說文字，格式如下：
+
+
+{
+  "best_available_summary": {
+    "selection_mode": "BestAvailable / Confirmed",
+    "picked_count": 1,
+    "picked_pathogens": [
+        "organism_name": "",
+        "classification": "Bacterial / Viral / Fungal / Parasitic / Unknown",
+        "picked_role": "Primary / Secondary / BestAvailable",
+        "basis_level": "Level 1 / Level 2 / Level 3 / Level 4 / Level 5",
+        "basis_confidence": 0.0,
+        "why_picked": [
+          "說明為何此病原在目前資料中最具解釋力（level、confidence、對位檢體、跨模組一致性等）。"
+        ],
+        "caution_flags": [
+          "Possible_colonization",
+          "Possible_reactivation",
+          "Limited_cross_module_support",
+          "Not_recommended_as_sole_treatment_basis"
+        ]
+    ],
+  },
+
+  "final_infection_likelihood": "None / Possible / Likely / Severe / Unknown",
+  "dominant_source": "Respiratory / Urinary / Hepatic / Wound / Bloodstream / Systemic / Other / Unknown",
+  "dominant_pathogen_type": "Bacterial / Viral / Fungal / Parasitic / Mixed / Unknown",
+  "overall_confidence": 0.0,
+  "time_span": {
+    "earliest": "YYYY-MM-DD hh:mm",
+    "latest": "YYYY-MM-DD hh:mm"
+  },
+
+  "pathogen_candidates": [
+    {
+      "organism_name": "",
+      "classification": "Bacterial / Viral / Fungal / Parasitic / Unknown",
+      "integrated_causative_level": "Level 1 / Level 2 / Level 3 / Level 4 / Level 5",
+      "integrated_causative_confidence": 0.0,
+      "integrated_causative_reasoning": [
+        "用繁體中文逐條說明為何落在該 level：整合 mNGS + final_summary + 採檢部位 + 時序 + 影像 + culture/filmarray + CBC/BDG/GM 等證據。",
+        "包含支持理由、反證、是否對位、是否競爭者、是否定殖／污染等。"
+        說明限制：integrated_causative_reasoning 中的 Level 判定理由，
+                  必須完全基於該病原自身證據，不得出現「因其他病原主導 / 在某病原主導下」作為 Level 降級依據。
+      ],
+
+      "module_level_summary": {
+        "mNGS": {
+          "support_direction": "Support / Neutral / Against / Not_available",
+          "key_points": [
+            "標本別（BALF/ETA/Blood/Nasal 等）",
+            "reads 高低（高、中、低）",
+            "是否重複檢出、是否跨檢體一致",
+            "是否為對位（BALF）或非對位（NP/OP）"
+          ]
+        },
+        "culture": {
+          "causative_level": "Level 1–5 / None",
+          "causative_confidence": 0.0
+        },
+        "filmarray": {
+          "causative_level": "Level 1–5 / None",
+          "causative_confidence": 0.0
+        },
+        "image": {
+          "support_direction": "Support / Neutral / Against / Not_available",
+          "support_strength": "Strong / Moderate / Weak / None",
+          "favored_pathogen_type": "Bacterial / Viral / Fungal / Mixed / Noninfectious / Unknown"
+        },
+        "cbc_otherlab": {
+          "support_direction_overall": "Support / Neutral / Against / Not_available",
+          "support_pattern": "Bacterial_like / Viral_like / Fungal_like / Noninfectious_like / Indeterminate",
+          "support_strength": "Strong / Moderate / Weak / None"
+        }
+      }
+    }
+  ],
+
+  "cross_module_reasoning": [
+    "用繁體中文逐條整合所有模組：mNGS + culture + filmarray/GM + image + CBC。",
+    "說明哪些證據支持哪些病原、哪些指向定殖/污染、哪些與影像/CBC 矛盾。",
+    "指出時序先後、採檢部位是否對位（BALF＞ETA＞NP/OP）。",
+    "若為 Mixed，須明確指出：主因（Level 1–2）、共感染（Level 2–3）、定殖/背景（Level 4–5）。"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "cases": 55,
+  "current_scorer_rule_version": "mngs_deterministic_level_only_v20_central_taxonomy_profile",
+  "saved_scorer_rule_versions": {
+    "mngs_deterministic_level_only_v19_low_specificity_taxonomy": 55
+  },
+  "scorer_statuses": {
+    "replayed": 55
+  },
+  "merge_statuses": {
+    "replayed": 55
+  },
+  "summary_statuses": {
+    "replayed_from_current_patient_directory": 55
+  },
+  "recorded_ranked_path_resolved": {
+    "true": 50,
+    "false": 5,
+    "unavailable": 0
+  },
+  "picked_equal": {
+    "true": 50,
+    "false": 5,
+    "unavailable": 0
+  },
+  "candidate_levels_equal": {
+    "true": 40,
+    "false": 15,
+    "unavailable": 0
+  },
+  "scorer_nonpath_payload_equal": {
+    "true": 0,
+    "false": 55,
+    "unavailable": 0
+  },
+  "scorer_equal_ignoring_version_taxonomy": {
+    "true": 33,
+    "false": 22,
+    "unavailable": 0
+  },
+  "review_queue_resolved": {
+    "true": 55,
+    "false": 0,
+    "unavailable": 0
+  },
+  "merge_nonpath_payload_equal": {
+    "true": 0,
+    "false": 55,
+    "unavailable": 0
+  },
+  "merge_equal_ignoring_version_taxonomy": {
+    "true": 25,
+    "false": 30,
+    "unavailable": 0
+  },
+  "merge_picked_equal": {
+    "true": 55,
+    "false": 0,
+    "unavailable": 0
+  },
+  "merge_tier_membership_equal": {
+    "true": 55,
+    "false": 0,
+    "unavailable": 0
+  },
+  "summary_nonpath_payload_equal": {
+    "true": 0,
+    "false": 55,
+    "unavailable": 0
+  },
+  "limitations": [
+    "Frozen stage input filenames are available but historical content hashes are not recorded for every boundary.",
+    "Current summary replay uses current patient-directory contents, not a proven frozen historical agent snapshot.",
+    "No LLM calls or original file writes. This compares reproducibility, not clinical correctness."
+  ],
+  "picked_set_equal": {
+    "true": 55,
+    "false": 0
+  },
+  "picked_order_only_changed": {
+    "true": 5,
+    "false": 50
+  },
+  "candidate_names_equal": {
+    "true": 55,
+    "false": 0
+  },
+  "shared_candidate_level_changes_total": 15,
+  "cases_with_shared_candidate_level_changes": 15
+}

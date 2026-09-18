@@ -1,0 +1,23 @@
+{
+  "schema_version": "rag_re_clinical_pruning_abc.config.v1",
+  "policy_version": "post_l5_abc_factorial_v1",
+  "study_status": "exploratory_development_only",
+  "source_contract": {
+    "pruning_schema": "rag_re_clinical_pruning.output.v1",
+    "clinical_schema": "rag_re_clinical.output.v1",
+    "raw_schema": "rag_re.output.v1",
+    "frozen_l5_arm": "L5_PLUS_DIRECT_CONVERGENT_RESCUE",
+    "candidate_join": "patient_scoped_exact_canonical_name_and_order",
+    "unknown_is_negative": false
+  },
+  "families": ["CORR", "RAW"],
+  "scopes": ["RSC", "P_RST", "M_RST"],
+  "predicates": ["A", "B", "C", "AB", "AC", "BC", "ABC", "2OF3", "OR"],
+  "cumulative_order": ["ABC", "2OF3", "OR"],
+  "primary_arm": "L5_FROZEN",
+  "future_holdout_candidate_arm": "K_CORR_2_2OF3",
+  "new_arm_primary_eligibility": false,
+  "include_ungated_non_e0_stress": true,
+  "generation_reads_gold": false
+}
+

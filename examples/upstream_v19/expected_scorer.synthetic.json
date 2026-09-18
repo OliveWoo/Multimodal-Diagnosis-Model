@@ -1,0 +1,93 @@
+{
+  "rule_version": "mngs_deterministic_level_only_v19_low_specificity_taxonomy",
+  "best_available_summary": {
+    "selection_mode": "Confirmed",
+    "picked_count": 1,
+    "picked_pathogens": [
+      {
+        "organism_name": "Pseudomonas aeruginosa",
+        "classification": "Bacterial",
+        "picked_role": "Primary",
+        "evidence_source": "mNGS_ranked",
+        "basis_level": "Level 2",
+        "mngs_signal_tier": "M2_moderate",
+        "rank_priority": "1",
+        "reads": 10000,
+        "support_modules": [
+          "culture"
+        ],
+        "hospital_evidence_detail": {},
+        "why_picked": [
+          "Typical pneumonia bacterium has lower-respiratory culture/FilmArray support plus clean mNGS signal; promote to M2_moderate so it is not lost because the hospital label and mNGS species label differ."
+        ],
+        "caution_flags": [
+          "Evidence_limited",
+          "Not_recommended_as_sole_treatment_basis"
+        ]
+      }
+    ]
+  },
+  "final_infection_likelihood": "Likely",
+  "dominant_source": "Lower_Respiratory",
+  "dominant_pathogen_type": "Bacterial",
+  "host_context": {
+    "host_vulnerability_tier": "Unknown",
+    "opportunistic_coverage_level": "Unknown",
+    "host_level3_expansion": false
+  },
+  "pathogen_candidates": [
+    {
+      "organism_name": "Pseudomonas aeruginosa",
+      "classification": "Bacterial",
+      "integrated_causative_level": "Level 2",
+      "mngs_signal_tier": "M2_moderate",
+      "rank_priority": "1",
+      "rank_rule": "",
+      "reads": 10000,
+      "reads_tier": "R4_very_high",
+      "reads_percentile": 0.99,
+      "dominance_tier": "D3_dominant",
+      "specimen_alignment": "Aligned",
+      "specimen_class": "S2_lower_respiratory",
+      "source_category": "Bacterial",
+      "is_protected_pathogen": false,
+      "protected_retention_condition": false,
+      "is_likely_colonizer_or_background": false,
+      "module_support_summary": {
+        "mNGS": "M2_moderate",
+        "culture": "Support",
+        "filmarray_gmtest": "Not_available",
+        "molecular_microbiology": "Not_available",
+        "image": "Not_available",
+        "host": "Not_available"
+      },
+      "applied_rules": [
+        "D-S1-CANDIDATE_FROM_RANKED",
+        "R-S4-TYPICAL_PNEUMONIA_HOSPITAL_MNGS_L2",
+        "R-S3-M2-HOSPITAL-MNGS",
+        "R-S5-L2"
+      ],
+      "key_evidence": {
+        "best_record_rule": "",
+        "level_rule": "R-S5-L2",
+        "guardrail_rule": "R-S4-TYPICAL_PNEUMONIA_HOSPITAL_MNGS_L2",
+        "support_modules": [
+          "culture"
+        ]
+      },
+      "integrated_reasoning": [
+        "Typical pneumonia bacterium has lower-respiratory culture/FilmArray support plus clean mNGS signal; promote to M2_moderate so it is not lost because the hospital label and mNGS species label differ."
+      ],
+      "possibility_level": "high"
+    }
+  ],
+  "excluded_candidates": [],
+  "data_gaps": [],
+  "cross_module_reasoning": [
+    "deterministic scorer：候選池取自 ranked_mngs，並補入 Level 1/2 的直接醫院端 hospital_only 候選；本次共 1 個去重候選，其中 hospital_only=0。",
+    "Level / picked / excluded 由 Python 規則計算，未使用 LLM 判斷。"
+  ],
+  "source_files": {
+    "patient_dir": "NGS_patient_900001_json"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "test": "Underlying Conditions",
+  "age": "50",
+  "gender": "X",
+  "underlying_diseases": [
+    "Synthetic condition"
+  ]
+}

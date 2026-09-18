@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "mode": "master_ppt",
+  "run_kind": "extract",
+  "code_profile_sha256": "0e9fafc0b6bab9c1b6d2573acc2f402d3f7062a2dbf73f2619c441a9ee67a025",
+  "master": {
+    "path": "synthetic_master.xlsx",
+    "sha256": "965d2380b66702435e01057b123f474d1db3cf57ffcf904882c16b83da84b492"
+  },
+  "presentations": [
+    {
+      "source": {
+        "path": "synthetic.pptx",
+        "sha256": "ed2c7800b2a6049aa1c406710ee1974c249a19b8635b21b708ce0a7db8c328d2"
+      },
+      "route": "radiology_and_labs",
+      "frozen_slides": []
+    }
+  ],
+  "synthetic": true,
+  "description": "Artificial single-specimen master and native-text PPT. No patient data or model execution."
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "rag_re_clinical.config.v1",
+  "version": "clinical_v1",
+  "study_status": "exploratory_development_only",
+  "source_evidence": {
+    "reuse_frozen_rag_re_modules": true,
+    "new_pubmed_or_llm_calls": false,
+    "candidate_universe": "frozen_rag_re_candidates_only"
+  },
+  "module_a": {
+    "strong_min_support": 3,
+    "strong_min_judgeable": 5,
+    "require_frozen_positive": true
+  },
+  "module_b_strict": {
+    "positive_signal_tiers": ["M1_STRONG", "M2_MODERATE"],
+    "positive_reads_tiers": ["R3_HIGH", "R4_VERY_HIGH"],
+    "min_dominance_tier": 2,
+    "max_rank_priority": 1,
+    "min_reads_percentile": 0.8,
+    "require_absolute_and_relative_axes": true
+  },
+  "module_c": {
+    "sterile_specimen_classes": ["S1_STERILE_SYSTEMIC"],
+    "lower_respiratory_specimen_classes": ["S2_LOWER_RESPIRATORY"],
+    "respiratory_candida_culture_only_grade": "C1_CONTEXT_ONLY",
+    "support_module_name_alone_is_direct_evidence": false,
+    "related_representative_is_exact": false
+  },
+  "clinical_rules": {
+    "b_strict": {
+      "positive_signal_tiers": ["M1_STRONG", "M2_MODERATE"],
+      "positive_reads_tiers": ["R3_HIGH", "R4_VERY_HIGH"],
+      "min_dominance_tier": 2,
+      "max_rank_priority": 1,
+      "min_reads_percentile": 0.8,
+      "require_ntc_ratio": false,
+      "require_rpm": false
+    },
+    "f_temporal": {
+      "window_before_days": 3,
+      "window_after_days": 3
+    },
+    "e_convergence": {
+      "allow_literature_mngs_auto": false,
+      "require_temporal_coherence_for_auto": false
+    }
+  },
+  "decision": {
+    "primary_arm": "CL2_CONVERGENT",
+    "baseline_immutable": true,
+    "unknown_action": "manual_review",
+    "arms": [
+      "CL0_BASELINE",
+      "CL1_DIRECT",
+      "CL2_CONVERGENT",
+      "CL3_BALANCED",
+      "CL4_TIERED_EXPLORATORY"
+    ]
+  }
+}

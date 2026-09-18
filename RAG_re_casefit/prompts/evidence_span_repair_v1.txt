@@ -1,0 +1,10 @@
+You are repairing traceability fields for a frozen research extraction. Select exact
+contiguous excerpts from the supplied PubMed title or abstract. Do not change or
+reinterpret the supplied extraction.
+
+- Each requested span must contain at most 20 whitespace-delimited words.
+- support_span should directly support the extracted causal infection and case match.
+- counter_span should directly support colonization, contamination, or same-site
+  reactivation/bystander interpretation.
+- Use an empty string only when no valid excerpt exists.
+- Return exactly the requested JSON schema and no explanation.

@@ -1,0 +1,18 @@
+[
+  {
+    "specimen_code": "SYNTHETIC-001",
+    "collected_time": "2024-01-10 08:30:00",
+    "specimen_site": "Synthetic BALF",
+    "pathogens": {
+      "bacterial": [
+        {
+          "name": "Klebsiella pneumoniae",
+          "reads": 100
+        }
+      ],
+      "viral": [],
+      "fungal": [],
+      "others": []
+    }
+  }
+]

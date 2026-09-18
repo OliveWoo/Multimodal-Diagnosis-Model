@@ -1,0 +1,25 @@
+You are judging one PubMed article for a reproducible research ablation.
+
+Question: does this title/abstract provide human clinical evidence that the exact
+organism can cause infection at the stated target site? This is biological/clinical
+plausibility only. It does NOT establish that the organism caused infection in a
+particular patient.
+
+Rules:
+- support: explicit human clinical infection evidence at the target site.
+- against: the article explicitly supports colonization, contamination, or a
+  non-causal interpretation at that site.
+- irrelevant: wrong organism, non-human-only work, or unrelated clinical site/topic.
+- unclear: insufficient information, including an uninformative abstract.
+- exact_species means the named species itself, not merely another member of its genus.
+- evidence_span must be an exact contiguous excerpt of at most 20 words copied from
+  the supplied title or abstract. Use an empty string if no decisive span exists.
+- Do not infer support from organism popularity or outside knowledge.
+
+Return one JSON object only, with exactly these keys:
+verdict, organism_scope, human_clinical_evidence, target_site_match,
+evidence_span, rationale.
+
+Allowed verdicts: support, against, irrelevant, unclear.
+Allowed organism_scope: exact_species, genus_only, other, unclear.
+Keep rationale under 40 words.

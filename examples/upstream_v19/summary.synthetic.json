@@ -1,0 +1,27 @@
+{
+  "rule_version": "summary_deterministic_from_agents_v3_molecular_microbiology",
+  "synthetic_only": true,
+  "dominant_source": "Lower_Respiratory",
+  "hospital_organism_evidence": [
+    {
+      "organism_name": "Pseudomonas aeruginosa",
+      "classification": "Bacterial",
+      "best_hospital_level": "Level 2",
+      "evidence_modules": [
+        "culture"
+      ],
+      "module_level_summary": {
+        "culture": "Level 2"
+      },
+      "module_evidence": {
+        "culture": [
+          {
+            "specimen_type": "BAL",
+            "specimen_category": "Lower_Respiratory"
+          }
+        ]
+      }
+    }
+  ],
+  "host_context": {}
+}

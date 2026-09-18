@@ -1,0 +1,21 @@
+{
+  "scope": "Cohort staging/identity adapter; frozen-source handoff only",
+  "files": [
+    {
+      "path": "frontend/cohorts.py",
+      "sha256": "272b25bc3f2cf9386515e0a9ce55ab8977be47754d18234d0630f836f3b3c408"
+    },
+    {
+      "path": "frontend/pipeline.py",
+      "sha256": "82ee832701f070ce327183935932f33217bc1acd7febb0006267ce1284f34c9b"
+    },
+    {
+      "path": "frontend/kh/run.py",
+      "sha256": "2fae88004142e2387d69004d0f172fe1b68d1465e0388df11c76d16389b57e00"
+    },
+    {
+      "path": "frontend/two_hospital/run.py",
+      "sha256": "f48c85cc6f18120fb84f08f7e401254b97031420bb4245198ab74d9ac4232433"
+    }
+  ]
+}

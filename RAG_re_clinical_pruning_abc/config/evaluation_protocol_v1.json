@@ -1,0 +1,29 @@
+{
+  "schema_version": "rag_re_clinical_pruning_abc.evaluation_protocol.v1",
+  "primary_scope": "all_labeled_exact_frozen_synonyms",
+  "sensitivity_scope": "answer_positive_only_genus_relaxed",
+  "primary_anchor": "L5_FROZEN",
+  "bootstrap": {
+    "replicates": 20000,
+    "seed": 20260811,
+    "target_policy": "pareto_and_named",
+    "named_arms": [
+      "L5_FROZEN",
+      "K_CORR_2_2OF3",
+      "S_CORR_RSC_A",
+      "S_RAW_M_RST_C",
+      "X_CORR_RSC_UNGATED_AB",
+      "X_RAW_RSC_UNGATED_AB",
+      "X_RAW_RSC_UNGATED_B",
+      "X_RAW_RSC_UNGATED_C",
+      "K_RAW_3_OR_STRESS"
+    ]
+  },
+  "organism_cluster": {
+    "minimum_added_tp_for_detail": 1,
+    "leave_one_added_tp_organism_out": true
+  },
+  "missing_artifact_policy": "retain_in_denominator_as_empty_prediction_and_do_not_credit_no_path_tn",
+  "pareto_axes": ["auto_precision", "auto_recall"],
+  "new_arms_are_exploratory": true
+}

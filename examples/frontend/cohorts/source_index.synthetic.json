@@ -1,0 +1,14 @@
+[
+  {
+    "legacy_patient_id": "NGS_patient_8",
+    "case_code": "K003",
+    "specimen_id": "SYN-K-001",
+    "hospital_id": "SYN-K"
+  },
+  {
+    "legacy_patient_id": "NGS_patient_54",
+    "case_code": "T001",
+    "specimen_id": "SYN-T-001",
+    "hospital_id": "SYN-T"
+  }
+]

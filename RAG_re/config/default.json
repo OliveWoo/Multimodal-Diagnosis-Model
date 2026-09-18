@@ -1,0 +1,78 @@
+{
+  "schema_version": "rag_re.config.v1",
+  "pubmed": {
+    "max_articles": 10,
+    "publication_cutoff": "2026-06-30",
+    "timeout_seconds": 30,
+    "retries": 3,
+    "request_interval_seconds": 0.34,
+    "email": "",
+    "tool": "csie_rag_re"
+  },
+  "llm": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "low",
+    "temperature": null,
+    "max_output_tokens": 1200,
+    "prompt_version": "article_support_v1"
+  },
+  "organism_normalization": {
+    "accepted_synonyms": {
+      "pneumocystis jiroveci": "Pneumocystis jirovecii",
+      "pjp": "Pneumocystis jirovecii",
+      "hsv": "Herpes simplex virus type 1",
+      "hsv-1": "Herpes simplex virus type 1",
+      "herpes simplex virus 1": "Herpes simplex virus type 1",
+      "cmv": "Human cytomegalovirus",
+      "crkp": "Klebsiella pneumoniae",
+      "candida albican": "Candida albicans"
+    }
+  },
+  "candidate_pool": {
+    "allow_prior_llm_expansion": false,
+    "merge_review_tiers": ["review_high_priority", "review_context_needed"],
+    "literature_on_baseline_picked": false
+  },
+  "module_a_literature": {
+    "min_support": 3,
+    "min_support_ratio": 0.0,
+    "min_judgeable_articles": 5,
+    "require_exact_species": true,
+    "require_human_clinical_evidence": true,
+    "require_target_site_match": true,
+    "require_evidence_span": true
+  },
+  "module_b_mngs": {
+    "require_site_alignment": true,
+    "positive_specimen_alignments": ["Aligned", "Matched", "Site_aligned", "Sterile_or_Systemic"],
+    "negative_specimen_alignments": ["Not_aligned", "Mismatched", "Site_mismatch"],
+    "positive_specimen_classes": ["S1_sterile_systemic", "S2_lower_respiratory"],
+    "max_rank_priority": 1,
+    "min_reads_percentile": 0.8,
+    "positive_reads_tiers": ["R3_HIGH", "R4_VERY_HIGH"],
+    "min_dominance_tier": 2,
+    "positive_signal_tiers": ["M1_STRONG", "M2_MODERATE"]
+  },
+  "module_c_direct_support": {
+    "require_site_alignment": true,
+    "positive_specimen_alignments": ["Aligned", "Matched", "Site_aligned", "Sterile_or_Systemic"],
+    "negative_specimen_alignments": ["Not_aligned", "Mismatched", "Site_mismatch"],
+    "positive_specimen_classes": ["S1_sterile_systemic", "S2_lower_respiratory"],
+    "allow_direct_evidence_site_inference": true,
+    "positive_modules": [
+      "culture",
+      "filmarray",
+      "filmarray_gmtest",
+      "targeted_molecular",
+      "molecular_microbiology",
+      "pcr",
+      "antigen",
+      "gm_test"
+    ]
+  },
+  "decision": {
+    "primary_experiment": "E0_OR_C_OR_A_AND_B",
+    "upgrade_steps": 1,
+    "best_level_after_upgrade": 2
+  }
+}

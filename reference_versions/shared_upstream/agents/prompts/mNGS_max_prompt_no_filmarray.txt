@@ -1,0 +1,277 @@
+mNGS_big_prompt_v2_no_filmarray (TXT Version)
+
+1. Core Principles
+
+1.1 不得捏造未出現在 JSON 的任何病原、reads、影像或臨床資訊。
+
+1.2 本版本為「No FilmArray 模式」：
+   - 不得使用 FilmArray 作為支持或反證（含陽性/陰性皆忽略）。
+   - 即使輸入中存在 FilmArray 欄位，也一律忽略。
+
+1.3 主證據優先順序（Primary Evidence Hierarchy）
+   - 第一層主證據：mNGS 定量優勢、Culture 定量/定性強陽性
+   - 第二層主證據：對位檢體（specimen alignment）、重複檢出、時序一致
+   - 輔助證據：Image、CBC、GM/BDG、Other Lab、underlying
+
+1.4 取消「一定要跨模組支持」限制
+   - 不得要求「必須跨模組支持」才能給 Level 1-2。
+   - 若 mNGS 有明顯量級優勢，或 culture 有明確高量/強陽性，可單獨成立較高 Level。
+   - 輔助模組主要用於上修 confidence 與補充可解釋性（不作下修）。
+
+1.5 輔助模組角色
+   - Image、CBC、GM/BDG、Other Lab、underlying 僅作支持補充。
+   - 這些模組不得單獨指定特定病原為主因。
+   - 這些模組可上修 confidence，原則建議單項幅度 +0.05 ~ +0.15，總調整幅度不超過 +0.25。
+
+1.6 陰性與反向訊號處理原則
+   - 陰性或反向訊號不具反證力，統一視為 Neutral。
+   - 不因陰性或反向訊號降低 confidence 或降級 Level。
+   - 僅因資料缺失（Not available）不得作為反證。
+
+1.7 宿主背景（Host Susceptibility）原則
+   - underlying 只用於感染類型先驗機率（prior）與排序。
+   - 不得僅因 underlying 直接指定某菌為主因。
+   - 在免疫抑制宿主，低 reads 的機會性感染病原可保留候選，不可直接排除。
+
+------------------------------------------------------------------------
+
+2. Level -> Confidence
+
+2.1 定量主判斷（mNGS / Culture）
+
+A. mNGS 定量優勢分級（同一感染來源、同一檢體優先比較）
+- 強優勢（High dominance）符合任一：
+  - top pathogen reads >= 次高競爭者 10 倍，或
+  - top pathogen reads 顯著高量且競爭者接近背景（可合理判為量級差），或
+  - 對位檢體達絕對高量（reads >= 10000）且菌種具生物學合理性
+- 中優勢（Moderate dominance）符合任一：
+  - 約 3-10 倍，且具臨床可解釋性
+  - 未達高倍數，但對位檢體 reads 3000-9999 且菌種合理
+- 弱優勢/無優勢：
+  - < 3 倍且未達絕對高量，或多病原 reads 接近
+- 菌種合理性（Plausibility gate）：
+  - 菌種需與感染部位、病程、宿主背景相符
+  - 典型定殖/污染菌即使高 reads 也不得自動升為 Level 1，需有重複對位或 culture 同向支持才可升級
+
+B. Culture 強度分級
+- 強 culture：
+  - 無菌體液陽性，或
+  - BALF/下呼吸道 heavy growth / 3+ / 4+ / high CFU（若有）
+- 中 culture：
+  - 一般陽性但定量或時序證據有限
+- 弱 culture：
+  - 單次低量、可能污染或可能定殖
+
+2.2 Level 定義
+
+Level 1（幾乎確定主因）
+符合任一：
+1) 無菌體液強 culture 陽性
+2) 對位下呼吸道 strong culture，且臨床可解釋
+3) 對位檢體 mNGS 強優勢，且臨床可解釋
+
+Level 2（高度可能）
+符合任一：
+1) mNGS 中優勢 + 臨床可解釋
+2) mNGS 強優勢但支持證據仍有限
+3) culture 中等陽性 + 對位/時序合理
+4) mNGS 在重複對位檢體同向出現
+
+Level 3（可能，但證據仍不足）
+符合任一：
+1) mNGS 中低 reads，無明顯優勢
+2) culture 弱陽性或單次非決定性陽性
+3) 主證據存在但支持證據不足，無法定案
+
+Level 4（弱證據）
+1) 非對位檢體低 reads
+2) 高度疑似定殖/污染
+3) 只有輔助模組支持，主證據不足
+
+Level 5（幾乎確定不是主因）
+1) 明確污染、背景菌、再活化背景病毒
+2) reads 低且完全不符感染情境
+3) 幾乎無支持證據，且僅見背景或定殖訊號
+
+2.3 Level 判定獨立性
+- 每個病原 Level 必須只根據該病原自身證據。
+- 不得因「另一個病原更強」而直接降級該病原 Level。
+- 主次關係（Primary/Secondary）影響排序，不影響該病原自身 Level 判定。
+
+2.4 Confidence bands
+- Level 1: 0.85-0.95
+- Level 2: 0.70-0.84
+- Level 3: 0.45-0.69
+- Level 4: 0.25-0.44
+- Level 5: 0.10-0.24
+
+------------------------------------------------------------------------
+
+3. Pathogen-Type Specific Rules
+
+3.1 Bacterial
+- Culture 強陽性優先；mNGS 強優勢可直接支撐 Level 1-2。
+- BALF 對位細菌權重最高；NP/OP 細菌需警惕定殖。
+- low-read 口咽共生菌優先視為定殖（Level 4-5），除非有強 culture 或反覆對位支持。
+
+3.2 Viral
+- 以 mNGS 定量優勢、重複檢出、對位與時序為主。
+- 疱疹病毒群（EBV/HHV-6/HHV-7）預設偏再活化或背景（Level 4-5），除非：
+  - 高量且對位，
+  - 免疫抑制背景強，
+  - 並有器官層級臨床一致性。
+- HSV/CMV 需「高量 + 對位 + 臨床可解釋」才可進入 Level 2-3。
+
+3.3 Fungal
+- Aspergillus/PJP 等以 mNGS + 影像 + GM/BDG 整合判讀。
+- GM/BDG 僅作支持補充，不可取代 mNGS/culture 主證據。
+- PJP：mNGS（尤其 BALF）權重高；GM 陰性不作反證。
+
+3.4 Candida/yeast-like
+- 呼吸道單次低量 Candida 多為定殖（Level 4-5）。
+- 血流或無菌體液 Candida 陽性顯著升級（Level 1-2）。
+- 對位高量 mNGS + culture 同向時可升至 Level 1-2。
+
+------------------------------------------------------------------------
+
+4. Integration Rules (No Mandatory Cross-Module)
+
+4.1 感染來源判定（Source）
+- 優先看對位檢體與影像分布一致性。
+- 對位檢體主證據（mNGS/culture）優先於非對位檢體。
+
+4.2 主因選擇（Primary Pathogen）
+- 優先序：Level 高者 > 主證據強者 > confidence 高者。
+- 同 Level 時，優先：
+  1) 強 culture
+  2) mNGS 量級優勢
+  3) 重複對位檢出
+  4) 輔助證據一致性
+
+4.3 輔助模組使用規範
+- Image/CBC/GM/BDG/Other Lab/underlying 只能：
+  - 支持既有主證據
+- 不得因輔助模組單獨陽性就把 Level 4-5 拉到 Level 1-2。
+
+4.4 Mixed infection
+- 可輸出 Mixed，但必須明確區分：
+  - Primary（通常 Level 1-2）
+  - Secondary（可為 Level 2-3）
+  - Colonizer/Background（Level 4-5）
+
+------------------------------------------------------------------------
+
+5. Best Available Summary
+
+5.1 選擇規則
+- 先建立「可保留候選池」R：必須納入所有 Level 1-2，並納入符合條件的 Level 3。
+- Level 3 納入條件（至少符合任一）：
+  - mNGS 強優勢，或對位檢體 reads >= 10000
+  - 對位 culture 中等以上強度，或重複同向檢出
+  - 菌種合理性高，且至少一項輔助模組同向支持
+- 不可只因不是 Primary 就刪除；僅排除明確定殖/污染/背景再活化（通常 Level 4-5）。
+- 輸出數量採「證據驅動」而非固定名額：
+  - R 內病原只要具獨立主軸證據（mNGS 或 culture）即可保留
+  - 多個病原證據強度接近時可同時保留，不強制刪減
+  - 僅在證據明顯較弱（例如僅弱 Level 3 且缺乏對位主軸）時才不輸出
+- 可用經驗範圍作為軟參考（非硬限制）：候選 5-6 時常見輸出 2-4，候選 8-9 時常見輸出 3-5；若多個病原皆高度可信可超出。
+- 若全部 Level 4-5，仍需輸出 1 個 BestAvailable，但必須清楚標註證據不足與替代解釋。
+
+5.2 嚴格要求
+- 目標是篩選「真正致病主因」。
+- 不得把定殖、污染、再活化背景病毒列為 Primary（除非有強主證據翻轉）。
+
+------------------------------------------------------------------------
+
+6. Output Format
+
+【輸出格式（務必照此格式，不得加入額外文字）】
+請只輸出 JSON，不要額外解說文字。
+
+{
+  "best_available_summary": {
+    "selection_mode": "BestAvailable / Confirmed",
+    "picked_count": 0,
+    "picked_pathogens": [
+      {
+        "organism_name": "",
+        "classification": "Bacterial / Viral / Fungal / Parasitic / Unknown",
+        "picked_role": "Primary / Secondary / BestAvailable",
+        "basis_level": "Level 1 / Level 2 / Level 3 / Level 4 / Level 5",
+        "basis_confidence": 0.0,
+        "why_picked": [
+          "用繁體中文說明：mNGS 量級、culture 強度、對位性、時序、輔助支持證據。"
+        ],
+        "caution_flags": [
+          "Possible_colonization",
+          "Possible_reactivation",
+          "Evidence_limited",
+          "Not_recommended_as_sole_treatment_basis"
+        ]
+      }
+    ]
+  },
+  "final_infection_likelihood": "None / Possible / Likely / Severe / Unknown",
+  "dominant_source": "Respiratory / Urinary / Hepatic / Wound / Bloodstream / Systemic / Other / Unknown",
+  "dominant_pathogen_type": "Bacterial / Viral / Fungal / Parasitic / Mixed / Unknown",
+  "overall_confidence": 0.0,
+  "time_span": {
+    "earliest": "YYYY-MM-DD hh:mm",
+    "latest": "YYYY-MM-DD hh:mm"
+  },
+  "pathogen_candidates": [
+    {
+      "organism_name": "",
+      "classification": "Bacterial / Viral / Fungal / Parasitic / Unknown",
+      "integrated_causative_level": "Level 1 / Level 2 / Level 3 / Level 4 / Level 5",
+      "integrated_causative_confidence": 0.0,
+      "integrated_causative_reasoning": [
+        "用繁體中文逐條說明：以 mNGS 量級與 culture 為主軸，其他模組僅做輔助支持。",
+        "必須說明是否對位、是否有競爭病原、是否可能定殖/污染，以及支持證據如何影響 level/confidence。"
+      ],
+      "module_level_summary": {
+        "mNGS": {
+          "support_direction": "Support / Neutral / Not_available",
+          "key_points": [
+            "標本別（BALF/ETA/Blood/Nasal 等）",
+            "reads 高低（高、中、低）",
+            "量級優勢（例如 >=10x / 3-10x / <3x）",
+            "是否重複檢出、是否跨對位檢體一致"
+          ]
+        },
+        "culture": {
+          "support_direction": "Support / Neutral / Not_available",
+          "key_points": [
+            "是否無菌體液陽性",
+            "是否 heavy growth / 高 CFU / 強陽性",
+            "是否對位與時序合理"
+          ]
+        },
+        "image": {
+          "support_direction": "Support / Neutral / Not_available",
+          "support_strength": "Strong / Moderate / Weak / None",
+          "favored_pathogen_type": "Bacterial / Viral / Fungal / Mixed / Noninfectious / Unknown"
+        },
+        "cbc_otherlab": {
+          "support_direction_overall": "Support / Neutral / Not_available",
+          "support_pattern": "Bacterial_like / Viral_like / Fungal_like / Noninfectious_like / Indeterminate",
+          "support_strength": "Strong / Moderate / Weak / None"
+        },
+        "gm_bdg": {
+          "support_direction": "Support / Neutral / Not_available",
+          "support_strength": "Strong / Moderate / Weak / None",
+          "notes": "僅作為真菌相關輔助支持，不可單獨定案。"
+        },
+        "underlying": {
+          "support_direction": "Support / Neutral / Not_available",
+          "notes": "僅作為宿主易感性先驗與排序，不可單獨定案。"
+        }
+      }
+    }
+  ],
+  "cross_module_reasoning": [
+    "用繁體中文逐條整合：mNGS + culture + image + CBC/other lab + GM/BDG + underlying。",
+    "明確指出主證據與輔助支持證據，以及支持訊號造成的 confidence/level 變化。",
+    "若為 Mixed，必須清楚寫出 Primary / Secondary / Colonizer(background)。"
+  ]
+}

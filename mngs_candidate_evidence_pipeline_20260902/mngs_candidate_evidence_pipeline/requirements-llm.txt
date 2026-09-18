@@ -1,0 +1,2 @@
+# Optional dependency for generate_llm_rationales.py
+openai>=2.3.0

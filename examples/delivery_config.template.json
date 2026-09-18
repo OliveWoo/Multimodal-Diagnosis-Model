@@ -1,0 +1,14 @@
+{
+  "schema_version": "ober.delivery_config.v1",
+  "batch_name": "synthetic_template_not_a_paper_run",
+  "decision_stage": "workflow_final",
+  "accepted_rationales": "../private_data/example/accepted_rationales.json",
+  "selection_stage_note": "Template only: replace with a verified frozen manifest. No clinical data supplied.",
+  "cohorts": {
+    "synthetic": {
+      "selected_root": "../private_data/example/selected_pathogens",
+      "casefit_root": "../private_data/example/casefit",
+      "final_decision_root": "../private_data/example/final_decisions"
+    }
+  }
+}

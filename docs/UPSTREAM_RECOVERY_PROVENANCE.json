@@ -1,0 +1,27 @@
+{
+  "method": "readable reconstruction verified against supplied CPython 3.13 cache; not recovered original source text",
+  "components": {
+    "scorer": {
+      "destination": "upstream/tools/deterministic_mngs_max_scorer_v19_recovered.py",
+      "sha256": "9ef3276a74159fff9bff55121b830b123a7585108e673a81b7cd85623075ac83",
+      "cache_sha256": "4f35d6e8a2293211e53db6986ad68b6c577a1a9882f4cb23512ef0bbaed8fbba",
+      "current_source_sha256": "5370192a7e8c17b433c47624e2697810b1bb91d54b120530f60d115ddb9cf3b4",
+      "all_function_count": 130,
+      "matching_functions": 130,
+      "differing_functions": [],
+      "function_names_equal": true,
+      "module_semantic_equal": true
+    },
+    "summary": {
+      "destination": "upstream/tools/build_deterministic_summary_v3_recovered.py",
+      "sha256": "fd13804b3ea797466b0962928c75e0f8d0126d3382107ccc35dc7da8a382a89c",
+      "cache_sha256": "d361485e1c6960d65f5d58926d830eabfef0e38bc6cb7180f2e600a1e2ac234d",
+      "current_source_sha256": "cf6ec579d0b21947b0c60860c79640916da0c33ea14329ffa4534267510a9e09",
+      "all_function_count": 50,
+      "matching_functions": 50,
+      "differing_functions": [],
+      "function_names_equal": true,
+      "module_semantic_equal": true
+    }
+  }
+}

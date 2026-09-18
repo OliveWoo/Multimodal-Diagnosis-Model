@@ -1,0 +1,48 @@
+{
+  "schema_version": "rag_re_clinical_pruning.config.v1",
+  "policy_version": "clinical_pruning_v1",
+  "study_status": "exploratory_development_only",
+  "source_contract": {
+    "schema_version": "rag_re_clinical.output.v1",
+    "run_status": "complete",
+    "candidate_universe": "locked_clinical_artifact_candidates",
+    "generation_reads_gold": false
+  },
+  "prediction_views": {
+    "auto_positive_states": ["KEEP", "RESCUE"],
+    "review_inclusive_states": ["KEEP", "RESCUE", "MANUAL"]
+  },
+  "primary_arm": "L5_PLUS_DIRECT_CONVERGENT_RESCUE",
+  "rules": {
+    "Q_WEAK_RAW": "E0 AND D_PASS AND B.absolute_strength_axis=false AND B.relative_strength_axis=false",
+    "Q_DIRECT_RESTORE": "E0 AND current=PRUNE AND C in {C2,C3} -> KEEP",
+    "Q_CONTEXT_REVIEW": "E0 AND current=PRUNE AND C=C1 -> MANUAL",
+    "Q_GUARD": "E0 AND D_GUARDED AND C!=C3 -> MANUAL",
+    "D_BLOCK_DIAGNOSTIC": "E0 AND D_BLOCK -> MANUAL; standalone diagnostic only",
+    "R_DIRECT": "nonE0 AND C=C3 AND D!=D_BLOCK -> RESCUE",
+    "R_CONVERGENT": "nonE0 AND D_PASS AND B_STRICT=true AND C=C2 -> RESCUE",
+    "R_HIGH_STRICT": "nonE0 AND review_high_priority AND B_STRICT=true AND C=C0 AND D!=D_BLOCK -> RESCUE",
+    "R_HIGH_ANY": "nonE0 AND review_high_priority AND (B.absolute=true OR B.relative=true) AND C=C0 AND D!=D_BLOCK -> RESCUE",
+    "R_CONTEXT_A": "nonE0 AND review_context_needed AND E.inputs.A=true AND B_STRICT=true AND D_PASS -> RESCUE"
+  },
+  "arms": [
+    {"name": "S0_E0", "family": "standalone", "analysis_role": "baseline", "eligible_primary": false, "rule_sequence": []},
+    {"name": "S_Q_WEAK_RAW", "family": "standalone", "analysis_role": "confirmatory", "eligible_primary": false, "rule_sequence": ["Q_WEAK_RAW"]},
+    {"name": "S_Q_GUARD", "family": "standalone", "analysis_role": "confirmatory", "eligible_primary": false, "rule_sequence": ["Q_GUARD"]},
+    {"name": "S_D_BLOCK_DIAGNOSTIC", "family": "standalone", "analysis_role": "diagnostic", "eligible_primary": false, "rule_sequence": ["D_BLOCK_DIAGNOSTIC"]},
+    {"name": "S_R_DIRECT", "family": "standalone", "analysis_role": "confirmatory", "eligible_primary": false, "rule_sequence": ["R_DIRECT"]},
+    {"name": "S_R_CONVERGENT", "family": "standalone", "analysis_role": "confirmatory", "eligible_primary": false, "rule_sequence": ["R_CONVERGENT"]},
+    {"name": "S_R_HIGH_STRICT", "family": "standalone", "analysis_role": "exploratory", "eligible_primary": false, "rule_sequence": ["R_HIGH_STRICT"]},
+    {"name": "S_R_HIGH_ANY", "family": "standalone", "analysis_role": "exploratory", "eligible_primary": false, "rule_sequence": ["R_HIGH_ANY"]},
+    {"name": "S_R_CONTEXT_A", "family": "standalone", "analysis_role": "exploratory", "eligible_primary": false, "rule_sequence": ["R_CONTEXT_A"]},
+    {"name": "L0_E0", "family": "cumulative", "analysis_role": "baseline", "eligible_primary": false, "rule_sequence": []},
+    {"name": "L1_WEAK_RAW", "family": "cumulative", "analysis_role": "confirmatory", "eligible_primary": false, "rule_sequence": ["Q_WEAK_RAW"]},
+    {"name": "L2_DIRECT_RESTORE", "family": "cumulative", "analysis_role": "confirmatory", "eligible_primary": false, "rule_sequence": ["Q_WEAK_RAW", "Q_DIRECT_RESTORE"]},
+    {"name": "L3_CONTEXT_REVIEW", "family": "cumulative", "analysis_role": "confirmatory", "eligible_primary": false, "rule_sequence": ["Q_WEAK_RAW", "Q_DIRECT_RESTORE", "Q_CONTEXT_REVIEW"]},
+    {"name": "L4_PLUS_GUARD_REVIEW", "family": "cumulative", "analysis_role": "confirmatory", "eligible_primary": false, "rule_sequence": ["Q_WEAK_RAW", "Q_DIRECT_RESTORE", "Q_CONTEXT_REVIEW", "Q_GUARD"]},
+    {"name": "L5_PLUS_DIRECT_CONVERGENT_RESCUE", "family": "cumulative", "analysis_role": "primary", "eligible_primary": true, "rule_sequence": ["Q_WEAK_RAW", "Q_DIRECT_RESTORE", "Q_CONTEXT_REVIEW", "Q_GUARD", "R_DIRECT", "R_CONVERGENT"]},
+    {"name": "L6_PLUS_HIGH_STRICT", "family": "cumulative", "analysis_role": "exploratory", "eligible_primary": false, "rule_sequence": ["Q_WEAK_RAW", "Q_DIRECT_RESTORE", "Q_CONTEXT_REVIEW", "Q_GUARD", "R_DIRECT", "R_CONVERGENT", "R_HIGH_STRICT"]},
+    {"name": "L7_PLUS_HIGH_ANY", "family": "cumulative", "analysis_role": "exploratory", "eligible_primary": false, "rule_sequence": ["Q_WEAK_RAW", "Q_DIRECT_RESTORE", "Q_CONTEXT_REVIEW", "Q_GUARD", "R_DIRECT", "R_CONVERGENT", "R_HIGH_STRICT", "R_HIGH_ANY"]},
+    {"name": "L8_PLUS_CONTEXT_A", "family": "cumulative", "analysis_role": "exploratory", "eligible_primary": false, "rule_sequence": ["Q_WEAK_RAW", "Q_DIRECT_RESTORE", "Q_CONTEXT_REVIEW", "Q_GUARD", "R_DIRECT", "R_CONVERGENT", "R_HIGH_STRICT", "R_HIGH_ANY", "R_CONTEXT_A"]}
+  ]
+}

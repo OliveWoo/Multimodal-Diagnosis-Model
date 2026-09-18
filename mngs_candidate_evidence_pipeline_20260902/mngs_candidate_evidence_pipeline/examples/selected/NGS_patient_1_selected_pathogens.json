@@ -1,0 +1,77 @@
+{
+  "schema_version": "selected_pathogens.v1",
+  "patient_id": "1",
+  "hospital": "Synthetic Hospital",
+  "dataset": "synthetic_demo",
+  "selection_source": "deterministic_max.best_available_summary.picked_pathogens",
+  "pipeline_version": "synthetic_v1",
+  "source": {
+    "file": "synthetic_upstream.json",
+    "sha256": "synthetic"
+  },
+  "selected_pathogens": [
+    {
+      "original_name": "Klebsiella pneumoniae",
+      "canonical_name": "Klebsiella pneumoniae",
+      "canonical_key": "klebsiellapneumoniae",
+      "selection_status": "picked",
+      "rank": 1,
+      "classification": "Bacterial",
+      "picked_role": "Primary",
+      "evidence_source": "mNGS_ranked",
+      "basis_level": "Level 1",
+      "selection_reasons": [
+        "The organism has a strong mNGS signal and concordant BALF culture support."
+      ],
+      "caution_flags": []
+    }
+  ],
+  "candidate_pathogens": [
+    {
+      "original_name": "Klebsiella pneumoniae",
+      "canonical_name": "Klebsiella pneumoniae",
+      "canonical_key": "klebsiellapneumoniae",
+      "selection_status": "picked",
+      "candidate_rank": 1,
+      "selected_rank": 1,
+      "classification": "Bacterial",
+      "picked_role": "Primary",
+      "evidence_source": "mNGS_ranked",
+      "basis_level": "Level 1",
+      "consideration_reasons": [
+        "Detected by mNGS and lower-respiratory culture."
+      ],
+      "decision_reasons": [
+        "The organism has a strong mNGS signal and concordant BALF culture support."
+      ],
+      "decision_reason_status": "available",
+      "upstream_features": {
+        "integrated_causative_level": "Level 1"
+      }
+    },
+    {
+      "original_name": "Candida albicans",
+      "canonical_name": "Candida albicans",
+      "canonical_key": "candidaalbicans",
+      "selection_status": "not_picked",
+      "candidate_rank": 2,
+      "selected_rank": null,
+      "classification": "Fungal",
+      "consideration_reasons": [
+        "The organism was present in the upstream candidate pool."
+      ],
+      "decision_reasons": [
+        "Respiratory detection alone is insufficient to establish invasive Candida pneumonia."
+      ],
+      "decision_reason_status": "available",
+      "upstream_features": {
+        "integrated_causative_level": "Level 3"
+      }
+    }
+  ],
+  "summary": {
+    "selection_mode": "Confirmed",
+    "selected_count": 1,
+    "upstream_candidate_count": 2
+  }
+}

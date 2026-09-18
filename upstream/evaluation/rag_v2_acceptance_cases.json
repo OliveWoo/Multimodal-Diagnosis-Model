@@ -1,0 +1,13 @@
+{
+  "schema_version": "rag_acceptance_cases_v2.0",
+  "description": "Private evaluation labels. Never merge these fields into production RAG inputs.",
+  "cases": [
+    {"patient_id": "14", "answer_organism": "Candida tropicalis", "expected_in_production_queue": true},
+    {"patient_id": "14", "answer_organism": "HSV-1", "expected_in_production_queue": true},
+    {"patient_id": "25", "answer_organism": "COVID-19", "expected_in_production_queue": true},
+    {"patient_id": "29", "answer_organism": "Corynebacterium striatum", "expected_in_production_queue": true},
+    {"patient_id": "30", "answer_organism": "Bacteroides fragilis", "expected_in_production_queue": true},
+    {"patient_id": "32", "answer_organism": "Corynebacterium striatum", "expected_in_production_queue": true},
+    {"patient_id": "37", "answer_organism": "Corynebacterium striatum", "expected_in_production_queue": true}
+  ]
+}
