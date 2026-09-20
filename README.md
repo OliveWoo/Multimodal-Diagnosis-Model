@@ -1,6 +1,6 @@
-# OBER mNGS Pathogen Pipeline
+# Multimodal-Diagnosis-Model
 
-OBER 是一套從「標準化病人 JSON」整理 mNGS 候選菌、整合病例證據、執行 deterministic v20 與 OBER R5 決策，最後輸出可追溯結果的研究 pipeline。
+此模型是一套從「標準化病人 JSON」整理 mNGS 候選菌、整合病例證據、執行 deterministic v20 與 OBER R5 決策，最後輸出可追溯結果的研究 pipeline。
 
 這個 repository 將原本分散的上游處理、RAG、casefit、clinical rules、rationale 與 delivery 程式整理在同一個專案中，並提供單一流程編排入口。編排器只負責驗證 input/output、呼叫現有階段程式與保存執行紀錄，不會在 main program 內重新實作選菌規則。
 
