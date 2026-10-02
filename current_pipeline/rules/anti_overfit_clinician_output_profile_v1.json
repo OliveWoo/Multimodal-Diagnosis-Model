@@ -1,0 +1,35 @@
+{
+  "schema_version": "kh_anti_overfit_output_profile.v1",
+  "policy_id": "anti_overfit_clinician_output_profile_v1",
+  "status": "research_shadow_not_production_validated",
+  "principles": [
+    "Do not change candidate generation or delete audit evidence.",
+    "Do not use benchmark TP/FP to classify a route.",
+    "Independent exact pathogen-specific evidence may retain high-confidence candidate status.",
+    "Analytical-only, imaging-only, group-to-member, history-supported, technical-repeat, and best-available routes cannot be called production-validated Picked.",
+    "Fallback is visible to physicians only in a separate low-confidence supplement and is excluded from the primary pulmonary-pathogen endpoint.",
+    "Unmapped taxonomy is Audit-only."
+  ],
+  "picked_routes_requiring_provisional_demotion": [
+    "bacterial_analytically_compelling_cross_molecule",
+    "pjp_image_cross_molecule_triangulation",
+    "respiratory_virus_exact_mngs_plus_group_assay"
+  ],
+  "picked_routes_with_independent_direct_support": [
+    "bacterial_targeted_respiratory_assay_bridge",
+    "candida_exact_species_invasive_event",
+    "colonizer_prone_cross_site_convergence",
+    "opportunistic_fungus_direct_support",
+    "respiratory_assay_target"
+  ],
+  "fallback_handling": "doctor_visible_low_confidence_supplement_excluded_from_primary_endpoint",
+  "possible_handling": "retain_as_possible_with_route_specific_caution",
+  "replacement_gate": {
+    "requires_new_untouched_cohort": true,
+    "same_per_test_schema": true,
+    "same_pulmonary_endpoint": true,
+    "recall_not_below_legacy_A": true,
+    "f1_above_legacy_A": true,
+    "family_specific_false_positive_review_required": true
+  }
+}

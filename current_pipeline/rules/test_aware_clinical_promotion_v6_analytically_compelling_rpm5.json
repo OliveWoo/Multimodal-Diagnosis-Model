@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.2.0",
+  "policy_id": "test_aware_clinical_promotion_v6_analytically_compelling_rpm5",
+  "mode": "answer_blind_shadow",
+  "allow_analytical_only_bacterial_promotion": false,
+  "require_event_aligned_direct_evidence": true,
+  "direct_evidence_event_window_hours": 48,
+  "targeted_respiratory_assay_bridge": {
+    "enabled": true,
+    "allowed_families": [
+      "typical_respiratory_pathogen",
+      "hospital_or_nonfermenter_gnb"
+    ],
+    "allowed_mapping_statuses": ["exact_species"],
+    "maximum_rank": 3,
+    "minimum_positive_tests": 3,
+    "require_reproducibility": true,
+    "require_cross_molecule": true,
+    "require_exact_or_alias_hospital_evidence": true,
+    "require_event_aligned_positive_observation": true,
+    "output_role": "possible_concurrent_pathogen"
+  },
+  "analytically_compelling_picked": {
+    "enabled": true,
+    "allowed_families": [
+      "typical_respiratory_pathogen",
+      "hospital_or_nonfermenter_gnb"
+    ],
+    "allowed_mapping_statuses": ["exact_species"],
+    "maximum_rank": 3,
+    "minimum_positive_tests": 3,
+    "minimum_tests_at_or_above_rpm_threshold": 2,
+    "per_test_rpm_threshold": 5.0,
+    "accepted_qc_statuses": ["evaluable", "partial_evaluable"],
+    "require_reproducibility": true,
+    "require_cross_molecule": true,
+    "require_all_selected_tests_normalized": true,
+    "block_explicit_colonization": true,
+    "block_explicit_current_not_infection": true,
+    "output_role": "analytical_picked"
+  },
+  "pjp_verified_host_assertions": [
+    "verified_active_exposure",
+    "verified_high_risk_host",
+    "verified_immunosuppression"
+  ],
+  "generic_identity_terms": [
+    "identification to follow",
+    " evidence",
+    " spp",
+    " group",
+    " complex"
+  ],
+  "candida_group_identity_terms": [
+    "yeast",
+    "candida evidence",
+    "candida spp",
+    "candida species"
+  ],
+  "candida_invasive_evidence": {
+    "event_window_hours": 48,
+    "sterile_specimen_categories": ["Sterile_Site", "Blood", "Tissue"],
+    "sterile_specimen_terms": [
+      "blood", "sterile", "tissue", "pleural", "cerebrospinal", "csf", "abscess"
+    ],
+    "explicit_positive_terms": [
+      " isolated", " detected", " positive", "grew", "growth"
+    ],
+    "explicit_negative_terms": [
+      "not detected", "no growth", "negative", "not isolated"
+    ]
+  },
+  "bacterial_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb"
+  ],
+  "blocked_without_invasive_evidence_families": [
+    "herpes_or_reactivation_virus",
+    "oral_aspiration_or_anaerobe",
+    "skin_airway_colonizer_prone",
+    "gi_urinary_or_nonpulmonary_prone"
+  ],
+  "compatible_specimen_contexts": [
+    "lower_respiratory",
+    "sterile_or_systemic"
+  ],
+  "thresholds": {
+    "bacterial_reproducible_max_rank": 3,
+    "direct_supported_max_rank": 10,
+    "opportunistic_max_rank": 10,
+    "environmental_max_rank": 3,
+    "minimum_reproduced_tests": 2
+  },
+  "constraints": [
+    "This is an answer-blind development shadow and does not overwrite frozen promotion v4 or targeted-assay v5.",
+    "V5 direct-evidence promotion remains available and is evaluated before the analytical route.",
+    "The analytical route requires exact-species taxonomy, at least three selected positive tests, DNA/RNA concordance, best rank three or better, full per-test normalization coverage, and at least two per-test RPM values at or above five.",
+    "Partial-evaluable QC is accepted in the primary RPM-5 development shadow only when normalization is available for every selected test; a full-QC-only sensitivity is reported separately.",
+    "Explicit candidate-matched colonization or current-not-infection evidence blocks analytical promotion.",
+    "Reads and RPM remain per-test evidence and are never summed across tests.",
+    "History evidence consumed upstream cannot be reused as an independent promotion axis.",
+    "Candidates that fail the route remain High or enter the existing Possible/Context reporting logic; they are not deleted.",
+    "All other v4/v5 family-specific promotion routes remain unchanged.",
+    "Benchmark answers are used only after answer-blind outputs are frozen."
+  ]
+}

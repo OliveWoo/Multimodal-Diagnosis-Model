@@ -1,0 +1,27 @@
+{
+  "schema_version": "4.2.0",
+  "policy_id": "test_aware_history_route_v4c_combined",
+  "policy_role": "frozen_combined_history_route_shadow",
+  "base_policy": "test_aware_history_route_v4b.json",
+  "base_policy_sha256": "d781d08ed26194ff8946c09f01320b8a9d8e775e62f294645359a8da3a434ab2",
+  "combined_modules": [
+    "aspiration",
+    "opportunistic_host_risk",
+    "hap_mdr_exposure",
+    "reactivation_interpretation",
+    "colonization_interpretation"
+  ],
+  "merge_contract": {
+    "behavior_change_from_v4b": false,
+    "maximum_route_movement_per_candidate": 1,
+    "candidate_deletion_allowed": false,
+    "history_only_picked_allowed": false,
+    "consumed_history_reuse_as_independent_support_allowed": false,
+    "missing_evidence_treated_as_negative": false
+  },
+  "constraints_append": [
+    "v4C is the frozen combined history-route snapshot; it intentionally introduces no scoring behavior beyond the validated v4A and v4B modules.",
+    "Every run must persist the fully resolved policy snapshot and composition chain so the combined behavior remains reconstructable even if an overlay file later changes.",
+    "Priority-to-Picked remains a separate downstream audit and is not granted by this combined history policy."
+  ]
+}

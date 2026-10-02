@@ -1,0 +1,101 @@
+{
+  "schema_version": "phenotype_candidate_policy_v1.0",
+  "policy_version": "phenotype_candidate_shadow_v1.1",
+  "description": "Answer-blind routing from organism taxonomy families to clinically relevant pneumonia phenotypes.",
+  "global_constraints": [
+    "Keep a compact overview of all 22 phenotypes for every candidate.",
+    "Taxonomy routing selects which phenotype evidence is expanded; it never removes the full overview.",
+    "Phenotype evidence cannot create a candidate or directly change deterministic Picked.",
+    "Only QC-passed medium/high-confidence YES evidence from PRE_PNEUMONIA or AT_ONSET may act as an etiologic prior.",
+    "NO means not established and is not negative evidence.",
+    "AFTER_ONSET is outcome or context and cannot establish etiology.",
+    "Severity phenotypes do not identify a pathogen.",
+    "Direct organism evidence remains separate from phenotype context."
+  ],
+  "families": {
+    "typical_respiratory_pathogen": {
+      "phenotypes": {
+        "HAP_PHENOTYPE": "setting_support",
+        "VAP_PHENOTYPE": "setting_support",
+        "STRUCTURAL_LUNG_DISEASE": "host_plausibility",
+        "TRACHEOSTOMY_OR_CHRONIC_AIRWAY": "airway_context"
+      }
+    },
+    "hospital_or_nonfermenter_gnb": {
+      "phenotypes": {
+        "RECENT_HOSPITALIZATION_90D": "healthcare_exposure",
+        "RECENT_IV_ANTIBIOTICS_90D": "selection_pressure",
+        "PRIOR_MDR_COLONIZATION_OR_INFECTION": "resistance_context",
+        "MDR_GNB_RISK": "resistance_context",
+        "PSEUDOMONAS_RISK": "organism_family_plausibility",
+        "HAP_PHENOTYPE": "setting_support",
+        "VAP_PHENOTYPE": "setting_support",
+        "TRACHEOSTOMY_OR_CHRONIC_AIRWAY": "airway_context"
+      }
+    },
+    "high_consequence_opportunistic": {
+      "phenotypes": {
+        "IMMUNOCOMPROMISED": "host_plausibility",
+        "FUNGAL_INFECTION_RISK": "host_plausibility"
+      }
+    },
+    "mold_or_opportunistic_fungus": {
+      "phenotypes": {
+        "IMMUNOCOMPROMISED": "host_plausibility",
+        "FUNGAL_INFECTION_RISK": "host_plausibility",
+        "STRUCTURAL_LUNG_DISEASE": "lung_context"
+      }
+    },
+    "candida_or_yeast": {
+      "phenotypes": {
+        "IMMUNOCOMPROMISED": "host_plausibility_only",
+        "FUNGAL_INFECTION_RISK": "host_plausibility_only",
+        "TRACHEOSTOMY_OR_CHRONIC_AIRWAY": "colonization_caution"
+      }
+    },
+    "herpes_or_reactivation_virus": {
+      "phenotypes": {
+        "IMMUNOCOMPROMISED": "reactivation_and_disease_context",
+        "FUNGAL_INFECTION_RISK": "shared_opportunistic_host_context"
+      }
+    },
+    "oral_aspiration_or_anaerobe": {
+      "phenotypes": {
+        "ASPIRATION_RISK": "syndrome_support",
+        "ANAEROBIC_RISK": "syndrome_support",
+        "COMPLICATED_PNEUMONIA": "abscess_empyema_necrosis_context"
+      }
+    },
+    "skin_airway_colonizer_prone": {
+      "phenotypes": {
+        "TRACHEOSTOMY_OR_CHRONIC_AIRWAY": "colonization_caution",
+        "STRUCTURAL_LUNG_DISEASE": "colonization_caution",
+        "BACTEREMIA": "systemic_context_not_exact_species_support"
+      }
+    },
+    "environmental_low_specificity": {
+      "phenotypes": {
+        "TRACHEOSTOMY_OR_CHRONIC_AIRWAY": "device_context_not_direct_support",
+        "IMMUNOCOMPROMISED": "host_plausibility_only"
+      }
+    },
+    "gi_urinary_or_nonpulmonary_prone": {
+      "phenotypes": {
+        "BACTEREMIA": "systemic_context_not_pulmonary_support",
+        "ASPIRATION_RISK": "possible_route_context_only"
+      }
+    },
+    "other_respiratory_virus": {
+      "phenotypes": {
+        "IMMUNOCOMPROMISED": "host_plausibility",
+        "HAP_PHENOTYPE": "setting_context"
+      }
+    },
+    "commensal_virome_or_endogenous_element": {
+      "phenotypes": {}
+    },
+    "unmapped_or_uncertain": {
+      "phenotypes": {}
+    }
+  }
+}

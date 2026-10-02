@@ -1,0 +1,25 @@
+{
+  "schema_version": "kh_evaluation_target.v1",
+  "policy_id": "pulmonary_pathogen_primary_endpoint_v1",
+  "status": "user_confirmed_2026-10-01",
+  "primary_question": "Which organisms are plausible causes of the index pneumonia episode?",
+  "inclusion": [
+    "Organisms explicitly adjudicated as causes of the index pneumonia episode.",
+    "Respiratory-specimen diagnoses linked to the index episode.",
+    "Blood, plasma, or sterile-site organisms only when a blinded clinical adjudicator links the same organism and event to pneumonia."
+  ],
+  "exclusion": [
+    "Organisms explicitly labeled urine-only, urinary-tract-only, stool-only, wound-only, or another nonpulmonary episode without pneumonia linkage.",
+    "Colonization, contamination, resolved prior infection, and asymptomatic shedding when explicitly documented.",
+    "Organisms inferred as pulmonary only because the model predicted them."
+  ],
+  "ambiguous": [
+    "Unqualified bloodstream or plasma diagnoses without an episode link require blinded physician adjudication.",
+    "Unqualified workbook diagnoses remain unresolved rather than being reclassified from model output."
+  ],
+  "leakage_controls": [
+    "Adjudication must be performed without seeing model tier, rule, or benchmark outcome.",
+    "The raw all-clinical-pathogen contract remains immutable and is never overwritten.",
+    "Pulmonary-only labels are a separate sensitivity endpoint with source and reason for every inclusion or exclusion."
+  ]
+}

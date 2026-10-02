@@ -1,0 +1,55 @@
+{
+  "schema_version": "kh_ablation_common_contract.v1",
+  "contract_id": "KH_ABLATION_A_G_COMMON_V1",
+  "primary_endpoint": "strict_formal_picked",
+  "secondary_endpoints": [
+    "picked_plus_high",
+    "complete_visible_picked_high_context"
+  ],
+  "common_controls": {
+    "patient_source": "frozen_A_patient_selection",
+    "expected_patient_count": 33,
+    "answer_source": "frozen_A_answer_contract",
+    "expected_labeled_patient_count": 30,
+    "expected_answer_organism_count": 60,
+    "matching_policy": "exact_or_alias_plus_approved_group_member_no_generic_genus",
+    "answer_use": "posthoc_only_after_answer_blind_output_freeze",
+    "ober_in_primary_ablation": false
+  },
+  "factor_matrix": {
+    "A": {"mngs": "old", "scorer": "old", "taxonomy": "old", "history": "old"},
+    "B": {"mngs": "new", "scorer": "old", "taxonomy": "old", "history": "old"},
+    "C": {"mngs": "new", "scorer": "new", "taxonomy": "old", "history": "old"},
+    "D": {"mngs": "old", "scorer": "old", "taxonomy": "old", "history": "new"},
+    "E": {"mngs": "old", "scorer": "old", "taxonomy": "new", "history": "old"},
+    "G": {"mngs": "new", "scorer": "new", "taxonomy": "new", "history": "old"},
+    "F": {"mngs": "new", "scorer": "new", "taxonomy": "new", "history": "new"}
+  },
+  "normalized_candidate_schema": {
+    "required_fields": [
+      "ablation_group",
+      "patient_id",
+      "organism_name",
+      "endpoint",
+      "before_state",
+      "after_state",
+      "change_type",
+      "answer_status",
+      "rule_ids",
+      "evidence_ids"
+    ],
+    "allowed_primary_tiers": ["Picked", "Not_Picked"],
+    "allowed_reporting_tiers": ["Picked", "High", "Context", "Audit", "Hold"],
+    "missing_values": "empty_string_means_not_applicable_never_negative_evidence"
+  },
+  "promotion_contract": {
+    "included_in_factor_matrix": false,
+    "application": "reported_separately_after_deterministic_scorer",
+    "history_evidence_reuse": "forbidden_as_independent_axis"
+  },
+  "possible_contract": {
+    "included_in_primary_endpoint": false,
+    "application": "separate_reporting_role",
+    "changes_formal_picked": false
+  }
+}

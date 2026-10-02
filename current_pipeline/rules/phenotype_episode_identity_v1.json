@@ -1,0 +1,36 @@
+{
+  "schema_version": "phenotype_episode_identity.v1",
+  "decision_source": "user_confirmed_2026-09-30",
+  "scope": "Phenotype export identity and infection-episode separation only; no organism tier effect.",
+  "clusters": [
+    {
+      "members": [9, 11],
+      "patient_identity": "same_patient_confirmed",
+      "episode_relationship": "distinct_pneumonia_episodes_confirmed",
+      "action": "keep_separate"
+    },
+    {
+      "members": [25, 26, 27],
+      "patient_identity": "same_patient_confirmed",
+      "episode_relationship": "distinct_pneumonia_episodes_confirmed",
+      "action": "keep_separate"
+    },
+    {
+      "members": [29, 31],
+      "patient_identity": "same_patient_confirmed",
+      "episode_relationship": "distinct_pneumonia_episodes_confirmed",
+      "action": "keep_separate"
+    },
+    {
+      "members": [33, 34],
+      "patient_identity": "same_patient_confirmed",
+      "episode_relationship": "distinct_pneumonia_episodes_confirmed",
+      "action": "keep_separate"
+    }
+  ],
+  "constraints": [
+    "Never merge evidence across these episode identifiers.",
+    "Do not count detections from another episode as independent support for the index pneumonia.",
+    "Within each episode, the fixed index-mNGS plus or minus 48-hour evidence window still applies."
+  ]
+}

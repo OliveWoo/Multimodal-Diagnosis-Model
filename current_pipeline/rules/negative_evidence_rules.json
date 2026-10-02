@@ -1,0 +1,108 @@
+{
+  "schema_version": "negative_evidence_rules_v1",
+  "profile_version": "candidate_evidence_profile_v1",
+  "direct_hospital_modules": [
+    "culture",
+    "filmarray_gmtest",
+    "molecular_microbiology"
+  ],
+  "negative_evidence": {
+    "NO_SAME_ORGANISM_HOSPITAL_SUPPORT": {
+      "enabled": true,
+      "detail": "No exact/alias hospital evidence for this organism."
+    },
+    "NON_DOMINANT_MNGS": {
+      "enabled": true,
+      "tier_prefixes": ["D0", "D1"],
+      "detail_template": "mNGS dominance is {dominance_tier}."
+    },
+    "LOW_MNGS_SIGNAL": {
+      "enabled": true,
+      "tier_prefixes": ["R0", "R1"],
+      "detail_template": "mNGS reads tier is {reads_tier}."
+    },
+    "NO_NON_HOST_CONVERGENT_SUPPORT": {
+      "enabled": true,
+      "weak_support_modules": ["", "host", "mngs"],
+      "detail": "Evidence is mNGS/host-only without convergent hospital support."
+    },
+    "NON_LOWER_RESPIRATORY_SPECIMEN": {
+      "enabled": true,
+      "accepted_specimen_classes": ["S2_lower_respiratory"],
+      "detail_template": "Specimen class is {specimen_class}."
+    },
+    "COMPETING_FORMAL_PATHOGENS_PRESENT": {
+      "enabled": true,
+      "detail_prefix": "Formal picked competitors: "
+    },
+    "FORMAL_PICK_EXCLUSION_RULE": {
+      "enabled": true
+    },
+    "CANDIDA_NO_STRONG_INVASIVE_EVIDENCE": {
+      "enabled": true,
+      "detail_template": "Candida evidence strength is {best_strength}; no same-species strong invasive evidence is present."
+    }
+  },
+  "candida_evidence": {
+    "strengths": {
+      "strong": "strong_invasive",
+      "intermediate": "intermediate_systemic_or_invasive_clue",
+      "weak": "weak_noninvasive_or_colonization"
+    },
+    "row_text_fields": [
+      "specimen_type",
+      "specimen_category",
+      "sample",
+      "sample_type",
+      "source",
+      "site",
+      "body_site",
+      "test",
+      "method",
+      "comment",
+      "note"
+    ],
+    "strong_invasive": {
+      "specimen_category_keys": ["blood", "sterilesite", "cns"],
+      "terms": [
+        "blood",
+        "csf",
+        "pleural",
+        "peritoneal",
+        "ascites",
+        "synovial",
+        "tissue",
+        "biopsy",
+        "sterile",
+        "abscess",
+        "pus",
+        "histopathology",
+        "histology",
+        "\u8840",
+        "\u8166\u810a\u9ad3",
+        "\u80f8\u6c34",
+        "\u8179\u6c34",
+        "\u95dc\u7bc0\u6db2",
+        "\u7d44\u7e54"
+      ],
+      "basis": "blood/sterile-site/tissue/pleural/abscess/histopathology evidence"
+    },
+    "intermediate_systemic_or_invasive_clue": {
+      "terms": [
+        "bdg",
+        "b-d-glucan",
+        "beta-d-glucan",
+        "beta d glucan",
+        "fungitell",
+        "mannan",
+        "antimannan",
+        "serum fungal marker",
+        "fungal marker"
+      ],
+      "basis": "systemic fungal marker or invasive-candidiasis clue"
+    },
+    "weak_noninvasive_or_colonization": {
+      "basis": "respiratory, urine, mucosal, or other non-sterile Candida evidence"
+    }
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "schema_version": "4.0.0",
+  "policy_id": "test_aware_history_route_v4a_reactivation_only",
+  "mode": "answer_blind_shadow",
+  "route_order": [
+    "Hold",
+    "Audit",
+    "Context",
+    "Priority"
+  ],
+  "decision_to_analytic_route": {
+    "picked_shadow": "Priority",
+    "review_high_priority": "Priority",
+    "review_context_needed": "Context",
+    "review_low_specificity": "Audit",
+    "hold": "Hold"
+  },
+  "aspiration_family": "oral_aspiration_or_anaerobe",
+  "opportunistic_families": [
+    "high_consequence_opportunistic",
+    "mold_or_opportunistic_fungus"
+  ],
+  "hap_mdr_family": "hospital_or_nonfermenter_gnb",
+  "reactivation_family": "herpes_or_reactivation_virus",
+  "history_patterns": {
+    "explicit_aspiration_event": [
+      "aspiration pneumonia",
+      "aspiration pneumonitis"
+    ],
+    "possible_aspiration_event": [
+      "choking related"
+    ],
+    "durable_anatomic_risk": [
+      "esophagus stenosis",
+      "esophageal stenosis",
+      "oesophagus stenosis",
+      "oesophageal stenosis",
+      "feeding jejunostomy",
+      "feeding gastrostomy",
+      "invasion to vocal cord",
+      "dysphagia"
+    ],
+    "durable_neurologic_risk": [
+      "acute infarction",
+      "stroke",
+      "neurological deterioration"
+    ]
+  },
+  "opportunistic_history_patterns": {
+    "hematologic_malignancy_or_cellular_therapy": [
+      "acute leukemia",
+      "acute leukaemia",
+      "b-cell lymphoma",
+      "b cell lymphoma",
+      "lymphoma with marrow involvement",
+      "bone marrow involvement",
+      "car-t",
+      "car t",
+      "stem cell transplant",
+      "hematopoietic stem cell transplant",
+      "haematopoietic stem cell transplant",
+      "hsct"
+    ],
+    "systemic_immunosuppressive_therapy": [
+      "prednisolone",
+      "prednisone",
+      "methotrexate",
+      "rituximab",
+      "r-epoch",
+      "r-gdp",
+      "r-dhap",
+      "cyclophosphamide",
+      "dexamethasone",
+      "tacrolimus",
+      "mycophenolate",
+      "cyclosporine",
+      "sirolimus",
+      "chemotherapy"
+    ],
+    "cytopenia_high_risk": [
+      "pancytopenia",
+      "neutropenia",
+      "agranulocytosis"
+    ],
+    "solid_tumor_or_targeted_therapy_context": [
+      "adenocarcinoma",
+      "carcinoma",
+      "cancer",
+      "neoplasm",
+      "target therapy",
+      "sunitinib",
+      "entrectinib"
+    ],
+    "nonspecific_host_susceptibility_context": [
+      "diabetes mellitus",
+      "chronic kidney disease",
+      "end-stage renal disease",
+      "esrd",
+      "liver cirrhosis",
+      "malnutrition",
+      "nephrotic syndrome"
+    ]
+  },
+  "hap_mdr_history_patterns": {
+    "hap_setting": [
+      "hospital-acquired pneumonia",
+      "hospital acquired pneumonia",
+      "hap ("
+    ],
+    "healthcare_associated_setting": [
+      "healthcare-associated pneumonia",
+      "healthcare associated pneumonia",
+      "hcap ("
+    ],
+    "airway_device_exposure": [
+      "tracheostomy",
+      "tracheostomy tube"
+    ],
+    "prior_mdr_klebsiella": [
+      "crkp",
+      "carbapenem-resistant klebsiella pneumoniae",
+      "carbapenem resistant klebsiella pneumoniae"
+    ],
+    "prior_mdr_acinetobacter": [
+      "crab",
+      "carbapenem-resistant acinetobacter baumannii",
+      "carbapenem resistant acinetobacter baumannii"
+    ],
+    "generic_mdr_context": [
+      "multidrug-resistant",
+      "multidrug resistant",
+      "mdr organism"
+    ]
+  },
+  "reactivation_history_patterns": {
+    "resolved_or_asymptomatic_shedding": [
+      "resolved cmv reactivation",
+      "resolved hsv reactivation",
+      "resolved viral reactivation",
+      "asymptomatic cmv shedding",
+      "asymptomatic hsv shedding",
+      "asymptomatic viral shedding",
+      "without end-organ disease",
+      "no end-organ disease"
+    ],
+    "explicit_current_reactivation": [
+      "cmv reactivation",
+      "cytomegalovirus reactivation",
+      "hsv reactivation",
+      "herpes simplex reactivation",
+      "vzv reactivation",
+      "varicella-zoster reactivation",
+      "hhv-6 reactivation",
+      "hhv6 reactivation",
+      "hhv-7 reactivation",
+      "hhv7 reactivation"
+    ],
+    "prior_or_suspected_infection": [
+      "herpes simplex infection history",
+      "history of hsv",
+      "history of herpes simplex",
+      "history of cmv",
+      "history of cytomegalovirus",
+      "prior hsv infection",
+      "prior cmv infection",
+      "suspect herpes simplex infection history",
+      "herpes zoster"
+    ],
+    "current_infection_timing_unresolved": [
+      "hsv (herpes simplex virus) infection",
+      "herpes simplex virus infection",
+      "cytomegalovirus (cmv) infection",
+      "cytomegalovirus infection",
+      "cmv infection",
+      "disseminated varicella-zoster virus",
+      "disseminated vzv"
+    ],
+    "quantitative_or_tissue_evidence": [
+      "quantitative pcr",
+      "qpcr",
+      "viral load",
+      "copies/ml",
+      "iu/ml",
+      "histopathology",
+      "immunohistochemistry",
+      "lung tissue"
+    ],
+    "compatible_pulmonary_syndrome": [
+      "pneumonia",
+      "pneumonitis",
+      "pulmonary",
+      "lung infiltrate",
+      "hypoxia",
+      "respiratory failure"
+    ]
+  },
+  "reactivation_candidate_terms": {
+    "humanalphaherpesvirus1": [
+      "human alphaherpesvirus 1",
+      "herpes simplex virus",
+      "herpes simplex",
+      "hsv-1",
+      "hsv1",
+      "hsv"
+    ],
+    "humanalphaherpesvirus2": [
+      "human alphaherpesvirus 2",
+      "herpes simplex virus",
+      "herpes simplex",
+      "hsv-2",
+      "hsv2",
+      "hsv"
+    ],
+    "humanalphaherpesvirus3": [
+      "human alphaherpesvirus 3",
+      "varicella-zoster",
+      "varicella zoster",
+      "herpes zoster",
+      "vzv"
+    ],
+    "humanbetaherpesvirus5": [
+      "human betaherpesvirus 5",
+      "cytomegalovirus",
+      "cmv"
+    ],
+    "humanbetaherpesvirus6a": [
+      "human betaherpesvirus 6a",
+      "hhv-6a",
+      "hhv6a",
+      "hhv-6",
+      "hhv6"
+    ],
+    "humanbetaherpesvirus6b": [
+      "human betaherpesvirus 6b",
+      "hhv-6b",
+      "hhv6b",
+      "hhv-6",
+      "hhv6"
+    ],
+    "humanbetaherpesvirus7": [
+      "human betaherpesvirus 7",
+      "hhv-7",
+      "hhv7"
+    ],
+    "humangammaherpesvirus4": [
+      "human gammaherpesvirus 4",
+      "epstein-barr",
+      "epstein barr",
+      "ebv"
+    ]
+  },
+  "analytical_thresholds": {
+    "context_to_priority_max_rank": 3,
+    "audit_to_context_min_positive_tests": 1,
+    "audit_to_context_max_rank": 10,
+    "audit_to_context_max_representatives_per_patient": 2
+  },
+  "opportunistic_analytical_thresholds": {
+    "context_to_priority_max_rank": 10,
+    "context_to_priority_min_positive_tests": 2,
+    "audit_to_context_max_rank": 10,
+    "audit_to_context_min_positive_tests": 2,
+    "max_adjusted_representatives_per_patient": 2
+  },
+  "hap_mdr_analytical_thresholds": {
+    "setting_context_to_priority_max_rank": 5,
+    "exact_mdr_context_to_priority_max_rank": 10,
+    "context_to_priority_min_positive_tests": 2,
+    "audit_to_context_max_rank": 10,
+    "audit_to_context_min_positive_tests": 2,
+    "max_adjusted_representatives_per_patient": 2
+  },
+  "reactivation_analytical_thresholds": {
+    "weak_signal_min_rank_exclusive": 10,
+    "weak_signal_max_positive_tests": 1,
+    "context_to_priority_max_rank": 5,
+    "context_to_priority_min_positive_tests": 2
+  },
+  "reactivation_future_picked_gate_requirements": [
+    "Independent evidence not consumed by history routing",
+    "Disease-specific quantitative PCR trend, tissue evidence, or validated exact-organism microbiology",
+    "Compatible organ syndrome and specimen",
+    "No stronger alternative explanation",
+    "Separate frozen Priority-to-Picked benchmark review before enabling promotion"
+  ],
+  "strict_aspiration_anaerobe_genus_terms": [
+    "actinomyces",
+    "bacteroides",
+    "dialister",
+    "finegoldia",
+    "fusobacterium",
+    "parabacteroides",
+    "parvimonas",
+    "peptostreptococcus",
+    "phocaeicola",
+    "porphyromonas",
+    "prevotella",
+    "segatella",
+    "veillonella"
+  ],
+  "constraints": [
+    "History may move a candidate by at most one route level in this stage.",
+    "Aspiration, opportunistic-host-risk, and HAP/MDR behavior is unchanged from v3.",
+    "Reactivation v4A applies only to herpes_or_reactivation_virus candidates with candidate-matched direct-source history.",
+    "Prior infection, suspected infection, serostatus, or timing-unresolved infection is context only and cannot change route.",
+    "Resolved reactivation or asymptomatic shedding may move Context to Audit only when the current mNGS signal is single-test, non-reproducible, non-cross-molecule, and rank worse than ten.",
+    "Context-to-Priority requires explicit current reactivation, quantitative/tissue evidence, compatible pulmonary syndrome, rank at most five, at least two positive tests, and reproducibility.",
+    "Reactivation history never directly creates Picked; every reactivation Priority is flagged for a later independent Priority-to-Picked gate audit.",
+    "Evidence consumed by this stage is recorded and cannot be reused as an independent High-to-Picked axis.",
+    "Missing evidence, timing, quantity, or phenotype is unknown and never treated as negative.",
+    "The policy is answer blind and does not read benchmark labels."
+  ]
+}

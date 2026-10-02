@@ -1,0 +1,1539 @@
+{
+  "schema_version": "organism_taxonomy_auto_v1",
+  "purpose": "Deterministically validated, organism-only LLM classifications. These profiles never establish patient-level causality or a Picked result.",
+  "exact_profiles": {
+    "aeromonascaviae": {
+      "rule_id": "TAX-AUTO-AEROMONASCAVIAE",
+      "taxid": 648,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "gi_urinary_or_nonpulmonary_prone",
+      "secondary_rule_families": [
+        "environmental_low_specificity"
+      ],
+      "clinical_traits": [
+        "Aquatic environmental reservoir",
+        "Bacteremia, often in patients with underlying disease",
+        "Hepatobiliary infection and liver abscess",
+        "Human gastroenteritis and bloody diarrhea"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "871354b536cf1c34228f2a39f584d51574ec379663ba11102646ec0dae2feb8f",
+        "rationale": "Repeated species-specific human evidence supports the gastrointestinal or other nonpulmonary family (37849821, 23163893, 41716971). Aquatic ecology supports environmental_low_specificity as a secondary family; the supplied articles do not establish a typical respiratory role.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=648"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23163893/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37849821/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41716971/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8054435/"
+          }
+        ],
+        "source_pack_sha256": "50192ba9b206645860b8336819bce493b9e009c5f9779699e19af0e36fbca890"
+      }
+    },
+    "aggregatibacteraphrophilus": {
+      "rule_id": "TAX-AUTO-AGGREGATIBACTERAPHROPHILUS",
+      "taxid": 732,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Associated with dental infection and rare invasive human infections",
+        "Fastidious Gram-negative HACEK bacterium",
+        "Oral and oropharyngeal flora"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "e6affcd4a676b2883ea330f6545aae783ddcc2b7eea98439df8c234979428fcd",
+        "rationale": "The oral_aspiration_or_anaerobe family explicitly includes oral bacteria. A. aphrophilus is identified as an oral bacterium and oropharyngeal flora, with dental associations in reported human infections (PMIDs 40574274, 38683524, 38046225, 24529567).",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=732"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24529567/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32675123/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38046225/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38683524/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40574274/"
+          }
+        ],
+        "source_pack_sha256": "aaf4f13a1a56e11610baf06e7f2f13268154c8cd9bcbea277a4f6270194a095d"
+      }
+    },
+    "aggregatibactersegnis": {
+      "rule_id": "TAX-AUTO-AGGREGATIBACTERSEGNIS",
+      "taxid": 739,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Detected in subgingival biofilm and tongue coating",
+        "Human oral and oropharyngeal flora",
+        "No supplied evidence establishes it as a typical pulmonary pathogen",
+        "Rare invasive infections include endocarditis, subdural empyema, and skin or soft tissue infection"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "36a9b331fee3db8089bfe3f6ffaec696b1363c2b00b064424736152aa3f1faa5",
+        "rationale": "Multiple supplied studies place A. segnis in human oral or oropharyngeal flora (PMIDs 37158846, 41160190, 36085010). Rare invasive cases support pathogenic potential, while the supplied literature does not establish a typical respiratory role. The oral_aspiration_or_anaerobe family is therefore supported as an organism-level taxonomy rule.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=739"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36085010/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36748613/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37158846/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40830754/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41160190/"
+          }
+        ],
+        "source_pack_sha256": "c38c6f2c3bbffbcf71acb03548fe2e2f4fb99d84be5d4987d7570da6dd096a98"
+      }
+    },
+    "bacilluscereus": {
+      "rule_id": "TAX-AUTO-BACILLUSCEREUS",
+      "taxid": 1396,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "gi_urinary_or_nonpulmonary_prone",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Extraintestinal disease reported, including eye and central nervous system disease",
+        "Well documented cause of food poisoning"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "5bfbb56d98e55d85d426742f6f1ef7f25afa143d5b944d73c87a988c6be7529d",
+        "rationale": "The explicit, review-level food poisoning evidence supports the allowed gastrointestinal or nonpulmonary family. The sparse records on severe extraintestinal disease do not establish a more specific primary family.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1396"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25892750/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33919248/"
+          }
+        ],
+        "source_pack_sha256": "d52b3e891be0b65435116941ded36958c5ca5835eb3c812aa3dc07e3c234642f"
+      }
+    },
+    "bacillusmycoides": {
+      "rule_id": "TAX-AUTO-BACILLUSMYCOIDES",
+      "taxid": 1405,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Environmental, soil-associated Bacillus cereus group bacterium",
+        "Rarely reported human bloodstream infection",
+        "Spore-forming"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "fc22c6389b5393f5bc3cf7fd97eedfdb1c13d123cd9e3b0aa5987f05ea2586e3",
+        "rationale": "Multiple supplied studies identify B. mycoides in soil or other environmental sources (PMIDs 34287030, 30268676, 32338377). The single reported human bloodstream case supports rare pathogenic potential without establishing a respiratory disease pattern (PMID 31391330). This supports the environmental_low_specificity family.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1405"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30268676/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31391330/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32338377/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34287030/"
+          }
+        ],
+        "source_pack_sha256": "5fbb9d8e0a7c3a0333179a2500649c83705c992a38ae224e29884db377fba19f"
+      }
+    },
+    "brucellaintermedia": {
+      "rule_id": "TAX-AUTO-BRUCELLAINTERMEDIA",
+      "taxid": 94625,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "hospital_or_nonfermenter_gnb",
+      "secondary_rule_families": [
+        "environmental_low_specificity"
+      ],
+      "clinical_traits": [
+        "Aerobic, nonfermenting Gram-negative rod",
+        "Four species-identified infections in a retrospective case series",
+        "Rare opportunistic human pathogen"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "e3be11538a28fcdfd54dc3feba184855b36b40e60f56eef876dc7d155bcc1c0c",
+        "rationale": "The documented nonfermenting phenotype and human opportunistic infections support the hospital_or_nonfermenter_gnb family. Environmental isolates support environmental_low_specificity as a secondary family. These are organism-level traits, not a determination about any patient.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=94625"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35343769/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36768429/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38459363/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40559530/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41249985/"
+          }
+        ],
+        "source_pack_sha256": "82d1c2a7b45d074f1e7127b6f334bafa12e4e3f1ba46f4ac2f08da5cc81be0d8"
+      }
+    },
+    "campylobactergracilis": {
+      "rule_id": "TAX-AUTO-CAMPYLOBACTERGRACILIS",
+      "taxid": 824,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Detected in endodontic and peri-implant infections",
+        "Human oral and subgingival bacterium",
+        "Reported from nonoral head, neck, and lung infections"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "7981fa8bda5f37fb5c897a4b4ebc22169120a9df41e4401bfd4c7bf9f8e94477",
+        "rationale": "Repeated human oral-community findings and evidence from endodontic and peri-implant infections support the oral_aspiration_or_anaerobe family. The lung-infection mention supports possibility but provides no patient-level causal evidence (26383656).",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=824"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12657143/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23527870/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26383656/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9310682/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9495612/"
+          }
+        ],
+        "source_pack_sha256": "9e48e595613d504356287a71751cca80944058d95fa78ad01ab83045e964c787"
+      }
+    },
+    "cunninghamellabertholletiae": {
+      "rule_id": "TAX-AUTO-CUNNINGHAMELLABERTHOLLETIAE",
+      "taxid": 90251,
+      "taxonomic_rank": "species",
+      "biological_class": "fungus",
+      "primary_rule_family": "high_consequence_opportunistic",
+      "secondary_rule_families": [
+        "mold_or_opportunistic_fungus"
+      ],
+      "clinical_traits": [
+        "High reported mortality",
+        "Invasive mucormycosis",
+        "Pulmonary and disseminated infection",
+        "Strong association with immunosuppression, neutropenia, transplantation, and other host risk factors"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "0034655be3c3bbebbc7ea00c97f76472482e97edebc647abd93883b0d830a1fa",
+        "rationale": "Multiple supplied human reports and a review consistently describe C. bertholletiae as an invasive Mucorales fungus causing severe, host-risk-dependent disease with high mortality (11444582, 23887023, 27350325, 3060947, 16088464). This supports the high_consequence_opportunistic family.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=90251"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/11444582/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/16088464/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23887023/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/27350325/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/3060947/"
+          }
+        ],
+        "source_pack_sha256": "4d2b369b61ee464fff3b2ac485ae784984b4ee3cefeeeb128244b9f912a0f15a"
+      }
+    },
+    "curvulariahawaiiensis": {
+      "rule_id": "TAX-AUTO-CURVULARIAHAWAIIENSIS",
+      "taxid": 1230527,
+      "taxonomic_rank": "species",
+      "biological_class": "fungus",
+      "primary_rule_family": "mold_or_opportunistic_fungus",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Opportunistic infection associated with host risk factors",
+        "Rare dematiaceous mold",
+        "Reported invasive pulmonary and pleuropericardial infection"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "f0114c1f7464edd0854d66a7dcda4a33699be38cf65c26475b4b6d22eaaeb1e2",
+        "rationale": "Species-specific human invasive infection reports support the allowed mold_or_opportunistic_fungus family. The other supplied articles largely concern plants, environmental isolates, or experimental animals and do not establish additional human clinical patterns.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1230527"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37179313/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42603947/"
+          }
+        ],
+        "source_pack_sha256": "a66fc65c8205d4b343a5340fff36af1f996a2b2e2e01e66aad91e7391e23bc9b"
+      }
+    },
+    "dolosigranulumpigrum": {
+      "rule_id": "TAX-AUTO-DOLOSIGRANULUMPIGRUM",
+      "taxid": 29394,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "skin_airway_colonizer_prone",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Frequent nasal colonization associated with health",
+        "Human nasal and upper respiratory tract commensal",
+        "Rare documented human ocular infection"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "0a90d4fc9bf60ed5a8a1f6976121c1cde9d1e796d12378145a9dbf217cbf8c65",
+        "rationale": "Multiple supplied studies identify D. pigrum as a human nasal or upper respiratory resident (PMIDs 32907957, 37059715). The documented infections are rare and ocular (PMIDs 23841940, 34895780), supporting the airway-colonizer-prone family rather than a typical respiratory pathogen family.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=29394"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/23841940/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32907957/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34895780/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37059715/"
+          }
+        ],
+        "source_pack_sha256": "dad4fec6e47a1ea2991fab4163671e87288d9efe95cbc1bfadc0c15ae2256a98"
+      }
+    },
+    "echoviruse11": {
+      "rule_id": "TAX-AUTO-ECHOVIRUSE11",
+      "taxid": 12078,
+      "taxonomic_rank": "no rank",
+      "biological_class": "virus",
+      "primary_rule_family": "other_respiratory_virus",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Also detected in cerebrospinal fluid from hospitalized patients",
+        "Associated with acute respiratory infection in hospitalized children",
+        "Respiratory cases in the supplied cohort were mild"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "5d0db472af732b80854d45494c1025843f33f4400784cf6d99c724db73656c54",
+        "rationale": "Direct E11 identification in a hospitalized acute respiratory infection cohort supports classification as a non-herpes respiratory virus (PMID 38729515). Cerebrospinal fluid detection shows that E11 also has extrapulmonary relevance (PMID 38488486). The recombinant-virus report and cell-culture antiviral study do not independently establish E11 respiratory infection.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=12078"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38488486/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38729515/"
+          }
+        ],
+        "source_pack_sha256": "46c69bcd8e641a117932b75c407a6f6d442c463b01ff0a778927cd7e76361ab8"
+      }
+    },
+    "faecalibacteriumlongum": {
+      "rule_id": "TAX-AUTO-FAECALIBACTERIUMLONGUM",
+      "taxid": 1851428,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "gi_urinary_or_nonpulmonary_prone",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "butyrate-producing",
+        "frequently detected in healthy adult stool",
+        "human gut-associated",
+        "obligate anaerobe"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "be8259f10a24936f70d43358cbebb7ba20ed46510f993b7a85e7d9b717b89903",
+        "rationale": "Isolation from healthy human feces and repeated species-specific detection in healthy adult stool strongly support a gastrointestinal-associated organism-level rule. This classification describes its usual association, not proven pathogenicity.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1851428"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34059761/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40252217/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40408134/"
+          }
+        ],
+        "source_pack_sha256": "b1b53da59aa55675e8745454ecdd913369893ef2c510fe1b4e4010a52cc4bfee"
+      }
+    },
+    "gbvirusc": {
+      "rule_id": "TAX-AUTO-GBVIRUSC",
+      "taxid": 54290,
+      "taxonomic_rank": "no rank",
+      "biological_class": "virus",
+      "primary_rule_family": "commensal_virome_or_endogenous_element",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Can cause persistent viremia",
+        "Commonly detected in healthy populations",
+        "Human lymphotropic RNA virus",
+        "No convincing association with a specific human disease",
+        "Reported associations with altered HIV outcomes remain debated"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "2493ab1a93d28572595a17d84ffd43cc0f3befdca4bf33f7706cc0986c6b5bc4",
+        "rationale": "The literature consistently characterizes GB virus C as a prevalent human virus without a convincingly established disease association, with studied but debated effects on HIV outcomes. This supports the allowed family for common human virome or immune-status-associated viruses (PMIDs 19055469, 22325031, 15922655).",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=54290"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/11168678/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/11525349/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15922655/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19055469/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/22325031/"
+          }
+        ],
+        "source_pack_sha256": "c2caf4e30e2ddd37dea272fb49de23243f2269ae00b0f34d9973845728decbf3"
+      }
+    },
+    "humanpegivirus": {
+      "rule_id": "TAX-AUTO-HUMANPEGIVIRUS",
+      "taxid": 1758225,
+      "taxonomic_rank": "no rank",
+      "biological_class": "virus",
+      "primary_rule_family": "commensal_virome_or_endogenous_element",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Common human pegivirus viremia, sometimes persistent",
+        "Lymphoid and myeloid cell tropism with immune modulation",
+        "No established direct disease causality or respiratory pathogenicity"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "c8b4dace5716ed87fd2fa66e84c9a78a2f3da1ea9f92521cb1866050c0714bf5",
+        "rationale": "The literature consistently supports placement in the common human virome and immune-associated virus family. Reported lymphoma and Parkinson's disease associations warrant caution but do not establish direct causality (31671178, 40626361).",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1758225"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35096551/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35132924/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35707535/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37043902/"
+          }
+        ],
+        "source_pack_sha256": "b5e0fc0ffcf816cd359e4055e26ebd32e1bf4d9a47c2556ee9cf77be55dfdcfd"
+      }
+    },
+    "janibacterindicus": {
+      "rule_id": "TAX-AUTO-JANIBACTERINDICUS",
+      "taxid": 857417,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Isolated from Indian Ocean hydrothermal sediment and Atlantic marine sediment",
+        "No respiratory infection evidence in the supplied articles",
+        "Rare human bloodstream isolation reported"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "177497cf2195fbfd5b3feca3c17c2d1f0bc1159d37151900010de890d6e4b507",
+        "rationale": "Two independent marine sediment isolations support the environmental family (PMIDs 24744020, 33341425). The single reported bloodstream isolation shows that human infection is possible but does not support a respiratory-specific family (PMID 34934330).",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=857417"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24744020/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33341425/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34934330/"
+          }
+        ],
+        "source_pack_sha256": "8af867b454312368dbc74487dc1c38ff81a570a2a2fdd30420fb36d26c0d278a"
+      }
+    },
+    "meyerozymaguilliermondii": {
+      "rule_id": "TAX-AUTO-MEYEROZYMAGUILLIERMONDII",
+      "taxid": 4929,
+      "taxonomic_rank": "species",
+      "biological_class": "fungus",
+      "primary_rule_family": "candida_or_yeast",
+      "secondary_rule_families": [
+        "high_consequence_opportunistic"
+      ],
+      "clinical_traits": [
+        "Infection risk rises with malignancy, immunodeficiency, chemotherapy, and central venous catheters",
+        "Opportunistic cause of candidemia and invasive candidiasis",
+        "Reduced susceptibility or resistance to some antifungals has been reported",
+        "Yeast; anamorph Candida guilliermondii"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "bf3dffe5bfdb101babb2c532421a376d6cdcf34e03671ee43e28d7c55c2a29c3",
+        "rationale": "M. guilliermondii is a yeast also known as Candida guilliermondii, making candida_or_yeast the supported organism-level family. Published human invasive infections support its opportunistic clinical relevance (PMIDs: 33276074, 36306113, 40982214).",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=4929"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33276074/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36306113/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38429226/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40982214/"
+          }
+        ],
+        "source_pack_sha256": "0b2d182138836b99e8f3b2e044c0fb32d1223c9cdb0adac3b06154ff7a69d2ea"
+      }
+    },
+    "mogibacteriumtimidum": {
+      "rule_id": "TAX-AUTO-MOGIBACTERIUMTIMIDUM",
+      "taxid": 35519,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Anaerobic Gram-positive rod",
+        "Associated with periodontal and endodontic disease",
+        "Found in human subgingival plaque and root canal samples"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "c3714c0912b13ae61f28e025ca659bfadcc11c1d5a5f0121a7dfd91c03454f0d",
+        "rationale": "Repeated human oral studies and the species description support classification as an oral anaerobe (PMIDs 10758875, 11556514, 24031909, 38939247, 39583447, 41326572, 40788639). The family assignment does not imply patient-level causality or proven aspiration pneumonia.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=35519"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10758875/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/11556514/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24031909/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38939247/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39583447/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40788639/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41326572/"
+          }
+        ],
+        "source_pack_sha256": "7991c024040198726c56767b46b642c6cf358c82856ae27f1f70c57f799e2292"
+      }
+    },
+    "mycoplasmahominis": {
+      "rule_id": "TAX-AUTO-MYCOPLASMAHOMINIS",
+      "taxid": 2098,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "gi_urinary_or_nonpulmonary_prone",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Documented postoperative pelvic and intra-abdominal infections",
+        "Documented surgical site and fracture-related infections",
+        "Genital tract detection frequently reflects colonization",
+        "Occasional clinically significant infection after lung transplantation"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "405a60ef91960252ee5988c77f7f6c92ace3e610ae9f368fd82042837c98b9e7",
+        "rationale": "The strongest species-specific human evidence supports a predominantly genital or other nonpulmonary source, making gi_urinary_or_nonpulmonary_prone the best supported family (42759763, 41554086). Serious post-transplant Mollicute outcomes have also been reported, but the screening study pools M. hominis with Ureaplasma and cannot assign those outcomes to this species (42084563). These organism-level findings do not establish infection in any particular patient.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2098"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38625660/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39925450/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41554086/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42136736/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42759763/"
+          }
+        ],
+        "source_pack_sha256": "25628a8c8e4d71a3f40571a48d1795b12f150152f1d200df22b874820b2e78eb"
+      }
+    },
+    "oribacteriumsinus": {
+      "rule_id": "TAX-AUTO-ORIBACTERIUMSINUS",
+      "taxid": 237576,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Anaerobic bacillus",
+        "Documented member of the human oral microbiome",
+        "Isolated from sinus pus in a child"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "de2e280a7841b3f3930652b13feb452b8509df38277109c73817f30ee5176a64",
+        "rationale": "Repeated species-level evidence places O. sinus in the human oral microbiome, and its original isolate was described as an anaerobic bacillus (PMIDs 35688483, 41576957, 39654779, 15388717). These findings sufficiently support the oral_aspiration_or_anaerobe rule family.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=237576"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15388717/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35688483/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39654779/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41576957/"
+          }
+        ],
+        "source_pack_sha256": "fba7fc555e09535b48eb2d90d05c5dbc11ad9dca53c59f0f1b85e1db80a6d17e"
+      }
+    },
+    "paraburkholderiaaromaticivorans": {
+      "rule_id": "TAX-AUTO-PARABURKHOLDERIAAROMATICIVORANS",
+      "taxid": 2026199,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Degrades aromatic compounds",
+        "Gram-negative bacterium",
+        "Isolated from contaminated and forest soils"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "e7a2dc4708e0c7b33d24db76e8ccec15f5035913bd205919616077f655f1e521",
+        "rationale": "Multiple species-specific studies document environmental isolation and metabolism, supporting the environmental_low_specificity family. They provide no basis for assigning this species to a human infection or respiratory pathogen family.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2026199"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29461181/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30696831/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32616634/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32975726/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33687503/"
+          }
+        ],
+        "source_pack_sha256": "c83376064302a9af3596621bafef7205ee7f2465119c9c7f5ae8e3ae72e82513"
+      }
+    },
+    "paraburkholderiafungorum": {
+      "rule_id": "TAX-AUTO-PARABURKHOLDERIAFUNGORUM",
+      "taxid": 134537,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Environmental bacterium studied in bioremediation and plant-associated settings",
+        "No human respiratory infection described in the supplied abstracts",
+        "Rarely recovered from human tissue"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "85dab7e3922e34db34b5365d2547f90f340a032ae2452b8816995ff4484f8a2b",
+        "rationale": "Multiple supplied studies establish an environmental and plant-associated ecology. The isolated human tissue report supports occasional clinical recovery but does not establish a respiratory predilection or justify a hospital-associated family.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=134537"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31312701/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32953261/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36297762/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38056271/"
+          }
+        ],
+        "source_pack_sha256": "8f4bbcca056bec99b3e62021fad4f7bf2f58600a0ef485904063dedc1be8b629"
+      }
+    },
+    "paraburkholderiaphytofirmans": {
+      "rule_id": "TAX-AUTO-PARABURKHOLDERIAPHYTOFIRMANS",
+      "taxid": 261302,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Endophyte documented in multiple plant hosts",
+        "No pulmonary tropism established by the supplied articles",
+        "Plant-associated environmental bacterium"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "159f5db33c8193b7f858f20f4ca5be404b98961cf40c61adef08cbf012f7d046",
+        "rationale": "Multiple species-specific studies establish plant-associated environmental ecology, sufficient for the environmental_low_specificity family. They provide no basis for assigning human infection or patient-level causality.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=261302"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30214441/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36338070/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37400579/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39184028/"
+          }
+        ],
+        "source_pack_sha256": "f7e144e3287cdbc0c52389867bda6e9d3fc7a663c2ccfd6705289da2fd8d262d"
+      }
+    },
+    "penicilliumoxalicum": {
+      "rule_id": "TAX-AUTO-PENICILLIUMOXALICUM",
+      "taxid": 69781,
+      "taxonomic_rank": "species",
+      "biological_class": "fungus",
+      "primary_rule_family": "mold_or_opportunistic_fungus",
+      "secondary_rule_families": [
+        "environmental_low_specificity"
+      ],
+      "clinical_traits": [
+        "Filamentous fungus",
+        "Soil-associated environmental mold"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "f2ec9b44e10e19860280c1aff726eef72eefdfb9476348d290b136f241f85244",
+        "rationale": "The supplied species-level articles explicitly identify Penicillium oxalicum as a filamentous fungus, supporting the mold family. Soil studies support an environmental association. These findings support an organism-level family assignment but provide no evidence of human pathogenicity.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=69781"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35499317/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36335861/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38508106/"
+          }
+        ],
+        "source_pack_sha256": "5032b09d7cd32a587696cc14b4552a7330b8a7e8aff0827e4e4ac21e86860dea"
+      }
+    },
+    "rhinocladiellasimilis": {
+      "rule_id": "TAX-AUTO-RHINOCLADIELLASIMILIS",
+      "taxid": 319420,
+      "taxonomic_rank": "species",
+      "biological_class": "fungus",
+      "primary_rule_family": "mold_or_opportunistic_fungus",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Melanized fungus associated with chromoblastomycosis",
+        "Pulmonary infection is not established by the supplied articles",
+        "Reported in mixed onychomycosis"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "a94b7230efb95c51fc3047c1cf845cade5bf7ecae6d6a4e1d28232a1b188b5e6",
+        "rationale": "The human infection reports support a broad non-Candida fungal rule family. The BAL pseudo-outbreak limits interpretation of respiratory specimens but does not negate the documented skin and nail infections.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=319420"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28458993/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36270217/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37504685/"
+          }
+        ],
+        "source_pack_sha256": "945cf2b9477eb533c066e40bc66f414e2e19cbc3e8c9a37ade8cfffd4bfae33f"
+      }
+    },
+    "schaaliaodontolytica": {
+      "rule_id": "TAX-AUTO-SCHAALIAODONTOLYTICA",
+      "taxid": 1660,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Frequent inhabitant of the human oral cavity",
+        "Oral biofilm and dental plaque colonizer",
+        "Reported in human polymicrobial infections and associated with actinomycotic lesions"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "ee0e7b7ab418af49d6a59ccda6e212f4312f61743a736fc1353768daa041dd25",
+        "rationale": "Repeated species-specific evidence of oral residence, together with reported human infections, supports the oral_aspiration_or_anaerobe family. The supplied articles do not establish patient-level causality or a species-specific pulmonary infection pattern.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1660"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38336675/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38766462/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42148817/"
+          }
+        ],
+        "source_pack_sha256": "62f9c742d8fab85c9016173a938bd36e4c88869da43d26d077afbec7e4952ea6"
+      }
+    },
+    "seramatorthermalis": {
+      "rule_id": "TAX-AUTO-SERAMATORTHERMALIS",
+      "taxid": 2496270,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Anaerobic, Gram-negative, nonmotile rod",
+        "Isolated from a hot spring",
+        "No pulmonary association established in the supplied literature"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "ad81a3268fff443406da46c0d643d0e2a52e7d961c019a73172c8fecc8ad9e1a",
+        "rationale": "Direct isolation from a hot spring supports the environmental family (PMID 32956031). Detection in an industrial microbial system provides further ecological context (PMID 40482893). The supplied literature does not establish human infection or pulmonary tropism.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2496270"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32956031/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40482893/"
+          }
+        ],
+        "source_pack_sha256": "9fff5e9d290dfc9ae37d4d2a302cabceb0c8547045f48b40f9f00f7fa4096b2b"
+      }
+    },
+    "slackiaexigua": {
+      "rule_id": "TAX-AUTO-SLACKIAEXIGUA",
+      "taxid": 84109,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [
+        "gi_urinary_or_nonpulmonary_prone"
+      ],
+      "clinical_traits": [
+        "Associated with periodontal and other oral infections",
+        "Documented extraoral infections, including wounds, bacteremia, and peritonitis",
+        "Member of the human oral microbiota",
+        "Obligate anaerobic Gram-positive rod"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "6b540f00c3e856c3a2a78012565ad0a4e0810c3ec4ee13cbd93a3b9f10a2da9a",
+        "rationale": "The strongest organism-level pattern is an oral anaerobe with documented oral and occasional extraoral infections, supporting the oral_aspiration_or_anaerobe family (PMIDs 38904307, 20107092, 34875369). Intestinal-source wounds and peritonitis support a secondary nonpulmonary association (PMIDs 20107092, 39040875).",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=84109"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/20107092/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34875369/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38904307/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39040875/"
+          }
+        ],
+        "source_pack_sha256": "d0a9fc2f6a8a72ba81b56e97302c1431ed72800d206e8202cda1aa8afa8f2561"
+      }
+    },
+    "solobacteriummoorei": {
+      "rule_id": "TAX-AUTO-SOLOBACTERIUMMOOREI",
+      "taxid": 102148,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [
+        "gi_urinary_or_nonpulmonary_prone"
+      ],
+      "clinical_traits": [
+        "Also detected in human fecal and colorectal samples",
+        "Associated with the human oral cavity and halitosis",
+        "Obligate anaerobic Gram-positive bacillus",
+        "Rarely reported in invasive human infections, sometimes with a dental focus"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "421094466af90a5d00ec3b6593b5f95788ffcd114a353a5a62866e30d747eb05",
+        "rationale": "The documented oral association and obligate anaerobic biology support the oral_aspiration_or_anaerobe family. Human infection reports support pathogenic potential, while the gut studies support a secondary nonpulmonary association. The supplied literature does not support a patient-level infection judgment.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=102148"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26408641/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31429713/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32777291/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33163658/"
+          }
+        ],
+        "source_pack_sha256": "aee9b41016e25d02d6f4d01d19982275cc919ab838414258b3e65e924a1ae582"
+      }
+    },
+    "streptococcusanginosus": {
+      "rule_id": "TAX-AUTO-STREPTOCOCCUSANGINOSUS",
+      "taxid": 1328,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Opportunistic, abscess-forming pathogen",
+        "Oral and mucosal commensal"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "ff00c52decd44b0eedca71fdc8327ca38226ef8dd439a5c25822caa7ee1b1b45",
+        "rationale": "The supplied reviews identify S. anginosus as a member of an oral commensal group with documented opportunistic human infections, supporting the oral_aspiration_or_anaerobe family (PMIDs 35898914, 24848553). Gastric cancer and mouse studies do not establish a different infection family.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1328"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24848553/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35898914/"
+          }
+        ],
+        "source_pack_sha256": "64b4e65136adeb4a57dc42ee8365d7ff5aeff52b0d097ed44ee6c945879c5a45"
+      }
+    },
+    "streptococcusperoris": {
+      "rule_id": "TAX-AUTO-STREPTOCOCCUSPERORIS",
+      "taxid": 68891,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Detected in infant tongue microbiota",
+        "Isolated from human tooth surfaces and pharynx",
+        "Streptococcus mitis group bacterium"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "d7f99dee5deb7d3714cc808165df0abae5412ce7a003ba2455892e8159ff3dd8",
+        "rationale": "Independent human studies support an oral niche for S. peroris (PMIDs 9734047, 31142620), sufficient for the oral component of this rule family. A tracheal aspirate study reported an association with higher ventilator-associated infection scores but found no microbiome pattern associated with clinically diagnosed infection (PMID 34811963). The classification does not assert aspiration or patient-level causality.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=68891"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31142620/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9734047/"
+          }
+        ],
+        "source_pack_sha256": "e735aa9e1da45e76d509d77a207998c3d5faa7726710ac60d44a7007ebbdd114"
+      }
+    },
+    "stutzerimonasbalearica": {
+      "rule_id": "TAX-AUTO-STUTZERIMONASBALEARICA",
+      "taxid": 74829,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "No established pulmonary disease association in the supplied literature",
+        "Predominantly reported from aquatic, petroleum-polluted, and wastewater environments"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "c8d1b2a2fcc342cc72d96e0b14595fd8c6dea39f7dc9d53c7fc63c3d573c6e19",
+        "rationale": "Multiple supplied articles support an environmental and wastewater association, which is sufficient for the environmental_low_specificity family. They do not establish a human respiratory infection role.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=74829"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37275147/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40803404/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41046483/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42404785/"
+          }
+        ],
+        "source_pack_sha256": "4f06fe986bf8bf171ba7bb06c8abea6a584c253f52f4e07e957b7c0b3d59c3d3"
+      }
+    },
+    "treponemamaltophilum": {
+      "rule_id": "TAX-AUTO-TREPONEMAMALTOPHILUM",
+      "taxid": 51160,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "secondary_rule_families": [],
+      "clinical_traits": [
+        "Associated with periodontitis in human studies",
+        "Detected in infected root canals",
+        "Isolated from human periodontal lesions",
+        "Oral anaerobic spirochete"
+      ],
+      "literature_review_recommended": false,
+      "auto_provenance": {
+        "decision": "auto_approved",
+        "identity_model": "gpt-6-luna",
+        "clinical_model": "gpt-6-sol",
+        "identity_prompt_version": "organism_identity_reviewer_v1",
+        "clinical_prompt_version": "organism_clinical_family_reviewer_v1",
+        "identity_confidence": "high",
+        "clinical_confidence": "high",
+        "decision_input_sha256": "9635c7720204f99d82828c2e8a7a67ba1d44d945131b02fb357a5ff66dd7dfa0",
+        "rationale": "Repeated human oral findings support the oral component of the oral_aspiration_or_anaerobe family with high confidence. Aspiration-related lung infection remains unproven by the supplied literature.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=51160"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12798152/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37527556/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37572051/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8782684/"
+          }
+        ],
+        "source_pack_sha256": "12c5903cd3399da1825d629e7fce0bf11d4bff72f3b2fda0d6fa0b6ee58713cb"
+      }
+    }
+  }
+}

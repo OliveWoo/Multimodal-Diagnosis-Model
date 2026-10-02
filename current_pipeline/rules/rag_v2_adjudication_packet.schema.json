@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.csie-project/rag_v2_adjudication_packet.schema.json",
+  "title": "mNGS RAG v2 adjudication packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "dataset_label",
+    "patient_id",
+    "organism",
+    "current_model_state",
+    "local_evidence",
+    "literature_evidence",
+    "adjudication_task",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "rag_adjudication_packet_v2.0"},
+    "case_id": {"type": "string", "minLength": 1},
+    "dataset_label": {"type": "string"},
+    "patient_id": {"type": "string", "minLength": 1},
+    "organism": {"type": "object"},
+    "current_model_state": {"type": "object"},
+    "local_evidence": {"type": "object"},
+    "literature_evidence": {
+      "type": "object",
+      "required": [
+        "knowledge_card_key",
+        "retrieval_evidence_volume",
+        "selected_article_count",
+        "articles"
+      ],
+      "properties": {
+        "knowledge_card_key": {"type": "string", "minLength": 1},
+        "retrieved_at": {"type": ["string", "null"]},
+        "retrieval_evidence_volume": {"enum": ["adequate", "limited", "sparse"]},
+        "selected_article_count": {"type": "integer", "minimum": 0},
+        "selected_track_counts": {"type": "object"},
+        "missing_evidence_tracks": {"type": "array", "items": {"type": "string"}},
+        "retrieval_errors": {"type": "array"},
+        "articles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "pmid",
+              "title",
+              "retrieval_tracks",
+              "retrieval_relevance_score",
+              "evidence_direction",
+              "quality",
+              "case_similarity"
+            ]
+          }
+        },
+        "adjudication_note": {"type": ["string", "null"]}
+      }
+    },
+    "adjudication_task": {
+      "type": "object",
+      "required": ["fixed_questions", "required_output_schema", "constraints"],
+      "properties": {
+        "fixed_questions": {"type": "array", "items": {"type": "string"}},
+        "required_output_schema": {"const": "rag_adjudication_v2.0"},
+        "constraints": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["answer_source_read"],
+      "properties": {
+        "answer_source_read": {"const": false}
+      }
+    }
+  }
+}

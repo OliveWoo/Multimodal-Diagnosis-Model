@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "independent_multi_assay_entry_shadow_v1",
+  "mode": "answer_blind_shadow",
+  "rank_in_retained_universe_at_most": 2,
+  "priority_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb",
+    "high_consequence_opportunistic",
+    "other_respiratory_virus"
+  ],
+  "conditional_families": ["mold_or_opportunistic_fungus"],
+  "context_families": [
+    "candida_or_yeast",
+    "herpes_or_reactivation_virus",
+    "oral_aspiration_or_anaerobe",
+    "skin_airway_colonizer_prone"
+  ],
+  "background_families": [
+    "environmental_low_specificity",
+    "gi_urinary_or_nonpulmonary_prone",
+    "commensal_virome_or_endogenous_element"
+  ],
+  "notes": [
+    "A scorer_entry is candidate eligibility, not a Picked decision or an input to the current single-test scorer.",
+    "Only evaluable observations with reads greater than zero are considered.",
+    "Different seq_id values from one specimen are technical test support, not independent clinical confirmation.",
+    "The within-test rank is provisional because source files retain a filtered organism universe.",
+    "Neither raw reads nor RPM are compared or summed across tests.",
+    "Unmapped organisms with selected positive tests go to taxonomy/clinical review, not directly to scorer entry.",
+    "Physician answers and the old selected-DNA baseline do not affect routing."
+  ]
+}

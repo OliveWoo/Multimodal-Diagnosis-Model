@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.1.0",
+  "policy_id": "test_aware_clinical_promotion_v5_targeted_respiratory_assay_bridge",
+  "mode": "answer_blind_shadow",
+  "allow_analytical_only_bacterial_promotion": false,
+  "require_event_aligned_direct_evidence": true,
+  "direct_evidence_event_window_hours": 48,
+  "targeted_respiratory_assay_bridge": {
+    "enabled": true,
+    "allowed_families": [
+      "typical_respiratory_pathogen",
+      "hospital_or_nonfermenter_gnb"
+    ],
+    "allowed_mapping_statuses": [
+      "exact_species"
+    ],
+    "maximum_rank": 3,
+    "minimum_positive_tests": 3,
+    "require_reproducibility": true,
+    "require_cross_molecule": true,
+    "require_exact_or_alias_hospital_evidence": true,
+    "require_event_aligned_positive_observation": true,
+    "output_role": "possible_concurrent_pathogen"
+  },
+  "pjp_verified_host_assertions": [
+    "verified_active_exposure",
+    "verified_high_risk_host",
+    "verified_immunosuppression"
+  ],
+  "generic_identity_terms": [
+    "identification to follow",
+    " evidence",
+    " spp",
+    " group",
+    " complex"
+  ],
+  "candida_group_identity_terms": [
+    "yeast",
+    "candida evidence",
+    "candida spp",
+    "candida species"
+  ],
+  "candida_invasive_evidence": {
+    "event_window_hours": 48,
+    "sterile_specimen_categories": [
+      "Sterile_Site",
+      "Blood",
+      "Tissue"
+    ],
+    "sterile_specimen_terms": [
+      "blood",
+      "sterile",
+      "tissue",
+      "pleural",
+      "cerebrospinal",
+      "csf",
+      "abscess"
+    ],
+    "explicit_positive_terms": [
+      " isolated",
+      " detected",
+      " positive",
+      "grew",
+      "growth"
+    ],
+    "explicit_negative_terms": [
+      "not detected",
+      "no growth",
+      "negative",
+      "not isolated"
+    ]
+  },
+  "bacterial_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb"
+  ],
+  "blocked_without_invasive_evidence_families": [
+    "herpes_or_reactivation_virus",
+    "oral_aspiration_or_anaerobe",
+    "skin_airway_colonizer_prone",
+    "gi_urinary_or_nonpulmonary_prone"
+  ],
+  "compatible_specimen_contexts": [
+    "lower_respiratory",
+    "sterile_or_systemic"
+  ],
+  "thresholds": {
+    "bacterial_reproducible_max_rank": 3,
+    "direct_supported_max_rank": 10,
+    "opportunistic_max_rank": 10,
+    "environmental_max_rank": 3,
+    "minimum_reproduced_tests": 2
+  },
+  "constraints": [
+    "This is an answer-blind shadow policy and does not overwrite promotion v4.",
+    "Only existing review_high_priority candidates are evaluated; candidates that fail remain High.",
+    "The targeted respiratory assay bridge repairs an evidence-interface gap and is not an analytical-only promotion route.",
+    "The bridge requires an exact-species taxonomy mapping, exact-or-alias candidate match, a positive event-aligned targeted respiratory observation, at least three positive tests, cross-molecule reproducibility, and best rank three or better.",
+    "The targeted hospital observation and the mNGS analytical signal are separate evidence axes; DNA/RNA agreement itself remains one analytical axis.",
+    "History evidence consumed upstream cannot be reused as an independent promotion axis.",
+    "Reads remain per-test evidence and are never summed.",
+    "Missing evidence or timing remains unknown and does not remove or demote a candidate.",
+    "All v4 family-specific Candida, PJP, fungal, viral, and environmental routes remain unchanged.",
+    "Benchmark answers are used only after the answer-blind output is frozen."
+  ]
+}

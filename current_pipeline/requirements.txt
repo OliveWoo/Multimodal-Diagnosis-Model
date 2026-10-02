@@ -1,0 +1,7 @@
+pandas
+openpyxl
+openai
+matplotlib
+tiktoken
+python-pptx
+Pillow

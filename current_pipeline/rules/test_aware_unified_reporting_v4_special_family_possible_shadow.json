@@ -1,0 +1,181 @@
+{
+  "schema_version": "4.0.0-shadow",
+  "policy_id": "test_aware_unified_reporting_v4_special_family_possible_answer_blind_shadow",
+  "mode": "answer_blind_special_family_possible_shadow",
+  "enable_recall_first_v2": true,
+  "generic_identity_terms": [
+    "identification to follow",
+    " evidence",
+    " spp",
+    " group",
+    " complex"
+  ],
+  "analytical_possible_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb"
+  ],
+  "direct_possible_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb",
+    "environmental_low_specificity"
+  ],
+  "low_specificity_possible_families": [
+    "skin_airway_colonizer_prone",
+    "gi_urinary_or_nonpulmonary_prone"
+  ],
+  "special_family_guardrails": [
+    "candida_or_yeast",
+    "herpes_or_reactivation_virus",
+    "high_consequence_opportunistic",
+    "mold_or_opportunistic_fungus",
+    "oral_aspiration_or_anaerobe",
+    "other_respiratory_virus",
+    "unmapped_or_uncertain"
+  ],
+  "compatible_specimen_contexts": [
+    "lower_respiratory",
+    "sterile_or_systemic",
+    "blood_or_systemic"
+  ],
+  "sterile_specimen_terms": [
+    "blood",
+    "sterile",
+    "tissue",
+    "pleural",
+    "cerebrospinal",
+    "csf",
+    "abscess"
+  ],
+  "thresholds": {
+    "analytical_max_rank": 3,
+    "analytical_minimum_positive_tests": 2,
+    "direct_max_rank": 10,
+    "direct_minimum_positive_tests": 2,
+    "direct_max_hospital_level": 3,
+    "low_specificity_max_rank": 1,
+    "low_specificity_minimum_positive_tests": 3,
+    "repeated_sterile_minimum_observations": 2
+  },
+  "low_specificity_repeat_possible": {
+    "enabled": true,
+    "families": [
+      "environmental_low_specificity",
+      "skin_airway_colonizer_prone"
+    ],
+    "required_scorer_rule_id": "TA-S4-LOW-SPECIFICITY-REPEAT-HIGH",
+    "required_clinical_decision": "review_high_priority",
+    "required_specimen_context": "lower_respiratory",
+    "maximum_result": "Possible"
+  },
+  "provisional_phenotype_host_context": {
+    "enabled": true,
+    "accepted_phenotypes": ["IMMUNOCOMPROMISED"],
+    "accepted_statuses": ["YES"],
+    "accepted_confidences": ["HIGH"],
+    "accepted_temporal_relations": ["PRE_PNEUMONIA"],
+    "accepted_qc_statuses": ["PASS", "REVIEW_REQUIRED"]
+  },
+  "pjp_possible": {
+    "canonical_organism_key": "pneumocystisjirovecii",
+    "compatible_specimen_contexts": ["lower_respiratory"],
+    "maximum_rank": 3,
+    "minimum_positive_tests": 2,
+    "require_reproducibility": true,
+    "allow_recorded_host_context": true,
+    "allow_provisional_phenotype_host_context": true,
+    "missing_confirmation_is_negative": false
+  },
+  "reactivation_possible": {
+    "family": "herpes_or_reactivation_virus",
+    "compatible_specimen_contexts": [
+      "lower_respiratory",
+      "sterile_or_systemic",
+      "blood_or_systemic"
+    ],
+    "cross_molecule_maximum_rank": 3,
+    "cross_molecule_minimum_positive_tests": 3,
+    "explicit_current_reactivation_minimum_positive_tests": 2,
+    "require_clinical_support_for_cross_molecule": true,
+    "allow_provisional_phenotype_host_context": true,
+    "enable_host_supported_single_test": false,
+    "enable_direct_supported_single_test": true,
+    "direct_supported_single_test_maximum_rank": 1,
+    "host_supported_single_test_maximum_rank": 1,
+    "host_supported_single_test_minimum_positive_tests": 1,
+    "host_supported_single_test_maximum_positive_tests": 1,
+    "missing_reactivation_label_is_negative": false
+  },
+  "candida_possible": {
+    "enabled": true,
+    "family": "candida_or_yeast",
+    "respiratory_maximum_rank": 2,
+    "respiratory_minimum_positive_tests": 2,
+    "respiratory_require_reproducibility": true,
+    "respiratory_require_cross_molecule": true,
+    "missing_confirmation_is_negative": false
+  },
+  "strong_cross_molecule_possible": {
+    "families": ["gi_urinary_or_nonpulmonary_prone"],
+    "compatible_specimen_contexts": [
+      "lower_respiratory",
+      "sterile_or_systemic"
+    ],
+    "maximum_rank": 4,
+    "minimum_positive_tests": 6,
+    "require_reproducibility": true,
+    "require_cross_molecule": true
+  },
+  "aspiration_possible": {
+    "family": "oral_aspiration_or_anaerobe",
+    "required_history_policy_family": "aspiration",
+    "required_history_rule_id": "HIST-ASP3-CONTEXT-TO-PRIORITY",
+    "required_history_adjusted_route": "Priority",
+    "required_clinical_decision": "review_high_priority",
+    "compatible_specimen_contexts": ["lower_respiratory"],
+    "maximum_rank": 3,
+    "minimum_positive_tests": 3,
+    "require_reproducibility": true,
+    "require_cross_molecule": true,
+    "require_all_positive_tests_fully_evaluable": true
+  },
+  "primary_report_compaction": {
+    "enabled": true,
+    "analytical_only_route": "reproducible_top_ranked_typical_or_hospital_bacterium",
+    "low_normalized_burden": {
+      "maximum_available_per_test_rpm_exclusive": 5.0,
+      "require_all_positive_tests_fully_evaluable": true,
+      "require_rpm_for_every_positive_test": true
+    },
+    "inherited_taxonomy_without_support": {
+      "exact_mapping_status": "exact_species",
+      "require_recorded_host_context_when_not_exact": true
+    }
+  },
+  "fallback_best_available": {
+    "enabled": true,
+    "maximum_candidates": 2,
+    "include_runner_up_only_on_equal_core_rank": true,
+    "require_positive_test": true,
+    "require_precise_identity": true,
+    "taxonomy_penalty_families": [
+      "environmental_low_specificity",
+      "herpes_or_reactivation_virus",
+      "gi_urinary_or_nonpulmonary_prone",
+      "skin_airway_colonizer_prone",
+      "candida_or_yeast",
+      "unmapped_or_uncertain"
+    ]
+  },
+  "allow_event_aligned_direct_positive_without_level": true,
+  "constraints": [
+    "This policy is a non-destructive shadow and does not replace reporting v3.",
+    "Picked and all upstream clinical decision fields remain immutable.",
+    "Technical branches establish analytical reproducibility, not independent clinical confirmations.",
+    "PJP may use tightly scoped high-confidence pre-pneumonia phenotype host context for Possible only.",
+    "Herpes-family analytical evidence requires host, syndrome, direct, imaging, or reactivation support and cannot become Picked here.",
+    "Candida Possible denotes clinical relevance requiring confirmation and never proves Candida pneumonia.",
+    "Missing confirmation is unknown and never negative.",
+    "Fallback behavior is unchanged from reporting v3.",
+    "The policy is answer blind; benchmark answers are used only after the shadow output is frozen."
+  ]
+}

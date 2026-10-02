@@ -1,0 +1,96 @@
+{
+  "schema_version": "kh_test_aware_release.v1",
+  "release_id": "kh_test_aware_release_v1",
+  "status": "frozen_shadow_for_ablation",
+  "frozen_on": "2026-09-28",
+  "answer_blind": true,
+  "primary_ablation_boundary": "clinical_deterministic_scorer_before_promotion",
+  "primary_scorer": {
+    "analytical_policy_id": "test_aware_deterministic_shadow_v2",
+    "clinical_policy_id": "test_aware_clinical_deterministic_shadow_v1"
+  },
+  "supplementary_downstream": {
+    "promotion_policy_id": "test_aware_clinical_promotion_v4_independent_clinical_axis",
+    "possible_pathogen_policy_id": "test_aware_possible_pathogen_v1_answer_blind_generic",
+    "included_in_primary_factor_matrix": false
+  },
+  "component_files": [
+    {
+      "role": "analytical_scorer_implementation",
+      "path": "tools/build_test_aware_deterministic_shadow_scorer.py",
+      "sha256": "23d4752159a57bc469336d27aa049d18f864971710d7c905cebe9c7bc5010bea"
+    },
+    {
+      "role": "analytical_scorer_policy",
+      "path": "rules/test_aware_deterministic_shadow_v2.json",
+      "sha256": "07c4aad024b9bb8264dd4b16e1a1b206f8376c6cb06b4ecadc75c6443d8ba9db"
+    },
+    {
+      "role": "clinical_scorer_implementation",
+      "path": "tools/build_test_aware_clinical_deterministic_shadow.py",
+      "sha256": "2e8abc17df7ace495fbd171e137ab04b62a1ec16f115e60ba805660be3f136e3"
+    },
+    {
+      "role": "clinical_scorer_policy",
+      "path": "rules/test_aware_clinical_deterministic_shadow_v1.json",
+      "sha256": "393cefbef5814b2f17fc61c082dfef19c6ebb44070d43e761c490f89e127d022"
+    },
+    {
+      "role": "history_router_implementation",
+      "path": "tools/apply_test_aware_history_route_shadow.py",
+      "sha256": "728829beafdab7f86f758b1fe86c42caeac04f098732571914142b86f4018042"
+    },
+    {
+      "role": "history_v4c_policy",
+      "path": "rules/test_aware_history_route_v4c_combined.json",
+      "sha256": "50f515eb2cbbd48fca657989e9272c2e1644d95ed777390f70969b00976d9a4d"
+    },
+    {
+      "role": "evidence_rehydration_implementation",
+      "path": "tools/rehydrate_clinical_hospital_evidence_shadow.py",
+      "sha256": "0c073348d732dc7f7e9ca3734383502f543f875b9ef402837292362f7769b6e5"
+    },
+    {
+      "role": "promotion_implementation",
+      "path": "tools/promote_test_aware_clinical_high_shadow.py",
+      "sha256": "e5dfd63cac73c4b97d662e4c8a00f544779f1127ea05c8b09e44e910b57e71e9"
+    },
+    {
+      "role": "promotion_v4_policy",
+      "path": "rules/test_aware_clinical_promotion_v4.json",
+      "sha256": "19ecea768cf9bc73c83085dde0349c477c194eff75d2dd9566a4793b127a6781"
+    },
+    {
+      "role": "possible_pathogen_implementation",
+      "path": "tools/build_test_aware_possible_pathogen_shadow.py",
+      "sha256": "d460a8f4b6b0e788e3f15afcde40bd96abea278e7c453033e2d8a24093d3452f"
+    },
+    {
+      "role": "possible_pathogen_v1_policy",
+      "path": "rules/test_aware_possible_pathogen_v1.json",
+      "sha256": "69a258f7562f0c0301362c1d30254e7035abc825c1262ec3bd77f9e11d8c9d5e"
+    },
+    {
+      "role": "clinical_evaluator",
+      "path": "tools/evaluate_test_aware_clinical_deterministic_shadow.py",
+      "sha256": "762be9fdf762ee8af0e057f54e3b9a0d6e49cc2b004d79c3c852bc39a5a1453d"
+    },
+    {
+      "role": "possible_pathogen_evaluator",
+      "path": "tools/evaluate_test_aware_possible_pathogen_shadow.py",
+      "sha256": "665e9632a1eb2bbdefc770ccb14f12096c014cfc257a3ceadab66ed73b2438af"
+    },
+    {
+      "role": "matching_contract",
+      "path": "tools/recalculate_kh_benchmark_metrics.py",
+      "sha256": "083dbf24513389e014ddc7170c6c8b53a242dfd2667b8b99ad517d2280b0916f"
+    }
+  ],
+  "constraints": [
+    "The release is a frozen shadow-analysis snapshot, not a production clinical diagnostic release.",
+    "C and G use no history route; F is the only new-scorer group that uses v4C history.",
+    "Promotion v4 and Possible-pathogen v1 are reported separately and do not define the A-G primary endpoint.",
+    "OBER is excluded from this release and from all primary ablation comparisons.",
+    "Benchmark answers are read only by post-hoc evaluators after answer-blind outputs are written."
+  ]
+}

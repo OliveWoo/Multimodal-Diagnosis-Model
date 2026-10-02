@@ -1,0 +1,216 @@
+{
+  "schema_version": "organism_taxonomy_reviewed_v1",
+  "purpose": "Human-approved organism metadata only; not patient-level causality or a picked decision.",
+  "exact_profiles": {
+    "clavisporalusitaniae": {
+      "rule_id": "TAX-REVIEWED-CLAVISPORALUSITANIAE",
+      "taxid": 36911,
+      "taxonomic_rank": "species",
+      "biological_class": "fungus",
+      "primary_rule_family": "candida_or_yeast",
+      "clinical_traits": [
+        "colonization_possible",
+        "invasive_evidence_relevant",
+        "nonsterile_source_caution",
+        "opportunistic_yeast",
+        "species_identity_matters"
+      ],
+      "literature_review_recommended": false,
+      "review_provenance": {
+        "reviewer": "Project team taxonomy review (user-authorized in Codex task)",
+        "reviewed_at": "2026-09-24",
+        "rationale": "NCBI verifies Clavispora lusitaniae as species taxid 36911 and lists Candida lusitaniae as an equivalent name. Human reports document fungemia and meningitis, supporting an opportunistic invasive yeast classification. Route through the existing Candida/yeast family so BALF-only detection remains context and blood/sterile-site evidence is required for invasive promotion.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=36911"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10030550/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39059848/"
+          }
+        ]
+      }
+    },
+    "faecalibacteriumduncaniae": {
+      "rule_id": "TAX-REVIEWED-FAECALIBACTERIUMDUNCANIAE",
+      "taxid": 411483,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "gi_urinary_or_nonpulmonary_prone",
+      "clinical_traits": [
+        "anaerobe",
+        "direct_pulmonary_evidence_preferred",
+        "gi_commensal",
+        "nonpulmonary_source_prone",
+        "pulmonary_source_confirmation_required"
+      ],
+      "literature_review_recommended": false,
+      "review_provenance": {
+        "reviewer": "Project team taxonomy review (user-authorized in Codex task)",
+        "reviewed_at": "2026-09-24",
+        "rationale": "NCBI verifies Faecalibacterium duncaniae as species taxid 411483. The reviewed human study finds it among the most prevalent high-abundance Faecalibacterium species in stool; the available evidence does not establish pulmonary or invasive infection. Route to GI/nonpulmonary-prone rather than aspiration/anaerobe, while retaining it for review if direct sterile-site or pulmonary evidence is later present.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=411483"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40252217/"
+          }
+        ]
+      }
+    },
+    "proteusmirabilis": {
+      "rule_id": "TAX-REVIEWED-PROTEUSMIRABILIS",
+      "taxid": 584,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "hospital_or_nonfermenter_gnb",
+      "clinical_traits": [
+        "direct_pulmonary_evidence_preferred",
+        "healthcare_associated",
+        "nonpulmonary_source_prone",
+        "pulmonary_pathogen_possible",
+        "species_identity_matters",
+        "urinary_source_prone"
+      ],
+      "literature_review_recommended": false,
+      "review_provenance": {
+        "reviewer": "Project team taxonomy review (user-confirmed in Codex task)",
+        "reviewed_at": "2026-09-24",
+        "rationale": "NCBI verifies Proteus mirabilis as species taxid 584 in Enterobacterales/Morganellaceae. Clinical literature documents uncommon, predominantly healthcare-associated pneumonia in older patients with underlying disease, while NCBI MeSH identifies the urinary tract as its most common infection site. Route as a hospital-associated Gram-negative organism with explicit urinary/nonpulmonary-source caveats. This organism profile does not establish patient-level pulmonary causality or a Picked decision.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=584"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/20502932/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://www.ncbi.nlm.nih.gov/mesh/68011513"
+          }
+        ]
+      }
+    },
+    "schizophyllumcommune": {
+      "rule_id": "TAX-REVIEWED-SCHIZOPHYLLUMCOMMUNE",
+      "taxid": 5334,
+      "taxonomic_rank": "species",
+      "biological_class": "fungus",
+      "primary_rule_family": "mold_or_opportunistic_fungus",
+      "clinical_traits": [
+        "colonization_possible",
+        "environmental_association",
+        "host_risk_dependent",
+        "invasive_evidence_relevant",
+        "pulmonary_pathogen_possible",
+        "targeted_confirmation_preferred"
+      ],
+      "literature_review_recommended": false,
+      "review_provenance": {
+        "reviewer": "Project team taxonomy review (user-authorized in Codex task)",
+        "reviewed_at": "2026-09-24",
+        "rationale": "NCBI verifies Schizophyllum commune as species taxid 5334. Human reports document pulmonary disease with organism recovery from BAL/bronchoscopy specimens and, in invasive disease, compatible lung/brain histopathology and culture. Route as a non-Candida opportunistic fungus with environmental, colonization, host-risk, and targeted-confirmation caveats. This organism profile does not establish patient-level infection from a single BALF mNGS signal.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=5334"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37266650/"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8784558/"
+          }
+        ]
+      }
+    },
+    "bacteroideshominis": {
+      "rule_id": "TAX-IDENTITY-BACTEROIDESHOMINIS",
+      "taxid": 2763023,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "clinical_traits": [
+        "anaerobe",
+        "aspiration_context_relevant",
+        "direct_pulmonary_evidence_preferred",
+        "oral_or_gi_association"
+      ],
+      "literature_review_recommended": false,
+      "review_provenance": {
+        "reviewer": "Project team identity review (user-approved for production write-back)",
+        "reviewed_at": "2026-09-30",
+        "rationale": "NCBI identity taxid 2763023 is written back without changing the previously inherited oral/aspiration/anaerobe clinical family.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2763023"
+          }
+        ]
+      }
+    },
+    "lodderomycesparapsilosis": {
+      "rule_id": "TAX-IDENTITY-LODDEROMYCESPARAPSILOSIS",
+      "taxid": 5480,
+      "taxonomic_rank": "species",
+      "biological_class": "fungus",
+      "primary_rule_family": "candida_or_yeast",
+      "clinical_traits": [
+        "colonization_possible",
+        "invasive_evidence_relevant",
+        "nonsterile_source_caution",
+        "opportunistic_yeast",
+        "species_identity_matters"
+      ],
+      "literature_review_recommended": false,
+      "review_provenance": {
+        "reviewer": "Project team identity review (user-approved for production write-back)",
+        "reviewed_at": "2026-09-30",
+        "rationale": "Candida parapsilosis and the current NCBI scientific name Lodderomyces parapsilosis resolve to taxid 5480. The existing Candida/yeast clinical family is preserved.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=5480&mode=info"
+          }
+        ]
+      }
+    },
+    "aquipseudomonasalcaligenes": {
+      "rule_id": "TAX-IDENTITY-AQUIPSEUDOMONASALCALIGENES",
+      "taxid": 43263,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "clinical_traits": [
+        "direct_pulmonary_evidence_preferred",
+        "environmental_association",
+        "nonsterile_source_caution",
+        "species_identity_matters"
+      ],
+      "literature_review_recommended": false,
+      "review_provenance": {
+        "reviewer": "Project team identity review (user-approved for production write-back)",
+        "reviewed_at": "2026-09-30",
+        "rationale": "Pseudomonas alcaligenes and the current NCBI scientific name Aquipseudomonas alcaligenes resolve to taxid 43263. The existing environmental/low-specificity family is preserved.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=43263&mode=info"
+          }
+        ]
+      }
+    }
+  }
+}

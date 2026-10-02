@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phenotype_context.schema.json",
+  "title": "Answer blind pneumonia phenotype context",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "patient_id",
+    "source",
+    "phenotype_contract",
+    "phenotypes",
+    "model_context",
+    "clinical_context"
+  ],
+  "properties": {
+    "schema_version": {"const": "phenotype_context_v1.0"},
+    "patient_id": {"type": "string", "minLength": 1},
+    "patient_number": {"type": ["integer", "null"]},
+    "source": {
+      "type": "object",
+      "required": ["workbook_file", "workbook_sha256", "full_evidence_json", "patient_qc_status"],
+      "properties": {
+        "workbook_file": {"type": "string"},
+        "workbook_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "full_evidence_json": {"type": "string"},
+        "patient_qc_status": {"type": ["string", "null"]},
+        "system_issues": {"type": "array", "items": {"type": "string"}},
+        "csv_crosscheck": {"type": "object"}
+      }
+    },
+    "phenotype_contract": {
+      "type": "object",
+      "required": ["expected_count", "observed_count", "missing_phenotypes", "unrecognized_phenotypes"],
+      "properties": {
+        "expected_count": {"const": 22},
+        "observed_count": {"type": "integer"},
+        "missing_phenotypes": {"type": "array", "items": {"type": "string"}},
+        "unrecognized_phenotypes": {"type": "array", "items": {"type": "string"}},
+        "model_role_counts": {"type": "object"}
+      }
+    },
+    "phenotypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["phenotype", "status", "model_role", "can_modify_pathogen_prior"],
+        "properties": {
+          "phenotype": {"type": "string"},
+          "status": {"type": ["string", "null"]},
+          "model_role": {
+            "enum": ["etiologic_prior", "context_only", "outcome_or_context", "manual_review", "not_established"]
+          },
+          "can_modify_pathogen_prior": {"type": "boolean"}
+        }
+      }
+    },
+    "model_context": {
+      "type": "object",
+      "required": ["etiologic_priors", "context_only", "manual_review", "not_established", "constraints"]
+    },
+    "clinical_context": {
+      "type": "object",
+      "required": ["microbiology", "clinical_timeline", "clinical_facts", "treatment_and_response"]
+    }
+  }
+}

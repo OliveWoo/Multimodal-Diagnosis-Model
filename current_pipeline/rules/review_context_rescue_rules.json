@@ -1,0 +1,49 @@
+{
+  "schema_version": "review_context_rescue_rules_v1",
+  "mode": "formal",
+  "rules": {
+    "atypical_respiratory_indirect_serology": {
+      "enabled": true,
+      "rule_id": "R-CTX-ATYPICAL-RESP-INDIRECT-SEROLOGY",
+      "organism_keys": [
+        "chlamydophilapneumoniae",
+        "chlamydiapneumoniae",
+        "mycoplasmapneumoniae"
+      ],
+      "indirect_evidence_types": [
+        "indirect_serology"
+      ],
+      "indirect_test_terms": [
+        "serology_igm",
+        "serology igm",
+        "igm antibody",
+        "igm detected",
+        "igm positive"
+      ],
+      "direct_test_terms": [
+        " pcr ",
+        "pcr_positive",
+        "pcr detected",
+        " naat ",
+        "naat_positive",
+        "nucleic acid detected",
+        "respiratory panel detected",
+        "filmarray detected"
+      ],
+      "compatible_pulmonary_context_terms": [
+        "pneumonia",
+        "bronchopneumonia",
+        "pulmonary infection",
+        "lower respiratory tract infection",
+        "acute respiratory distress syndrome",
+        "ards",
+        "bilateral pulmonary infiltrate",
+        "bilateral lung infiltrate"
+      ],
+      "require_original_llm_context": true,
+      "target_tier": "review_context_needed",
+      "maximum_tier": "review_context_needed",
+      "reason": "Recognized atypical respiratory pathogen has indirect IgM/serology support and compatible pneumonia context, but lacks direct respiratory molecular confirmation; retain for RAG/clinical review without promoting to high or picked."
+    }
+  }
+}

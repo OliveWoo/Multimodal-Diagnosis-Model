@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.1",
+  "policy_id": "test_aware_clinical_promotion_v4_analytical_only_open_shadow",
+  "mode": "answer_blind_shadow",
+  "allow_analytical_only_bacterial_promotion": true,
+  "require_event_aligned_direct_evidence": true,
+  "direct_evidence_event_window_hours": 48,
+  "pjp_verified_host_assertions": [
+    "verified_active_exposure",
+    "verified_high_risk_host",
+    "verified_immunosuppression"
+  ],
+  "generic_identity_terms": [
+    "identification to follow",
+    " evidence",
+    " spp",
+    " group",
+    " complex"
+  ],
+  "candida_group_identity_terms": [
+    "yeast",
+    "candida evidence",
+    "candida spp",
+    "candida species"
+  ],
+  "candida_invasive_evidence": {
+    "event_window_hours": 48,
+    "sterile_specimen_categories": [
+      "Sterile_Site",
+      "Blood",
+      "Tissue"
+    ],
+    "sterile_specimen_terms": [
+      "blood",
+      "sterile",
+      "tissue",
+      "pleural",
+      "cerebrospinal",
+      "csf",
+      "abscess"
+    ],
+    "explicit_positive_terms": [
+      " isolated",
+      " detected",
+      " positive",
+      "grew",
+      "growth"
+    ],
+    "explicit_negative_terms": [
+      "not detected",
+      "no growth",
+      "negative",
+      "not isolated"
+    ]
+  },
+  "bacterial_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb"
+  ],
+  "blocked_without_invasive_evidence_families": [
+    "herpes_or_reactivation_virus",
+    "oral_aspiration_or_anaerobe",
+    "skin_airway_colonizer_prone",
+    "gi_urinary_or_nonpulmonary_prone"
+  ],
+  "compatible_specimen_contexts": [
+    "lower_respiratory",
+    "sterile_or_systemic"
+  ],
+  "thresholds": {
+    "bacterial_reproducible_max_rank": 3,
+    "direct_supported_max_rank": 10,
+    "opportunistic_max_rank": 10,
+    "environmental_max_rank": 3,
+    "minimum_reproduced_tests": 2
+  },
+  "constraints": [
+    "This is an answer-blind stress-test policy and does not overwrite frozen promotion v4.",
+    "Only existing review_high_priority candidates are evaluated; candidates that fail remain High.",
+    "The analytical-only bacterial route is intentionally open for sensitivity analysis: a compatible typical-respiratory or hospital/nonfermenter bacterial candidate may be promoted with best rank three or better and reproducibility across at least two selected positive tests, without independent hospital evidence.",
+    "Reads remain per-test evidence and are never summed across DNA, RNA, or technical repeats.",
+    "DNA/RNA agreement or repeated sequencing is one analytical reproducibility axis, not independent clinical confirmation.",
+    "Direct hospital support, when used by a direct-evidence route, must contain a positive source observation within plus or minus 48 hours of the index mNGS event.",
+    "History evidence consumed by the route stage cannot be reused as an independent promotion axis.",
+    "All non-bacterial family-specific v4 routes remain unchanged.",
+    "Benchmark answers are used only after the answer-blind output is frozen."
+  ]
+}

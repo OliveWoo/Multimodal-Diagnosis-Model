@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "test_aware_possible_pathogen_v1_answer_blind_generic",
+  "mode": "answer_blind_shadow",
+  "generic_identity_terms": [
+    "identification to follow",
+    " evidence",
+    " spp",
+    " group",
+    " complex"
+  ],
+  "analytical_possible_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb"
+  ],
+  "direct_possible_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb",
+    "environmental_low_specificity"
+  ],
+  "low_specificity_possible_families": [
+    "skin_airway_colonizer_prone",
+    "gi_urinary_or_nonpulmonary_prone"
+  ],
+  "special_family_guardrails": [
+    "candida_or_yeast",
+    "herpes_or_reactivation_virus",
+    "high_consequence_opportunistic",
+    "mold_or_opportunistic_fungus",
+    "oral_aspiration_or_anaerobe",
+    "other_respiratory_virus",
+    "unmapped_or_uncertain"
+  ],
+  "compatible_specimen_contexts": [
+    "lower_respiratory",
+    "sterile_or_systemic"
+  ],
+  "sterile_specimen_terms": [
+    "blood",
+    "sterile",
+    "tissue",
+    "pleural",
+    "cerebrospinal",
+    "csf",
+    "abscess"
+  ],
+  "thresholds": {
+    "analytical_max_rank": 3,
+    "analytical_minimum_positive_tests": 2,
+    "direct_max_rank": 10,
+    "direct_minimum_positive_tests": 2,
+    "direct_max_hospital_level": 3,
+    "low_specificity_max_rank": 1,
+    "low_specificity_minimum_positive_tests": 3,
+    "repeated_sterile_minimum_observations": 2
+  },
+  "allow_event_aligned_direct_positive_without_level": true,
+  "constraints": [
+    "This stage does not change clinical_decision, clinical_level, formal_pick_allowed, or the existing selection_role.",
+    "Possible pathogen is a reporting role, not a proven causal or primary pathogen claim.",
+    "Reads remain per-test evidence and are never summed across DNA, RNA, or technical repeats.",
+    "Repeated sequencing is one analytical reproducibility axis and is not independent clinical confirmation.",
+    "Exact event-aligned Level 3 culture or positive targeted respiratory detection may support a possible-pathogen role while retaining quantity and interpretation cautions.",
+    "Repeated sterile-site observations trigger review only; distinct observation IDs do not prove independently collected blood sets.",
+    "Respiratory Candida, herpes/reactivation viruses, PJP, molds, anaerobes, other respiratory viruses, and unmapped organisms keep their family-specific safeguards and cannot use the generic possible-pathogen routes.",
+    "Zero-read source rows are not positive evidence and cannot create a possible pathogen.",
+    "Phenotype, treatment response, WBC, CRP, and outcome do not independently create a possible pathogen in this policy.",
+    "Missing evidence is not treated as negative and never removes or demotes a candidate.",
+    "The policy is answer blind; benchmark answers are used only by a separate post-hoc evaluator."
+  ]
+}

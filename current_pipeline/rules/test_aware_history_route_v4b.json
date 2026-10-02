@@ -1,0 +1,65 @@
+{
+  "schema_version": "4.1.0",
+  "policy_id": "test_aware_history_route_v4b_reactivation_colonization",
+  "base_policy": "test_aware_history_route_v4.json",
+  "colonization_history_patterns": {
+    "explicit_candidate_colonization": [
+      " colonization",
+      " colonisation",
+      " colonized",
+      " colonised",
+      "known colonizer",
+      "known coloniser"
+    ],
+    "explicit_current_not_infection": [
+      "not infection",
+      "not considered infection",
+      "not considered a pathogen",
+      "colonizer only",
+      "coloniser only",
+      "contaminant"
+    ],
+    "structural_airway_context_only": [
+      "tracheostomy",
+      "bronchiectasis",
+      "chronic obstructive pulmonary disease",
+      "copd"
+    ]
+  },
+  "colonization_nonsterile_respiratory_terms": [
+    "sputum",
+    "balf",
+    "bronchoalveolar",
+    "bronchial washing",
+    "tracheal aspirate",
+    "respiratory secretion",
+    "airway"
+  ],
+  "colonization_sterile_specimen_terms": [
+    "blood",
+    "csf",
+    "cerebrospinal",
+    "pleural",
+    "tissue",
+    "sterile site",
+    "sterile_site"
+  ],
+  "colonization_provisional_culture_agent_suffixes": [
+    "culture_agent_evidence_v2_full33_20260917.json"
+  ],
+  "colonization_analytical_thresholds": {
+    "weak_signal_min_rank_exclusive": 10,
+    "weak_signal_max_positive_tests": 1,
+    "very_weak_signal_min_rank_exclusive": 10,
+    "very_weak_signal_max_positive_tests": 1
+  },
+  "constraints_append": [
+    "Colonization demotion requires an exact candidate-organism match in direct history text from the same nonsterile respiratory compartment.",
+    "Tracheostomy, COPD, bronchiectasis, and other structural-airway context alone never demote a candidate.",
+    "A provisional model-derived contaminant label never produces a deterministic route change.",
+    "A sterile/systemic specimen label or independent exact hospital culture/PCR support blocks colonization demotion.",
+    "Colonization may move a candidate downward by at most one route level and never deletes the candidate.",
+    "Priority-to-Context requires explicit current not-infection language; Context-to-Audit and Audit-to-Hold additionally require weak analytical support.",
+    "Colonization evidence consumed at the route stage cannot be reused as independent support at a later promotion gate."
+  ]
+}

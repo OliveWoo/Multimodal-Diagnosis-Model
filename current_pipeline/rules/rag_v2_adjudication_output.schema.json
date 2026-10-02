@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.csie-project/rag_v2_adjudication_output.schema.json",
+  "title": "mNGS RAG v2 adjudication",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "knowledge_card",
+    "retrieval_summary",
+    "patient_fit",
+    "decision",
+    "audit"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "rag_adjudication_v2.0"},
+    "case_id": {"type": "string", "minLength": 1},
+    "knowledge_card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["knowledge_card_key", "pulmonary_pathogenicity", "respiratory_colonization_risk", "typical_supporting_evidence"],
+      "properties": {
+        "knowledge_card_key": {"type": "string"},
+        "pulmonary_pathogenicity": {"type": "string", "enum": ["established", "recognized_but_uncommon", "rare_case_report_only", "not_supported", "uncertain"]},
+        "respiratory_colonization_risk": {"type": "string", "enum": ["high", "moderate", "low", "uncertain"]},
+        "typical_supporting_evidence": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "retrieval_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["search_completed", "sources", "weighted_evidence"],
+      "properties": {
+        "search_completed": {"type": "boolean"},
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["citation_id", "title", "year", "pmid_or_doi", "study_type", "quality", "case_similarity", "direction", "key_point"],
+            "properties": {
+              "citation_id": {"type": "string"},
+              "title": {"type": "string"},
+              "year": {"type": ["integer", "null"]},
+              "pmid_or_doi": {"type": "string"},
+              "study_type": {"type": "string", "enum": ["guideline", "systematic_review", "review", "cohort", "case_series", "diagnostic_study", "case_report", "other"]},
+              "quality": {"type": "string", "enum": ["high", "moderate", "low"]},
+              "case_similarity": {"type": "string", "enum": ["high", "moderate", "low"]},
+              "direction": {"type": "string", "enum": ["supports_pathogenicity", "supports_colonization_or_background", "mixed", "neutral", "irrelevant"]},
+              "key_point": {"type": "string"}
+            }
+          }
+        },
+        "weighted_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["supports_pathogenicity", "supports_colonization_or_background", "uncertainty"],
+          "properties": {
+            "supports_pathogenicity": {"type": "number", "minimum": 0},
+            "supports_colonization_or_background": {"type": "number", "minimum": 0},
+            "uncertainty": {"type": "number", "minimum": 0}
+          }
+        }
+      }
+    },
+    "patient_fit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supporting_local_evidence", "contradicting_local_evidence", "missing_key_evidence", "competing_explanation_strength"],
+      "properties": {
+        "supporting_local_evidence": {"type": "array", "items": {"type": "string"}},
+        "contradicting_local_evidence": {"type": "array", "items": {"type": "string"}},
+        "missing_key_evidence": {"type": "array", "items": {"type": "string"}},
+        "competing_explanation_strength": {"type": "string", "enum": ["strong", "moderate", "weak", "none", "uncertain"]}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recommended_action", "clinician_visibility", "confidence", "one_sentence_reason"],
+      "properties": {
+        "recommended_action": {"type": "string", "enum": ["primary_pathogen", "secondary_pathogen", "context_only", "reject", "insufficient_evidence"]},
+        "clinician_visibility": {"type": "string", "enum": ["show_primary", "show_secondary", "show_context", "do_not_show"]},
+        "confidence": {"type": "string", "enum": ["high", "moderate", "low"]},
+        "one_sentence_reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["human_review_required", "limitations"],
+      "properties": {
+        "human_review_required": {"type": "boolean"},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

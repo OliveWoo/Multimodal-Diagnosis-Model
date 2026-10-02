@@ -6,6 +6,25 @@
 
 > 研究用途：輸出是計算結果與待複核候選，不是臨床診斷。正式使用前仍需臨床、資料治理與授權審查。
 
+## 2026-10-01：舊版與新版並列
+
+Repository 現在同時保存兩條可追溯流程：
+
+| 版本 | 程式位置 | 最終輸出定義 | LLM／OBER 角色 |
+|---|---|---|---|
+| 完整舊版 | repository 根目錄既有 pipeline | deterministic Picked＋OBER／case-fit R5 accepted | Luna／OBER 用於未 Picked 候選與 case-fit review |
+| 新版 current F | [`current_pipeline/`](current_pipeline/) | Picked＋Possible＋互斥 Fallback-Possible | 最終 tier 全部由凍結 deterministic policy 產生；OBER／Luna 排除 |
+
+教授／研究者可先閱讀：
+
+- [`docs/KH_OLD_COMPLETE_PICKED_OBER_PIPELINE_20261001_zh.md`](docs/KH_OLD_COMPLETE_PICKED_OBER_PIPELINE_20261001_zh.md)：完整舊版流程圖與每階段責任。
+- [`docs/KH_NEW_COMPLETE_DETERMINISTIC_PIPELINE_20261001_zh.md`](docs/KH_NEW_COMPLETE_DETERMINISTIC_PIPELINE_20261001_zh.md)：新版 current F 的十階段流程、輸出與 deterministic／LLM 邊界。
+- [`docs/KH_ORGANISM_TAXONOMY_DETAILED_FLOW_V2_6_20261001_zh.md`](docs/KH_ORGANISM_TAXONOMY_DETAILED_FLOW_V2_6_20261001_zh.md)：菌名、alias、taxid、exact／genus／prefix／unmapped 與雙 reviewer 流程。
+
+病例輸入、答案、逐病人輸出與模型 raw response 不在公開 repository。流程文件只保留方法與聚合統計。
+
+新版公開程式已在乾淨 clone 中完成 426 項測試（另 5 項因外部／私有條件跳過），0 failures。
+
 ## 主要入口
 
 | 入口 | 範圍 | 外部服務 |

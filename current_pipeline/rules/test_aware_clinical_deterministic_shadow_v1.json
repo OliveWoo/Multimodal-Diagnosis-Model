@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "test_aware_clinical_deterministic_shadow_v1",
+  "mode": "answer_blind_shadow",
+  "episode_evidence_statuses": [
+    "episode_observation",
+    "episode_boundary_review"
+  ],
+  "opportunistic_families": [
+    "high_consequence_opportunistic",
+    "mold_or_opportunistic_fungus"
+  ],
+  "context_prone_families": [
+    "candida_or_yeast",
+    "herpes_or_reactivation_virus",
+    "oral_aspiration_or_anaerobe",
+    "skin_airway_colonizer_prone"
+  ],
+  "generic_identity_terms": [
+    "identification to follow",
+    " evidence",
+    " spp",
+    " group",
+    " complex"
+  ],
+  "constraints": [
+    "All forwarded candidates from the selected scorer run remain visible; the clinical stage only changes review priority or formal-pick status.",
+    "An imaging mention is episode context and never microbiological confirmation.",
+    "A differential-diagnosis imaging mention can promote an analytically credible opportunistic candidate to high-priority review, but never to Picked.",
+    "Host risk can promote an analytically credible opportunistic candidate to high-priority review, but never proves the organism.",
+    "Phenotype evidence is attached for review but has no deterministic effect while patient/event linkage remains provisional.",
+    "WBC, CRP, treatment response, and outcome are not used to attribute a specific pathogen.",
+    "Hospital-only genus, group, complex, spp., evidence, or pending-identification labels cannot be formal Picked species.",
+    "No patient is forced to have a Picked candidate.",
+    "The policy is answer blind; benchmark answers are used only by a separate post-hoc evaluator."
+  ]
+}

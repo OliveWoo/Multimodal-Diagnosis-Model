@@ -1,0 +1,272 @@
+{
+  "schema_version": "review_triage_rules_shadow_v1",
+  "mode": "shadow_only",
+  "description": "Advisory rule table for LLM-missing/RAG triage. This does not change deterministic picked_pathogens or final merged output.",
+  "review_tiers": [
+    "review_high_priority",
+    "review_context_needed",
+    "review_low_specificity",
+    "review_omitted_with_reason"
+  ],
+  "rag_visible_tiers": [
+    "review_high_priority",
+    "review_context_needed"
+  ],
+  "audit_only_tiers": [
+    "review_low_specificity",
+    "review_omitted_with_reason"
+  ],
+  "defaults": {
+    "tier": "review_low_specificity",
+    "status": "needs_rule_review",
+    "rule_id": "default_needs_rule_review",
+    "reason": "No explicit review-triage rule matched. Keep audit-only until the rule table is reviewed."
+  },
+  "organism_sets": {
+    "actionable_respiratory_review": [
+      "haemophilusinfluenzae",
+      "enterobactercloacaecomplex"
+    ],
+    "context_review": [
+      "acinetobacterbaumannii",
+      "cronobactersakazakii",
+      "enterobactersoli",
+      "escherichiacoli",
+      "mycobacteriumtuberculosis",
+      "nocardiathailandica",
+      "rhodococcusqingshengii",
+      "schizophyllumcommune",
+      "stenotrophomonasmaltophilia",
+      "streptococcuspneumoniae",
+      "talaromycespinophilus"
+    ],
+    "aspiration_context": [
+      "bacteroidesfragilis",
+      "fusobacteriumnucleatum",
+      "porphyromonasendodontalis"
+    ],
+    "respiratory_panel_viruses": [
+      "severeacuterespiratorysyndromerelatedcoronavirus",
+      "influenzaa",
+      "influenzab",
+      "respiratorysyncytialvirus",
+      "humanmetapneumovirus",
+      "humanparainfluenzavirus",
+      "adenovirus",
+      "rhinovirus"
+    ]
+  },
+  "rules": [
+    {
+      "id": "picked_alias_duplicate_omit",
+      "priority": 1000,
+      "tier": "review_omitted_with_reason",
+      "status": "hard_policy",
+      "when": {
+        "canonical_in_picked": true
+      },
+      "reason": "Same pathogen or alias is already retained in picked_pathogens."
+    },
+    {
+      "id": "picked_same_genus_related_omit",
+      "priority": 990,
+      "tier": "review_omitted_with_reason",
+      "status": "hard_policy",
+      "when": {
+        "genus_in_picked": true
+      },
+      "reason": "Same genus already has a picked representative; keep only as related evidence."
+    },
+    {
+      "id": "foley_or_urine_culture_only_low",
+      "priority": 900,
+      "tier": "review_low_specificity",
+      "status": "matched",
+      "when": {
+        "source_category_equals": "hospital_detected_only",
+        "support_modules_only": [
+          "culture"
+        ],
+        "text_contains_any": [
+          "foley",
+          "urine",
+          "urinary",
+          "catheter"
+        ]
+      },
+      "reason": "Hospital culture-only evidence from Foley/urine-type source is non-pulmonary and should stay audit-only."
+    },
+    {
+      "id": "corynebacterium_striatum_d3_high_burden_high",
+      "priority": 800,
+      "tier": "review_high_priority",
+      "status": "matched",
+      "when": {
+        "canonical_key_equals": "corynebacteriumstriatum",
+        "dominance_tier_equals": "D3_dominant",
+        "reads_gte": 10000
+      },
+      "reason": "D3 dominant, very high-burden lower-respiratory C. striatum safety signal."
+    },
+    {
+      "id": "actionable_respiratory_review_high",
+      "priority": 760,
+      "tier": "review_high_priority",
+      "status": "matched",
+      "when": {
+        "canonical_key_in_set": "actionable_respiratory_review"
+      },
+      "reason": "Actionable respiratory pathogen or respiratory-panel target with non-picked evidence."
+    },
+    {
+      "id": "respiratory_panel_virus_confirmed_high",
+      "priority": 755,
+      "tier": "review_high_priority",
+      "status": "matched",
+      "when": {
+        "canonical_key_in_set": "respiratory_panel_viruses",
+        "support_modules_any": [
+          "filmarray_gmtest",
+          "molecular_microbiology"
+        ]
+      },
+      "reason": "Respiratory-panel virus has same-organism molecular/FilmArray support; prioritize RAG review."
+    },
+    {
+      "id": "respiratory_panel_virus_dominant_high",
+      "priority": 754,
+      "tier": "review_high_priority",
+      "status": "matched",
+      "when": {
+        "canonical_key_in_set": "respiratory_panel_viruses",
+        "dominance_tier_in": [
+          "D2_moderate",
+          "D3_dominant"
+        ]
+      },
+      "reason": "Respiratory-panel virus is D2/D3 dominant in mNGS; prioritize RAG review."
+    },
+    {
+      "id": "respiratory_panel_virus_high_reads_tier_high",
+      "priority": 753,
+      "tier": "review_high_priority",
+      "status": "matched",
+      "when": {
+        "canonical_key_in_set": "respiratory_panel_viruses",
+        "reads_tier_in": [
+          "R3_high",
+          "R4_very_high"
+        ]
+      },
+      "reason": "Respiratory-panel virus has high/very-high mNGS read tier; prioritize RAG review."
+    },
+    {
+      "id": "corynebacterium_striatum_high_burden_context",
+      "priority": 700,
+      "tier": "review_context_needed",
+      "status": "matched",
+      "when": {
+        "canonical_key_equals": "corynebacteriumstriatum",
+        "reads_gte": 1000
+      },
+      "reason": "High-burden C. striatum needs airway-device, culture, imaging, and treatment-context review."
+    },
+    {
+      "id": "context_review_key_context",
+      "priority": 650,
+      "tier": "review_context_needed",
+      "status": "matched",
+      "when": {
+        "canonical_key_in_set": "context_review"
+      },
+      "reason": "Clinically plausible or high-consequence organism with incomplete pulmonary evidence."
+    },
+    {
+      "id": "chryseobacterium_high_burden_context",
+      "priority": 620,
+      "tier": "review_context_needed",
+      "status": "matched",
+      "when": {
+        "canonical_key_equals": "chryseobacteriumindologenes",
+        "reads_gte": 10000
+      },
+      "reason": "Very high-burden water/environment-associated GNB needs source-context review."
+    },
+    {
+      "id": "elizabethkingia_moderate_context",
+      "priority": 610,
+      "tier": "review_context_needed",
+      "status": "matched",
+      "when": {
+        "canonical_key_equals": "elizabethkingiaanophelis",
+        "confidence_equals": "moderate"
+      },
+      "reason": "Potential nosocomial water-associated GNB; evidence is insufficient but context-sensitive."
+    },
+    {
+      "id": "aspiration_high_burden_context",
+      "priority": 600,
+      "tier": "review_context_needed",
+      "status": "matched",
+      "when": {
+        "canonical_key_in_set": "aspiration_context",
+        "reads_gte": 1000
+      },
+      "reason": "High-burden aspiration/anaerobe pattern needs clinical and imaging context."
+    },
+    {
+      "id": "respiratory_panel_virus_low_burden_context",
+      "priority": 595,
+      "tier": "review_context_needed",
+      "status": "matched",
+      "when": {
+        "canonical_key_in_set": "respiratory_panel_viruses",
+        "specimen_class_equals": "S2_lower_respiratory",
+        "reads_gte": 1
+      },
+      "reason": "Typical respiratory virus has lower-respiratory mNGS signal but lacks high-priority support; needs clinical timing and confirmatory-test context."
+    },
+    {
+      "id": "aspiration_watchlist_high_burden_context",
+      "priority": 590,
+      "tier": "review_context_needed",
+      "status": "matched",
+      "when": {
+        "review_reasons_any": [
+          "lower_respiratory_aspiration_anaerobe_clean_high_signal_watchlist",
+          "full_ranked_aspiration_anaerobe_or_oral_flora_clean_high_signal_watchlist"
+        ],
+        "reads_gte": 1000
+      },
+      "reason": "Queue builder already flagged a clean lower-respiratory aspiration/oral-flora pattern with high burden; keep context-needed for RAG review."
+    },
+    {
+      "id": "aspiration_oral_flora_low_burden_low",
+      "priority": 580,
+      "tier": "review_low_specificity",
+      "status": "matched",
+      "when": {
+        "review_reasons_any": [
+          "lower_respiratory_aspiration_anaerobe_clean_high_signal_watchlist",
+          "full_ranked_aspiration_anaerobe_or_oral_flora_clean_high_signal_watchlist"
+        ],
+        "reads_lt": 1000,
+        "dominance_tier_in": [
+          "D0_not_top",
+          "D1_low"
+        ]
+      },
+      "reason": "Low-burden oral/aspiration flora with D0/D1 mNGS pattern is audit-only unless case-level coherent aspiration evidence is added later."
+    },
+    {
+      "id": "likely_colonizer_or_background_low",
+      "priority": 300,
+      "tier": "review_low_specificity",
+      "status": "matched",
+      "when": {
+        "is_likely_colonizer_or_background": true
+      },
+      "reason": "Queue item is already marked likely colonizer/background; keep audit-only unless a stronger explicit rule promotes it."
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "multi_assay_test_aware_shadow_v1",
+  "mode": "answer_blind_shadow",
+  "purpose": "Route multi-assay mNGS candidates without replacing the frozen selected-DNA baseline or using physician answers.",
+  "strong_analytical_axes": {
+    "cross_molecule_support": "Detected by both DNA and RNA tests.",
+    "repeated_detection": "Detected in at least two distinct tests.",
+    "best_priority_rank_at_most": 2
+  },
+  "priority_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb",
+    "high_consequence_opportunistic",
+    "other_respiratory_virus"
+  ],
+  "conditional_families": [
+    "mold_or_opportunistic_fungus"
+  ],
+  "context_families": [
+    "candida_or_yeast",
+    "herpes_or_reactivation_virus",
+    "oral_aspiration_or_anaerobe",
+    "skin_airway_colonizer_prone"
+  ],
+  "background_families": [
+    "environmental_low_specificity",
+    "gi_urinary_or_nonpulmonary_prone",
+    "commensal_virome_or_endogenous_element"
+  ],
+  "uncertain_families": [
+    "unmapped_or_uncertain"
+  ],
+  "actions": {
+    "retain_baseline": "Keep the candidate already present in the frozen selected-DNA baseline.",
+    "forward_priority_review": "Add to the downstream review queue as an analytically supported candidate.",
+    "forward_context_review": "Add to downstream review as context; do not promote directly to Picked.",
+    "audit_only": "Retain in the evidence ledger for manual or literature audit, but do not forward automatically.",
+    "hold_not_forwarded": "Keep the observation for provenance but exclude it from the downstream candidate queue."
+  },
+  "safety_constraints": [
+    "Do not use physician answers or benchmark hit status.",
+    "Do not sum reads across tests.",
+    "Do not compare raw reads directly across DNA, RNA, dilution, or protocol conditions.",
+    "Cross-test concordance supports analytical reproducibility, not clinical causality.",
+    "RNA-only bacterial or fungal signals cannot enter priority review without additional analytical support.",
+    "Filtered-only observations never enter the downstream review queue automatically.",
+    "Taxonomy family controls routing only; it does not establish pathogenicity."
+  ]
+}

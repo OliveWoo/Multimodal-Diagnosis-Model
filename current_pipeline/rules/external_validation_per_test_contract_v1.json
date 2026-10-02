@@ -1,0 +1,46 @@
+{
+  "schema_version": "external_validation_per_test_contract.v1",
+  "unit_of_observation": "patient_specimen_seq_id_organism",
+  "required_fields": [
+    "patient_id",
+    "specimen_code",
+    "collected_time",
+    "specimen_site",
+    "seq_id",
+    "molecule_type",
+    "organism_name",
+    "taxid",
+    "reads",
+    "input_reads",
+    "qc_status",
+    "selected_by_lab_gate"
+  ],
+  "conditionally_required_fields": [
+    "nonhost_reads",
+    "host_ratio",
+    "code_ntc",
+    "code_rk_ntc",
+    "ntc_ratio",
+    "protocol_condition",
+    "technical_repeat_relation",
+    "source_file_id"
+  ],
+  "allowed_molecule_type": ["DNA", "RNA"],
+  "technical_repeat_relation_values": [
+    "independent_extraction",
+    "parallel_preparation",
+    "same_library_resequence",
+    "unknown"
+  ],
+  "answer_handling": {
+    "answers_must_be_separate_from_pipeline_input": true,
+    "policy_must_be_frozen_before_unblinding": true,
+    "minimum_outputs": [
+      "per_patient_before_after",
+      "tp_gained_lost",
+      "fp_added_removed",
+      "precision_recall_f1",
+      "candidate_disappearance_audit"
+    ]
+  }
+}

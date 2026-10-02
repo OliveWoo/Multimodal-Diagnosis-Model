@@ -1,0 +1,29 @@
+{
+  "schema_version": "reference_replacement_acceptance.v1",
+  "current_reference": "frozen_legacy_A",
+  "candidate": "kh_integrated_decision_pipeline_v1_non_OBER",
+  "status": "pending_compatible_validation",
+  "decision_source": "user_confirmed_conditionally_2026-09-30",
+  "requirements": [
+    "Compare the same patient list, answer snapshot, matching policy, and reporting endpoint.",
+    "Use a held-out or external cohort compatible with the per-test DNA/RNA contract.",
+    "Recall must be no worse than the frozen legacy reference.",
+    "F1 must be higher than the frozen legacy reference.",
+    "Review TP gained/lost and FP added/removed; no clinically unacceptable new false-positive pattern may be hidden by an aggregate metric.",
+    "Manual High-review flags must be reported separately from deterministic model performance.",
+    "OBER remains outside this replacement decision unless explicitly added later."
+  ],
+  "development_cohort_context_only": {
+    "legacy_A": {
+      "precision": 0.774,
+      "recall": 0.800,
+      "f1": 0.787
+    },
+    "new_complete_report": {
+      "precision": 0.797,
+      "recall": 0.917,
+      "f1": 0.853
+    },
+    "interpretation": "Promising internal result, but endpoints and cohort reuse prevent it from proving external superiority."
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "test_aware_history_route_v1",
+  "mode": "answer_blind_shadow",
+  "route_order": [
+    "Hold",
+    "Audit",
+    "Context",
+    "Priority"
+  ],
+  "decision_to_analytic_route": {
+    "picked_shadow": "Priority",
+    "review_high_priority": "Priority",
+    "review_context_needed": "Context",
+    "review_low_specificity": "Audit",
+    "hold": "Hold"
+  },
+  "aspiration_family": "oral_aspiration_or_anaerobe",
+  "history_patterns": {
+    "explicit_aspiration_event": [
+      "aspiration pneumonia",
+      "aspiration pneumonitis"
+    ],
+    "possible_aspiration_event": [
+      "choking related"
+    ],
+    "durable_anatomic_risk": [
+      "esophagus stenosis",
+      "esophageal stenosis",
+      "oesophagus stenosis",
+      "oesophageal stenosis",
+      "feeding jejunostomy",
+      "feeding gastrostomy",
+      "invasion to vocal cord",
+      "dysphagia"
+    ],
+    "durable_neurologic_risk": [
+      "acute infarction",
+      "stroke",
+      "neurological deterioration"
+    ]
+  },
+  "analytical_thresholds": {
+    "context_to_priority_max_rank": 3,
+    "audit_to_context_min_positive_tests": 1,
+    "audit_to_context_max_rank": 10,
+    "audit_to_context_max_representatives_per_patient": 2
+  },
+  "strict_aspiration_anaerobe_genus_terms": [
+    "actinomyces",
+    "bacteroides",
+    "dialister",
+    "finegoldia",
+    "fusobacterium",
+    "parabacteroides",
+    "parvimonas",
+    "peptostreptococcus",
+    "phocaeicola",
+    "porphyromonas",
+    "prevotella",
+    "segatella",
+    "veillonella"
+  ],
+  "constraints": [
+    "History may move a candidate by at most one route level in this stage.",
+    "Aspiration history only applies to the oral_aspiration_or_anaerobe family.",
+    "In v1, a prior aspiration episode alone is context; a durable anatomic risk is required for Context-to-Priority.",
+    "Context-to-Priority also requires a top-three per-test rank or analytical reproducibility.",
+    "Audit-to-Context is limited to strict aspiration anaerobes with rank at most ten or reproducible signal, and at most two representatives per patient.",
+    "History never creates a candidate and never directly creates Picked.",
+    "Evidence consumed by this stage is recorded and cannot be counted again as an independent High-to-Picked axis.",
+    "A low-confidence phenotype NO means not established; it does not negate direct structured source evidence.",
+    "The policy is answer blind and does not read benchmark labels."
+  ]
+}

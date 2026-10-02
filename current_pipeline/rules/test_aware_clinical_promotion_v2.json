@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "test_aware_clinical_promotion_v2",
+  "mode": "answer_blind_shadow",
+  "expected_candidate_count": 284,
+  "generic_identity_terms": [
+    "identification to follow",
+    " evidence",
+    " spp",
+    " group",
+    " complex"
+  ],
+  "bacterial_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb"
+  ],
+  "blocked_without_invasive_evidence_families": [
+    "candida_or_yeast",
+    "herpes_or_reactivation_virus",
+    "oral_aspiration_or_anaerobe",
+    "skin_airway_colonizer_prone",
+    "gi_urinary_or_nonpulmonary_prone"
+  ],
+  "compatible_specimen_contexts": [
+    "lower_respiratory",
+    "sterile_or_systemic"
+  ],
+  "thresholds": {
+    "bacterial_reproducible_max_rank": 3,
+    "direct_supported_max_rank": 10,
+    "opportunistic_max_rank": 10,
+    "environmental_max_rank": 3,
+    "minimum_reproduced_tests": 2
+  },
+  "constraints": [
+    "This stage only evaluates review_high_priority candidates for promotion; it never removes a candidate or forces one Picked result per patient.",
+    "Reads remain per-test evidence and are never summed across DNA, RNA, or technical repeats.",
+    "DNA/RNA agreement or repeated sequencing is one analytical reproducibility axis, not independent clinical confirmation.",
+    "Generic group, complex, spp., evidence, and pending-identification labels cannot be promoted as species-level Picked results.",
+    "Candida or other respiratory yeast is not promoted without a separately implemented invasive-evidence route.",
+    "Imaging is never microbiological confirmation; for PJP it can contribute only when combined with reproducible cross-molecule mNGS evidence.",
+    "Host risk alone never promotes an organism; PJP additionally requires reproducible top-three mNGS evidence from a compatible event.",
+    "Phenotype, treatment response, WBC, CRP, and outcome do not change deterministic Picked status in this policy.",
+    "The policy is answer blind; benchmark answers are used only after output generation by a separate evaluator."
+  ]
+}

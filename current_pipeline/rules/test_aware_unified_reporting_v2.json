@@ -1,0 +1,157 @@
+{
+  "schema_version": "2.3.0",
+  "policy_id": "test_aware_unified_reporting_v2_3_aspiration_bridge_answer_blind",
+  "mode": "answer_blind_shadow",
+  "enable_recall_first_v2": true,
+  "generic_identity_terms": [
+    "identification to follow",
+    " evidence",
+    " spp",
+    " group",
+    " complex"
+  ],
+  "analytical_possible_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb"
+  ],
+  "direct_possible_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb",
+    "environmental_low_specificity"
+  ],
+  "low_specificity_possible_families": [
+    "skin_airway_colonizer_prone",
+    "gi_urinary_or_nonpulmonary_prone"
+  ],
+  "special_family_guardrails": [
+    "candida_or_yeast",
+    "herpes_or_reactivation_virus",
+    "high_consequence_opportunistic",
+    "mold_or_opportunistic_fungus",
+    "oral_aspiration_or_anaerobe",
+    "other_respiratory_virus",
+    "unmapped_or_uncertain"
+  ],
+  "compatible_specimen_contexts": [
+    "lower_respiratory",
+    "sterile_or_systemic",
+    "blood_or_systemic"
+  ],
+  "sterile_specimen_terms": [
+    "blood",
+    "sterile",
+    "tissue",
+    "pleural",
+    "cerebrospinal",
+    "csf",
+    "abscess"
+  ],
+  "thresholds": {
+    "analytical_max_rank": 3,
+    "analytical_minimum_positive_tests": 2,
+    "direct_max_rank": 10,
+    "direct_minimum_positive_tests": 2,
+    "direct_max_hospital_level": 3,
+    "low_specificity_max_rank": 1,
+    "low_specificity_minimum_positive_tests": 3,
+    "repeated_sterile_minimum_observations": 2
+  },
+  "pjp_possible": {
+    "canonical_organism_key": "pneumocystisjirovecii",
+    "compatible_specimen_contexts": [
+      "lower_respiratory"
+    ],
+    "maximum_rank": 3,
+    "minimum_positive_tests": 2,
+    "require_reproducibility": true,
+    "allow_recorded_host_context": true,
+    "missing_confirmation_is_negative": false
+  },
+  "reactivation_possible": {
+    "family": "herpes_or_reactivation_virus",
+    "compatible_specimen_contexts": [
+      "lower_respiratory",
+      "sterile_or_systemic",
+      "blood_or_systemic"
+    ],
+    "cross_molecule_maximum_rank": 3,
+    "cross_molecule_minimum_positive_tests": 6,
+    "explicit_current_reactivation_minimum_positive_tests": 2,
+    "host_supported_single_test_maximum_rank": 1,
+    "host_supported_single_test_minimum_positive_tests": 1,
+    "host_supported_single_test_maximum_positive_tests": 1,
+    "missing_reactivation_label_is_negative": false
+  },
+  "strong_cross_molecule_possible": {
+    "families": [
+      "gi_urinary_or_nonpulmonary_prone"
+    ],
+    "compatible_specimen_contexts": [
+      "lower_respiratory",
+      "sterile_or_systemic"
+    ],
+    "maximum_rank": 4,
+    "minimum_positive_tests": 6,
+    "require_reproducibility": true,
+    "require_cross_molecule": true
+  },
+  "aspiration_possible": {
+    "family": "oral_aspiration_or_anaerobe",
+    "required_history_policy_family": "aspiration",
+    "required_history_rule_id": "HIST-ASP3-CONTEXT-TO-PRIORITY",
+    "required_history_adjusted_route": "Priority",
+    "required_clinical_decision": "review_high_priority",
+    "compatible_specimen_contexts": [
+      "lower_respiratory"
+    ],
+    "maximum_rank": 3,
+    "minimum_positive_tests": 3,
+    "require_reproducibility": true,
+    "require_cross_molecule": true,
+    "require_all_positive_tests_fully_evaluable": true
+  },
+  "primary_report_compaction": {
+    "enabled": true,
+    "analytical_only_route": "reproducible_top_ranked_typical_or_hospital_bacterium",
+    "low_normalized_burden": {
+      "maximum_available_per_test_rpm_exclusive": 5.0,
+      "require_all_positive_tests_fully_evaluable": true,
+      "require_rpm_for_every_positive_test": true
+    },
+    "inherited_taxonomy_without_support": {
+      "exact_mapping_status": "exact_species",
+      "require_recorded_host_context_when_not_exact": true
+    }
+  },
+  "fallback_best_available": {
+    "enabled": true,
+    "maximum_candidates": 2,
+    "include_runner_up_only_on_equal_core_rank": true,
+    "require_positive_test": true,
+    "require_precise_identity": true,
+    "taxonomy_penalty_families": [
+      "environmental_low_specificity",
+      "herpes_or_reactivation_virus",
+      "gi_urinary_or_nonpulmonary_prone",
+      "skin_airway_colonizer_prone",
+      "candida_or_yeast",
+      "unmapped_or_uncertain"
+    ]
+  },
+  "allow_event_aligned_direct_positive_without_level": true,
+  "constraints": [
+    "This is a new shadow policy and does not overwrite frozen v1.",
+    "The final report is emitted once as Picked, Possible, Fallback-Possible, or Context.",
+    "Clinical decision fields remain immutable; final reporting roles do not create formal causal claims.",
+    "Reads remain per-test evidence and are never summed across DNA, RNA, or technical repeats.",
+    "Missing PCR, beta-D-glucan, culture, viral load, history, or timing is unknown and never negative.",
+    "Recorded but dose-unverified immunosuppressive exposure may support PJP Possible but cannot create Picked.",
+    "Explicit current reactivation reduces incidental-reactivation concern; absence of such wording does not prove no reactivation.",
+    "Strong cross-molecule repeated evidence may create Possible despite taxonomy source caution but not Picked.",
+    "An aspiration-family candidate already moved from Context to Priority by the frozen history route may enter Possible only with complete, reproducible cross-molecule mNGS evidence; consumed history is not reused to create Picked.",
+    "Analytical-only candidates remain visible in Context when every positive test is fully evaluable, every test has RPM, and all per-test RPM values remain below the fixed burden threshold; test count itself never causes demotion.",
+    "Analytical-only candidates whose family is genus-inherited require recorded host context to remain in the primary report.",
+    "Fallback runs only when a patient has no Picked or Possible and is visibly labeled low-confidence best available.",
+    "The policy is answer blind; benchmark answers are used only by a separate post-hoc evaluator."
+  ]
+}

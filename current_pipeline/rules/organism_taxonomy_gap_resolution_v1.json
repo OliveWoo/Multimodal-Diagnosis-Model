@@ -1,0 +1,250 @@
+{
+  "schema_version": "organism_taxonomy_gap_resolution_v1",
+  "profile_version": "organism_taxonomy_profile_v2_gap_resolution_20260922",
+  "purpose": "Answer-blind taxonomy and ecology routing for reproducible multi-assay names that were previously unmapped. These profiles do not establish patient-level causality.",
+  "evidence_sources": [
+    "NCBI Taxonomy E-utilities audit generated 2026-09-22",
+    "NCBI Taxonomy update: PMID 32761142",
+    "Human anellome persistence study: PMCID PMC9175625",
+    "Human endogenous retrovirus K study: PMCID PMC4136327"
+  ],
+  "families": {
+    "commensal_virome_or_endogenous_element": {
+      "description_zh": "常見人體 virome、免疫狀態相關病毒或內源性病毒序列",
+      "default_traits": [
+        "commensal_virome_possible",
+        "immune_status_marker_possible",
+        "causal_pulmonary_role_not_established",
+        "do_not_auto_pick_from_taxonomy"
+      ]
+    }
+  },
+  "exact_profiles": {
+    "arcanobacteriumhippocoleae": {
+      "rule_id": "TAX-GAP-EXACT-ARCANOBACTERIUM-HIPPOCOLEAE",
+      "taxid": 149017,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "clinical_traits": ["animal_association", "rare_opportunistic_pathogen_possible", "direct_support_preferred"]
+    },
+    "blautiawexlerae": {
+      "rule_id": "TAX-GAP-EXACT-BLAUTIA-WEXLERAE",
+      "taxid": 418240,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "gi_urinary_or_nonpulmonary_prone",
+      "clinical_traits": ["gi_commensal", "pulmonary_source_confirmation_required"]
+    },
+    "bordetellaansorpii": {
+      "rule_id": "TAX-GAP-EXACT-BORDETELLA-ANSORPII",
+      "taxid": 288768,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "clinical_traits": ["rare_opportunistic_pathogen_possible", "species_identity_matters", "direct_support_preferred"]
+    },
+    "campylobacterrectus": {
+      "rule_id": "TAX-GAP-EXACT-CAMPYLOBACTER-RECTUS",
+      "taxid": 203,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "clinical_traits": ["oral_commensal", "periodontal_association", "anaerobe", "aspiration_pattern_relevant"]
+    },
+    "edwardsiellaictaluri": {
+      "rule_id": "TAX-GAP-EXACT-EDWARDSIELLA-ICTALURI",
+      "taxid": 67780,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "clinical_traits": ["aquatic_animal_pathogen", "human_pulmonary_role_not_established", "direct_support_preferred"]
+    },
+    "ihuprevotellamassiliensis": {
+      "rule_id": "TAX-GAP-EXACT-IHUPREVOTELLA-MASSILIENSIS",
+      "taxid": 1852368,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "gi_urinary_or_nonpulmonary_prone",
+      "clinical_traits": ["human_microbiome_association", "pulmonary_source_confirmation_required"],
+      "literature_review_recommended": true
+    },
+    "mixtatenebrionis": {
+      "rule_id": "TAX-GAP-EXACT-MIXTA-TENEBRIONIS",
+      "taxid": 2562439,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "environmental_low_specificity",
+      "clinical_traits": ["insect_or_environmental_association", "human_pulmonary_role_not_established"]
+    },
+    "neisseriasicca": {
+      "rule_id": "TAX-GAP-EXACT-NEISSERIA-SICCA",
+      "taxid": 490,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "clinical_traits": ["upper_airway_commensal", "colonization_possible", "rare_opportunistic_pathogen_possible"]
+    },
+    "raoultellaterrigena": {
+      "rule_id": "TAX-GAP-EXACT-RAOULTELLA-TERRIGENA",
+      "taxid": 577,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "hospital_or_nonfermenter_gnb",
+      "secondary_rule_families": ["gi_urinary_or_nonpulmonary_prone"],
+      "clinical_traits": ["ncbi_current_name_klebsiella_terrigena", "opportunistic_pathogen_possible", "species_identity_matters", "direct_support_preferred"]
+    },
+    "streptococcuskoreensis": {
+      "rule_id": "TAX-GAP-EXACT-STREP-KOREENSIS",
+      "taxid": 2382163,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "clinical_traits": ["oral_commensal", "colonization_possible", "aspiration_pattern_relevant"]
+    },
+    "streptococcusoralis": {
+      "rule_id": "TAX-GAP-EXACT-STREP-ORALIS",
+      "taxid": 1303,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "clinical_traits": ["oral_commensal", "colonization_possible", "opportunistic_pathogen_possible"]
+    },
+    "streptococcusparasanguinis": {
+      "rule_id": "TAX-GAP-EXACT-STREP-PARASANGUINIS",
+      "taxid": 1318,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "clinical_traits": ["oral_commensal", "colonization_possible", "opportunistic_pathogen_possible"]
+    },
+    "streptococcussalivarius": {
+      "rule_id": "TAX-GAP-EXACT-STREP-SALIVARIUS",
+      "taxid": 1304,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "clinical_traits": ["oral_commensal", "colonization_possible", "aspiration_pattern_relevant"]
+    },
+    "treponemamedium": {
+      "rule_id": "TAX-GAP-EXACT-TREPONEMA-MEDIUM",
+      "taxid": 58231,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "oral_aspiration_or_anaerobe",
+      "clinical_traits": ["oral_commensal", "periodontal_association", "anaerobe", "aspiration_pattern_relevant"]
+    },
+    "trichodermaatroviride": {
+      "rule_id": "TAX-GAP-EXACT-TRICHODERMA-ATROVIRIDE",
+      "taxid": 63577,
+      "taxonomic_rank": "species",
+      "biological_class": "fungus",
+      "primary_rule_family": "environmental_low_specificity",
+      "secondary_rule_families": ["mold_or_opportunistic_fungus"],
+      "clinical_traits": ["environmental_mold", "biocontrol_association", "human_pulmonary_role_not_established", "species_identity_matters"]
+    },
+    "betapolyomavirushominis": {
+      "rule_id": "TAX-GAP-EXACT-BK-POLYOMAVIRUS",
+      "taxid": 1891762,
+      "taxonomic_rank": "species",
+      "biological_class": "virus",
+      "primary_rule_family": "herpes_or_reactivation_virus",
+      "secondary_rule_families": ["gi_urinary_or_nonpulmonary_prone"],
+      "clinical_traits": ["bk_polyomavirus", "reactivation_possible", "renal_urinary_tropism", "pulmonary_causality_not_established"]
+    },
+    "humanendogenousretrovirusk": {
+      "rule_id": "TAX-GAP-EXACT-HERV-K",
+      "taxid": 45617,
+      "taxonomic_rank": "species_label",
+      "biological_class": "virus",
+      "primary_rule_family": "commensal_virome_or_endogenous_element",
+      "clinical_traits": ["endogenous_genomic_element", "no_confirmed_infectious_virus", "do_not_auto_pick_from_taxonomy"]
+    },
+    "arizlamavirus": {
+      "rule_id": "TAX-GAP-EXACT-ARIZLAMA-VIRUS",
+      "taxid": 2859451,
+      "taxonomic_rank": "species",
+      "biological_class": "virus",
+      "primary_rule_family": "environmental_low_specificity",
+      "clinical_traits": ["unclassified_cressdnaviricota", "host_not_established", "do_not_auto_pick_from_taxonomy"]
+    },
+    "circoviridaesp": {
+      "rule_id": "TAX-GAP-EXACT-CIRCOVIRIDAE-SP",
+      "taxid": 1954248,
+      "taxonomic_rank": "unclassified_sequence_label",
+      "biological_class": "virus",
+      "primary_rule_family": "environmental_low_specificity",
+      "clinical_traits": ["host_not_established", "unclassified_viral_sequence", "do_not_auto_pick_from_taxonomy"]
+    },
+    "parvovirinaesp": {
+      "rule_id": "TAX-GAP-EXACT-PARVOVIRINAE-SP",
+      "taxid": 2055262,
+      "taxonomic_rank": "unclassified_sequence_label",
+      "biological_class": "virus",
+      "primary_rule_family": "environmental_low_specificity",
+      "clinical_traits": ["host_not_established", "unclassified_viral_sequence", "do_not_auto_pick_from_taxonomy"]
+    }
+  },
+  "genus_profiles": {
+    "alishewanella": {"rule_id": "TAX-GAP-GENUS-ALISHEWANELLA", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "direct_support_preferred"]},
+    "alloscardovia": {"rule_id": "TAX-GAP-GENUS-ALLOSCARDOVIA", "biological_class": "bacterium", "primary_rule_family": "gi_urinary_or_nonpulmonary_prone", "clinical_traits": ["urinary_source_possible", "gi_commensal_possible", "pulmonary_source_confirmation_required"]},
+    "aquincola": {"rule_id": "TAX-GAP-GENUS-AQUINCOLA", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["water_association", "contamination_possible"]},
+    "caballeronia": {"rule_id": "TAX-GAP-GENUS-CABALLERONIA", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "secondary_rule_families": ["hospital_or_nonfermenter_gnb"], "clinical_traits": ["environmental_association", "opportunistic_pathogen_possible", "species_identity_matters"]},
+    "cedecea": {"rule_id": "TAX-GAP-GENUS-CEDECEA", "biological_class": "bacterium", "primary_rule_family": "hospital_or_nonfermenter_gnb", "clinical_traits": ["opportunistic_pathogen_possible", "healthcare_associated_possible", "direct_support_preferred"]},
+    "cloacibacterium": {"rule_id": "TAX-GAP-GENUS-CLOACIBACTERIUM", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["water_or_wastewater_association", "contamination_possible"]},
+    "dialister": {"rule_id": "TAX-GAP-GENUS-DIALISTER", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_commensal", "anaerobe", "aspiration_pattern_relevant"]},
+    "eikenella": {"rule_id": "TAX-GAP-GENUS-EIKENELLA", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_commensal", "opportunistic_pathogen_possible", "aspiration_pattern_relevant"]},
+    "flectobacillus": {"rule_id": "TAX-GAP-GENUS-FLECTOBACILLUS", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["freshwater_association", "contamination_possible"]},
+    "granulicatella": {"rule_id": "TAX-GAP-GENUS-GRANULICATELLA", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_commensal", "opportunistic_pathogen_possible", "invasive_site_support_relevant"]},
+    "hoylesella": {"rule_id": "TAX-GAP-GENUS-HOYLESELLA", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_microbiome_association", "colonization_possible"]},
+    "jeotgalicoccus": {"rule_id": "TAX-GAP-GENUS-JEOTGALICOCCUS", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "contamination_possible"]},
+    "lacticaseibacillus": {"rule_id": "TAX-GAP-GENUS-LACTICASEIBACILLUS", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_or_gi_commensal", "colonization_possible", "rare_opportunistic_pathogen_possible"]},
+    "ligilactobacillus": {"rule_id": "TAX-GAP-GENUS-LIGILACTOBACILLUS", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_or_gi_commensal", "colonization_possible"]},
+    "limnohabitans": {"rule_id": "TAX-GAP-GENUS-LIMNOHABITANS", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["freshwater_association", "contamination_possible"]},
+    "limosilactobacillus": {"rule_id": "TAX-GAP-GENUS-LIMOSILACTOBACILLUS", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_or_gi_commensal", "colonization_possible"]},
+    "luteimonas": {"rule_id": "TAX-GAP-GENUS-LUTEIMONAS", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "contamination_possible"]},
+    "planctomonas": {"rule_id": "TAX-GAP-GENUS-PLANCTOMONAS", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["soil_association", "contamination_possible"]},
+    "polynucleobacter": {"rule_id": "TAX-GAP-GENUS-POLYNUCLEOBACTER", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["freshwater_association", "contamination_possible", "human_pulmonary_role_not_established"]},
+    "pseudoxanthomonas": {"rule_id": "TAX-GAP-GENUS-PSEUDOXANTHOMONAS", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_association", "opportunistic_pathogen_possible"]},
+    "rheinheimera": {"rule_id": "TAX-GAP-GENUS-RHEINHEIMERA", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["water_or_soil_association", "contamination_possible"]},
+    "rhodococcus": {"rule_id": "TAX-GAP-GENUS-RHODOCOCCUS", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["soil_association", "opportunistic_pathogen_possible", "species_identity_matters"]},
+    "rhodocytophaga": {"rule_id": "TAX-GAP-GENUS-RHODOCYTOPHAGA", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["air_or_environmental_association", "contamination_possible"]},
+    "scardovia": {"rule_id": "TAX-GAP-GENUS-SCARDOVIA", "biological_class": "bacterium", "primary_rule_family": "oral_aspiration_or_anaerobe", "clinical_traits": ["oral_commensal", "dental_association", "colonization_possible"]},
+    "trinickia": {"rule_id": "TAX-GAP-GENUS-TRINICKIA", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["plant_or_environmental_association", "human_pulmonary_role_not_established"]},
+    "undibacterium": {"rule_id": "TAX-GAP-GENUS-UNDIBACTERIUM", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["water_association", "contamination_possible", "ncbi_renamed_genus_possible"]},
+    "variovorax": {"rule_id": "TAX-GAP-GENUS-VARIOVORAX", "biological_class": "bacterium", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["soil_or_water_association", "contamination_possible"]},
+
+    "alternaria": {"rule_id": "TAX-GAP-GENUS-ALTERNARIA", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["environmental_mold", "opportunistic_pathogen_possible", "invasive_evidence_relevant"]},
+    "cladosporium": {"rule_id": "TAX-GAP-GENUS-CLADOSPORIUM", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["environmental_mold", "contamination_possible", "opportunistic_pathogen_possible"]},
+    "exophiala": {"rule_id": "TAX-GAP-GENUS-EXOPHIALA", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["dematiaceous_fungus", "opportunistic_pathogen_possible", "host_risk_dependent"]},
+    "malassezia": {"rule_id": "TAX-GAP-GENUS-MALASSEZIA", "biological_class": "fungus", "primary_rule_family": "skin_airway_colonizer_prone", "clinical_traits": ["skin_commensal", "contamination_possible", "device_context_relevant"]},
+    "rhodotorula": {"rule_id": "TAX-GAP-GENUS-RHODOTORULA", "biological_class": "fungus", "primary_rule_family": "candida_or_yeast", "clinical_traits": ["environmental_yeast", "opportunistic_pathogen_possible", "catheter_or_blood_support_preferred"]},
+    "trichoderma": {"rule_id": "TAX-GAP-GENUS-TRICHODERMA", "biological_class": "fungus", "primary_rule_family": "mold_or_opportunistic_fungus", "clinical_traits": ["environmental_mold", "rare_opportunistic_pathogen_possible", "invasive_evidence_relevant"]},
+
+    "anaeromyces": {"rule_id": "TAX-GAP-GENUS-ANAEROMYCES", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["herbivore_gut_fungus", "human_pulmonary_role_not_established"]},
+    "balansia": {"rule_id": "TAX-GAP-GENUS-BALANSIA", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["plant_association", "human_pulmonary_role_not_established"]},
+    "calonectria": {"rule_id": "TAX-GAP-GENUS-CALONECTRIA", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["plant_pathogen", "environmental_association", "human_pulmonary_role_not_established"]},
+    "cystofilobasidium": {"rule_id": "TAX-GAP-GENUS-CYSTOFILOBASIDIUM", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_yeast", "human_pulmonary_role_not_established"]},
+    "iodosphaeria": {"rule_id": "TAX-GAP-GENUS-IODOSPHAERIA", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["plant_or_saprobic_association", "human_pulmonary_role_not_established"]},
+    "komagataella": {"rule_id": "TAX-GAP-GENUS-KOMAGATAELLA", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_or_industrial_yeast", "human_pulmonary_role_not_established"]},
+    "lasiodiplodia": {"rule_id": "TAX-GAP-GENUS-LASIODIPLODIA", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "secondary_rule_families": ["mold_or_opportunistic_fungus"], "clinical_traits": ["plant_pathogen", "rare_opportunistic_pathogen_possible", "species_identity_matters"]},
+    "letharia": {"rule_id": "TAX-GAP-GENUS-LETHARIA", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["lichen_association", "human_pulmonary_role_not_established"]},
+    "neocallimastix": {"rule_id": "TAX-GAP-GENUS-NEOCALLIMASTIX", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["herbivore_gut_fungus", "human_pulmonary_role_not_established"]},
+    "ogataea": {"rule_id": "TAX-GAP-GENUS-OGATAEA", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["environmental_yeast", "human_pulmonary_role_not_established"]},
+    "olpidium": {"rule_id": "TAX-GAP-GENUS-OLPIDIUM", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["plant_root_association", "human_pulmonary_role_not_established"]},
+    "pecoramyces": {"rule_id": "TAX-GAP-GENUS-PECORAMYCES", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["herbivore_gut_fungus", "human_pulmonary_role_not_established"]},
+    "phakopsora": {"rule_id": "TAX-GAP-GENUS-PHAKOPSORA", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["plant_pathogen", "human_pulmonary_role_not_established"]},
+    "pseudophaeomoniella": {"rule_id": "TAX-GAP-GENUS-PSEUDOPHAEOMONIELLA", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["plant_association", "human_pulmonary_role_not_established"]},
+    "rhizophagus": {"rule_id": "TAX-GAP-GENUS-RHIZOPHAGUS", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["mycorrhizal_plant_association", "human_pulmonary_role_not_established"]},
+    "stemphylium": {"rule_id": "TAX-GAP-GENUS-STEMPHYLIUM", "biological_class": "fungus", "primary_rule_family": "environmental_low_specificity", "clinical_traits": ["plant_pathogen", "human_pulmonary_role_not_established"]}
+  },
+  "key_prefix_profiles": [
+    {
+      "rule_id": "TAX-GAP-PREFIX-ANELLOWVIRUS",
+      "prefixes": ["anelloviridae", "anellovirus", "torquetenovirus", "ttvlikeminivirus"],
+      "biological_class": "virus",
+      "primary_rule_family": "commensal_virome_or_endogenous_element",
+      "clinical_traits": ["commensal_virome_possible", "immune_status_marker_possible", "causal_pulmonary_role_not_established"]
+    }
+  ]
+}

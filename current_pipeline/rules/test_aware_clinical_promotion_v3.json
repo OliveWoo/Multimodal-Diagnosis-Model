@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "test_aware_clinical_promotion_v3_candida_invasive_event",
+  "mode": "answer_blind_shadow",
+  "generic_identity_terms": [
+    "identification to follow",
+    " evidence",
+    " spp",
+    " group",
+    " complex"
+  ],
+  "candida_group_identity_terms": [
+    "yeast",
+    "candida evidence",
+    "candida spp",
+    "candida species"
+  ],
+  "candida_invasive_evidence": {
+    "event_window_hours": 48,
+    "sterile_specimen_categories": [
+      "Sterile_Site",
+      "Blood",
+      "Tissue"
+    ],
+    "sterile_specimen_terms": [
+      "blood",
+      "sterile",
+      "tissue",
+      "pleural",
+      "cerebrospinal",
+      "csf",
+      "abscess"
+    ],
+    "explicit_positive_terms": [
+      " isolated",
+      " detected",
+      " positive",
+      "grew",
+      "growth"
+    ],
+    "explicit_negative_terms": [
+      "not detected",
+      "no growth",
+      "negative",
+      "not isolated"
+    ]
+  },
+  "bacterial_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb"
+  ],
+  "blocked_without_invasive_evidence_families": [
+    "herpes_or_reactivation_virus",
+    "oral_aspiration_or_anaerobe",
+    "skin_airway_colonizer_prone",
+    "gi_urinary_or_nonpulmonary_prone"
+  ],
+  "compatible_specimen_contexts": [
+    "lower_respiratory",
+    "sterile_or_systemic"
+  ],
+  "thresholds": {
+    "bacterial_reproducible_max_rank": 3,
+    "direct_supported_max_rank": 10,
+    "opportunistic_max_rank": 10,
+    "environmental_max_rank": 3,
+    "minimum_reproduced_tests": 2
+  },
+  "constraints": [
+    "This stage only evaluates review_high_priority candidates for promotion; it never removes a candidate or forces one Picked result per patient.",
+    "Reads remain per-test evidence and are never summed across DNA, RNA, or technical repeats.",
+    "DNA/RNA agreement or repeated sequencing is one analytical reproducibility axis, not independent clinical confirmation.",
+    "History evidence consumed by the route stage is provenance only here and cannot be reused as an independent host-support axis for Picked promotion.",
+    "The Candida route assesses invasive Candida infection, not Candida pneumonia.",
+    "Exact-species positive blood, sterile-site, or tissue evidence within plus or minus 48 hours of the index mNGS event may promote that species.",
+    "Missing evidence, missing detail, or missing timing is not treated as negative and never removes or demotes a candidate.",
+    "Respiratory Candida evidence alone remains high priority or context and is not promoted by the invasive Candida route.",
+    "A generic Candida or yeast label may represent an invasive event only when no event-aligned exact species is available; otherwise it remains supporting group evidence.",
+    "Beta-D-glucan is recorded as context only and is not used by this promotion policy.",
+    "Imaging is not required by the invasive Candida route and is never microbiological confirmation.",
+    "Phenotype, treatment response, WBC, CRP, and outcome do not change deterministic Picked status in this policy.",
+    "The policy is answer blind; benchmark answers are used only after output generation by a separate evaluator."
+  ]
+}

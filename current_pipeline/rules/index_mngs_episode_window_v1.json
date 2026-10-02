@@ -1,0 +1,23 @@
+{
+  "schema_version": "index_mngs_episode_window_policy.v1",
+  "anchor": "index_mngs_specimen_collection_time",
+  "before_hours": 48,
+  "after_hours": 48,
+  "same_infection_episode_interpretation": true,
+  "applies_to": [
+    "culture",
+    "FilmArray",
+    "GM",
+    "targeted_PCR",
+    "other_pathogen_specific_tests",
+    "clinical_event_context"
+  ],
+  "rules": [
+    "An observation collected from 48 hours before through 48 hours after index mNGS collection belongs to the same retrospective infection episode.",
+    "Use specimen collection time when available; report time is a provisional fallback and must retain a timing warning.",
+    "An older or later observation remains history/context and cannot serve as direct same-episode promotion evidence.",
+    "Antibiotic timing is retained when available but is not required to recognize an observation already inside the fixed episode window.",
+    "Same-episode evidence still requires organism identity and specimen/source compatibility; timing alone cannot create Picked."
+  ],
+  "decision_source": "user_confirmed_2026-09-30"
+}

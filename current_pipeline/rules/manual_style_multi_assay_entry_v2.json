@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "manual_style_multi_assay_entry_shadow_v2",
+  "mode": "answer_blind_shadow",
+  "rank_in_retained_universe_at_most": 2,
+  "priority_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb",
+    "high_consequence_opportunistic",
+    "other_respiratory_virus"
+  ],
+  "conditional_families": ["mold_or_opportunistic_fungus"],
+  "context_families": [
+    "candida_or_yeast",
+    "herpes_or_reactivation_virus",
+    "oral_aspiration_or_anaerobe",
+    "skin_airway_colonizer_prone"
+  ],
+  "background_families": [
+    "environmental_low_specificity",
+    "gi_urinary_or_nonpulmonary_prone"
+  ],
+  "excluded_background_families": ["commensal_virome_or_endogenous_element"],
+  "notes": [
+    "This is a candidate-entry screen, not pathogen selection or a Picked decision.",
+    "High, medium, and low_colonizer entry tiers are all retained for the future test-aware scorer.",
+    "Only evaluable selected observations with reads greater than zero enter scorer tiers.",
+    "Unmapped organisms go to taxonomy review before scorer entry, never to automatic Picked.",
+    "Repeated seq_id observations from one specimen indicate technical test support, not independent clinical confirmation.",
+    "Rank is within the supplied retained test universe and does not compare raw reads across DNA/RNA tests.",
+    "Physician answers and the old selected-DNA baseline do not affect routing."
+  ]
+}

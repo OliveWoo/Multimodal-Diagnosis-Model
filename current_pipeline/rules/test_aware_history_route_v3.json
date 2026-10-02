@@ -1,0 +1,189 @@
+{
+  "schema_version": "3.0.0",
+  "policy_id": "test_aware_history_route_v3_aspiration_opportunistic_hap_mdr",
+  "mode": "answer_blind_shadow",
+  "route_order": [
+    "Hold",
+    "Audit",
+    "Context",
+    "Priority"
+  ],
+  "decision_to_analytic_route": {
+    "picked_shadow": "Priority",
+    "review_high_priority": "Priority",
+    "review_context_needed": "Context",
+    "review_low_specificity": "Audit",
+    "hold": "Hold"
+  },
+  "aspiration_family": "oral_aspiration_or_anaerobe",
+  "opportunistic_families": [
+    "high_consequence_opportunistic",
+    "mold_or_opportunistic_fungus"
+  ],
+  "hap_mdr_family": "hospital_or_nonfermenter_gnb",
+  "history_patterns": {
+    "explicit_aspiration_event": [
+      "aspiration pneumonia",
+      "aspiration pneumonitis"
+    ],
+    "possible_aspiration_event": [
+      "choking related"
+    ],
+    "durable_anatomic_risk": [
+      "esophagus stenosis",
+      "esophageal stenosis",
+      "oesophagus stenosis",
+      "oesophageal stenosis",
+      "feeding jejunostomy",
+      "feeding gastrostomy",
+      "invasion to vocal cord",
+      "dysphagia"
+    ],
+    "durable_neurologic_risk": [
+      "acute infarction",
+      "stroke",
+      "neurological deterioration"
+    ]
+  },
+  "opportunistic_history_patterns": {
+    "hematologic_malignancy_or_cellular_therapy": [
+      "acute leukemia",
+      "acute leukaemia",
+      "b-cell lymphoma",
+      "b cell lymphoma",
+      "lymphoma with marrow involvement",
+      "bone marrow involvement",
+      "car-t",
+      "car t",
+      "stem cell transplant",
+      "hematopoietic stem cell transplant",
+      "haematopoietic stem cell transplant",
+      "hsct"
+    ],
+    "systemic_immunosuppressive_therapy": [
+      "prednisolone",
+      "prednisone",
+      "methotrexate",
+      "rituximab",
+      "r-epoch",
+      "r-gdp",
+      "r-dhap",
+      "cyclophosphamide",
+      "dexamethasone",
+      "tacrolimus",
+      "mycophenolate",
+      "cyclosporine",
+      "sirolimus",
+      "chemotherapy"
+    ],
+    "cytopenia_high_risk": [
+      "pancytopenia",
+      "neutropenia",
+      "agranulocytosis"
+    ],
+    "solid_tumor_or_targeted_therapy_context": [
+      "adenocarcinoma",
+      "carcinoma",
+      "cancer",
+      "neoplasm",
+      "target therapy",
+      "sunitinib",
+      "entrectinib"
+    ],
+    "nonspecific_host_susceptibility_context": [
+      "diabetes mellitus",
+      "chronic kidney disease",
+      "end-stage renal disease",
+      "esrd",
+      "liver cirrhosis",
+      "malnutrition",
+      "nephrotic syndrome"
+    ]
+  },
+  "hap_mdr_history_patterns": {
+    "hap_setting": [
+      "hospital-acquired pneumonia",
+      "hospital acquired pneumonia",
+      "hap ("
+    ],
+    "healthcare_associated_setting": [
+      "healthcare-associated pneumonia",
+      "healthcare associated pneumonia",
+      "hcap ("
+    ],
+    "airway_device_exposure": [
+      "tracheostomy",
+      "tracheostomy tube"
+    ],
+    "prior_mdr_klebsiella": [
+      "crkp",
+      "carbapenem-resistant klebsiella pneumoniae",
+      "carbapenem resistant klebsiella pneumoniae"
+    ],
+    "prior_mdr_acinetobacter": [
+      "crab",
+      "carbapenem-resistant acinetobacter baumannii",
+      "carbapenem resistant acinetobacter baumannii"
+    ],
+    "generic_mdr_context": [
+      "multidrug-resistant",
+      "multidrug resistant",
+      "mdr organism"
+    ]
+  },
+  "analytical_thresholds": {
+    "context_to_priority_max_rank": 3,
+    "audit_to_context_min_positive_tests": 1,
+    "audit_to_context_max_rank": 10,
+    "audit_to_context_max_representatives_per_patient": 2
+  },
+  "opportunistic_analytical_thresholds": {
+    "context_to_priority_max_rank": 10,
+    "context_to_priority_min_positive_tests": 2,
+    "audit_to_context_max_rank": 10,
+    "audit_to_context_min_positive_tests": 2,
+    "max_adjusted_representatives_per_patient": 2
+  },
+  "hap_mdr_analytical_thresholds": {
+    "setting_context_to_priority_max_rank": 5,
+    "exact_mdr_context_to_priority_max_rank": 10,
+    "context_to_priority_min_positive_tests": 2,
+    "audit_to_context_max_rank": 10,
+    "audit_to_context_min_positive_tests": 2,
+    "max_adjusted_representatives_per_patient": 2
+  },
+  "strict_aspiration_anaerobe_genus_terms": [
+    "actinomyces",
+    "bacteroides",
+    "dialister",
+    "finegoldia",
+    "fusobacterium",
+    "parabacteroides",
+    "parvimonas",
+    "peptostreptococcus",
+    "phocaeicola",
+    "porphyromonas",
+    "prevotella",
+    "segatella",
+    "veillonella"
+  ],
+  "constraints": [
+    "History may move a candidate by at most one route level in this stage.",
+    "Aspiration history only applies to the oral_aspiration_or_anaerobe family.",
+    "In v3, a prior aspiration episode alone is context; a durable anatomic risk is required for aspiration Context-to-Priority.",
+    "Aspiration Context-to-Priority also requires a top-three per-test rank or analytical reproducibility.",
+    "Aspiration Audit-to-Context is limited to strict aspiration anaerobes with rank at most ten or reproducible signal, and at most two representatives per patient.",
+    "Opportunistic history only applies to high-consequence opportunistic or mold/opportunistic-fungus families.",
+    "Solid tumor, diabetes, kidney disease, cirrhosis, malnutrition, or nephrotic syndrome alone are context and cannot change an opportunistic candidate route.",
+    "Opportunistic Audit-to-Context and Context-to-Priority require both rank at most ten and at least two positive tests with analytical reproducibility.",
+    "HAP, HCAP, or airway-device history is setting context and never identifies a pathogen by itself.",
+    "A setting-only hospital Gram-negative Context-to-Priority adjustment requires rank at most five plus at least two reproducible positive tests.",
+    "A prior MDR record may use the rank-at-most-ten route only when its organism genus matches the candidate.",
+    "Single-test hospital Gram-negative signals are not promoted by HAP or MDR history.",
+    "At most two representatives per patient in each history family may be adjusted.",
+    "History never creates a candidate and never directly creates Picked.",
+    "Evidence consumed by this stage is recorded and cannot be counted again as an independent High-to-Picked axis.",
+    "A low-confidence phenotype NO means not established; it does not negate direct structured source evidence.",
+    "The policy is answer blind and does not read benchmark labels."
+  ]
+}
