@@ -6,12 +6,6 @@
 
 > 研究用途：輸出是計算結果與待複核候選，不是臨床診斷。正式使用前仍需臨床、資料治理與授權審查。
 
-## Contributors
-
-本 repository 為團隊共同研究專案，完整貢獻紀錄以 Git history 為準。
-
-- **Jiun-Ting Chang（張鈞婷）** — 專題開發期間使用 GitHub 帳號 [@Joanne-0128](https://github.com/Joanne-0128)，目前作品集帳號為 [@cloud-sky-0128](https://github.com/cloud-sky-0128)。
-
 ## 2026-10-01：舊版與新版並列
 
 Repository 現在同時保存兩條可追溯流程：
