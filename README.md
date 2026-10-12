@@ -257,4 +257,4 @@ Repository 只應包含程式、文件及經人工確認的合成範例。以下
 - `.env`、API keys、credential、私人 config
 - 未經授權的 Office/PDF/壓縮檔
 
-目前尚未確認整個研究專案可採用的統一開源授權，因此沒有附加 MIT、Apache 或其他 LICENSE。取得共同作者與機構的授權前，GitHub repository 應保持 private。詳見 [`LICENSE_STATUS.md`](LICENSE_STATUS.md)。
+本 repository 已獲指導教授同意，可用於履歷、學術作品集與研究成果展示。這項展示許可不等同於整個研究專案已取得統一開源授權，因此目前仍未附加 MIT、Apache 或其他 LICENSE；研究程式、資料、prompt/rules、第三方內容與其他材料的再使用或再散布，仍須依個別權利與授權範圍確認。詳見 [`LICENSE_STATUS.md`](LICENSE_STATUS.md)。
