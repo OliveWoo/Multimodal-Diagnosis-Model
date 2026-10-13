@@ -125,12 +125,16 @@ def bridge_candidate(
     *,
     decision: str,
     review_item: dict[str, Any] | None,
+    taxonomy_profile_override: dict[str, Any] | None = None,
+    taxonomy_mode: str = "embedded_old",
 ) -> dict[str, Any]:
     output = copy.deepcopy(candidate)
     if review_item:
         for key in ("taxonomy_profile", "classification"):
             if not output.get(key) and review_item.get(key):
                 output[key] = copy.deepcopy(review_item[key])
+    if taxonomy_profile_override is not None:
+        output["taxonomy_profile"] = copy.deepcopy(taxonomy_profile_override)
     profile = output.get("taxonomy_profile") or {}
     rank = as_rank(output.get("rank_priority"))
     reads = float(output.get("reads") or 0)
@@ -162,7 +166,8 @@ def bridge_candidate(
                 "source_tier": decision,
                 "single_selected_dna_test": True,
                 "no_cross_molecule_or_reproducibility_axis": True,
-                "old_taxonomy_profile_preserved": True,
+                "taxonomy_mode": taxonomy_mode,
+                "old_taxonomy_profile_preserved": taxonomy_profile_override is None,
             },
         }
     )
@@ -175,6 +180,8 @@ def build_bridge(
     patient_ids: list[int],
     inventory: dict[tuple[int, str], dict[str, str]],
     output_dir: Path,
+    taxonomy_profiles: dict[tuple[int, str], dict[str, Any]] | None = None,
+    taxonomy_mode: str = "embedded_old",
 ) -> dict[str, Any]:
     patient_output = output_dir / "patient_outputs"
     patient_output.mkdir(parents=True)
@@ -214,7 +221,13 @@ def build_bridge(
             tier, review_item = tier_by_key.get(key, ("review_low_specificity", {}))
             if key in picked:
                 tier = "picked_shadow"
-            bridged = bridge_candidate(candidate, decision=tier, review_item=review_item)
+            bridged = bridge_candidate(
+                candidate,
+                decision=tier,
+                review_item=review_item,
+                taxonomy_profile_override=(taxonomy_profiles or {}).get((patient, key)),
+                taxonomy_mode=taxonomy_mode,
+            )
             target = hospital_only if candidate.get("evidence_source") == "hospital_only" else patient_candidates
             target.append(bridged)
             counts[f"baseline:{tier}"] += 1
@@ -252,7 +265,13 @@ def build_bridge(
                 "taxonomy_profile": copy.deepcopy(review_item.get("taxonomy_profile") or {}),
                 "evidence_source": snapshot.get("evidence_source") or "mNGS_ranked",
             }
-            bridged = bridge_candidate(candidate, decision=tier, review_item=review_item)
+            bridged = bridge_candidate(
+                candidate,
+                decision=tier,
+                review_item=review_item,
+                taxonomy_profile_override=(taxonomy_profiles or {}).get((patient, key)),
+                taxonomy_mode=taxonomy_mode,
+            )
             patient_candidates.append(bridged)
             seen.add(key)
             counts[f"baseline:{tier}"] += 1
@@ -289,7 +308,11 @@ def build_bridge(
             "constraints": [
                 "Formal Picked and Luna review tiers are preserved from frozen A before history routing.",
                 "The selected-DNA baseline contributes at most one positive mNGS test and no reproducibility axis.",
-                "Embedded old taxonomy profiles are preserved; current taxonomy overlays are not loaded.",
+                (
+                    "Embedded old taxonomy profiles are preserved; current taxonomy overlays are not loaded."
+                    if taxonomy_mode == "embedded_old"
+                    else f"Taxonomy profiles are supplied by the answer-blind {taxonomy_mode} scorer run."
+                ),
             ],
         }
         write_json(
@@ -303,6 +326,8 @@ def build_bridge(
         "schema_version": SCHEMA_VERSION,
         "answer_blind": True,
         "counts": dict(sorted(counts.items())),
+        "taxonomy_mode": taxonomy_mode,
+        "taxonomy_override_count": len(taxonomy_profiles or {}),
         "source_hash_mismatches": source_hash_mismatches,
         "A_contract_sha256": sha256_file(a_root / "baseline_contract.json"),
     }

@@ -22,6 +22,9 @@ def route_candidate(candidate: dict[str, Any], taxonomy: dict[str, Any], policy:
         raise ValueError("Selected positive observation lacks seq_id")
     dna = any(item.get("nucleic_type") == "DNA" for item in selected)
     rna = any(item.get("nucleic_type") == "RNA" for item in selected)
+    unknown_molecule = any(
+        item.get("nucleic_type") not in {"DNA", "RNA"} for item in selected
+    )
     ranks = [
         int(item["rank_by_reads_in_retained_universe"])
         for item in selected
@@ -29,7 +32,10 @@ def route_candidate(candidate: dict[str, Any], taxonomy: dict[str, Any], policy:
     ]
     best_rank = min(ranks) if ranks else None
     top_rank = best_rank is not None and best_rank <= int(policy["rank_in_retained_universe_at_most"])
-    repeated_test = len(selected_ids) >= 2
+    # Compatibility inputs may preserve a real seq_id while the source no
+    # longer preserves DNA/RNA identity.  Such tests stay visible, but an
+    # unknown molecule can never create repeat/concordance credit.
+    repeated_test = len(selected_ids) >= 2 and not unknown_molecule
     cross_molecule = dna and rna
     family = str(taxonomy.get("primary_rule_family") or "unmapped_or_uncertain")
     mapping_status = str(taxonomy.get("mapping_status") or "unmapped")
@@ -77,6 +83,8 @@ def route_candidate(candidate: dict[str, Any], taxonomy: dict[str, Any], policy:
         rules.append("MULTIPLE_SELECTED_TESTS_SAME_CASE")
     if cross_molecule:
         rules.append("DNA_RNA_SELECTED_CONCORDANCE")
+    if unknown_molecule:
+        rules.append("UNKNOWN_MOLECULE_NO_REPEAT_CREDIT")
     if selected and any(item.get("test_qc_status") == "partial_evaluable" for item in selected):
         rules.append("PARTIAL_TEST_QC")
     return {
@@ -87,6 +95,7 @@ def route_candidate(candidate: dict[str, Any], taxonomy: dict[str, Any], policy:
         "best_rank_in_retained_universe_selected": best_rank,
         "dna_selected": dna,
         "rna_selected": rna,
+        "unknown_molecule_selected": unknown_molecule,
         "technical_repeat": repeated_test,
         "cross_molecule_selected": cross_molecule,
         "analytical_rank_scope": "within_test_retained_universe_only",

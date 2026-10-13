@@ -5,6 +5,7 @@ import json
 import logging
 import os
 import sys
+import traceback
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -25,6 +26,7 @@ FAILED_DIR = Path("outputs") / "logs" / "failed"
 AGENT_OUTPUT_DIR_NAME = "agent_outputs"
 SUMMARY_DIR_NAME = "summary_outputs"
 DEFAULT_MODEL = "gpt-5"
+REASONING_EFFORT_CHOICES = ("low", "medium", "high", "xhigh", "max")
 
 try:
     import tiktoken
@@ -284,17 +286,22 @@ def _extract_output_text(response: Any) -> str:
     return "".join(segments).strip()
 
 
-def send_to_llm(prompt: str, *, model: str) -> tuple[str, dict[str, int | None] | None]:
+def send_to_llm(
+    prompt: str,
+    *,
+    model: str,
+    reasoning_effort: str | None = None,
+) -> tuple[str, dict[str, int | None] | None]:
     api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY environment variable is not set.")
     from openai import OpenAI  # type: ignore
 
-    client = OpenAI(api_key=api_key)
-    response = client.responses.create(
-        model=model,
-        input=prompt,
-    )
+    client = OpenAI(api_key=api_key, max_retries=5, timeout=900.0)
+    request: dict[str, Any] = {"model": model, "input": prompt}
+    if reasoning_effort is not None:
+        request["reasoning"] = {"effort": reasoning_effort}
+    response = client.responses.create(**request)
     message = _extract_output_text(response)
     if not message:
         raise RuntimeError("OpenAI response did not contain any content.")
@@ -338,11 +345,40 @@ def save_failed_output(raw_output: str, input_dir: Path, spec: CategorySpec) -> 
     return destination
 
 
+def failure_metadata_path(output_path: Path) -> Path:
+    return output_path.with_suffix(".failure.json")
+
+
+def save_exception_metadata(
+    output_path: Path,
+    *,
+    model: str,
+    reasoning_effort: str | None,
+    exception: Exception,
+) -> Path:
+    cause = exception.__cause__
+    payload = {
+        "schema_version": "small_agent_failure.v1",
+        "model": model,
+        "reasoning_effort": reasoning_effort,
+        "exception_type": type(exception).__name__,
+        "exception_message": str(exception),
+        "cause_type": type(cause).__name__ if cause is not None else None,
+        "cause_message": str(cause) if cause is not None else None,
+        "traceback": traceback.format_exc(),
+        "failed_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+    }
+    path = failure_metadata_path(output_path)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    return path
+
+
 def process_category(
     input_dir: Path,
     spec: CategorySpec,
     *,
     model: str,
+    reasoning_effort: str | None = None,
     force_null_labels: set[str] | None = None,
     output_suffix_override: str | None = None,
     overwrite: bool = False,
@@ -370,7 +406,11 @@ def process_category(
             logging.info("Estimated input tokens for %s: %d", spec.name, estimated_tokens)
         else:
             logging.debug("Token estimation unavailable (tiktoken missing) for %s", spec.name)
-        raw_output, usage = send_to_llm(prompt, model=model)
+        raw_output, usage = send_to_llm(
+            prompt,
+            model=model,
+            reasoning_effort=reasoning_effort,
+        )
         if usage is not None:
             logging.info(
                 "LLM token usage for %s - prompt: %s, completion: %s, total: %s",
@@ -384,12 +424,26 @@ def process_category(
         parsed = validate_json(raw_output)
     except Exception as exc:  # pylint: disable=broad-exception-caught
         logging.exception("Failed while processing %s: %s", spec.name, exc)
-        return
+        failure_path = save_exception_metadata(
+            output_path,
+            model=model,
+            reasoning_effort=reasoning_effort,
+            exception=exc,
+        )
+        logging.error("Stored failure metadata for %s at %s", spec.name, failure_path)
+        raise
 
     if parsed is None:
         failed_path = save_failed_output(raw_output, input_dir, spec)
         logging.error("Stored unparsed output for %s at %s", spec.name, failed_path)
-        return
+        exception = RuntimeError(f"Model output for {spec.name} was not valid JSON")
+        save_exception_metadata(
+            output_path,
+            model=model,
+            reasoning_effort=reasoning_effort,
+            exception=exception,
+        )
+        raise exception
 
     parsed = evidence_preservation.enrich_agent_payload(
         spec.name,
@@ -399,6 +453,7 @@ def process_category(
     )
 
     output_path = save_result(parsed, input_dir, spec, output_path=output_path)
+    failure_metadata_path(output_path).unlink(missing_ok=True)
     logging.info("Wrote %s", output_path)
     try:
         dataset_path = record_category_result(patient_id, spec.name, parsed)
@@ -415,6 +470,7 @@ def run_for_directory(
     input_dir: Path,
     *,
     model: str,
+    reasoning_effort: str | None = None,
     specs: Sequence[CategorySpec],
     force_null_map: dict[str, set[str]] | None = None,
     output_suffix_overrides: dict[str, str] | None = None,
@@ -427,6 +483,7 @@ def run_for_directory(
             input_dir,
             spec,
             model=model,
+            reasoning_effort=reasoning_effort,
             force_null_labels=force_null_map.get(spec.name.lower()),
             output_suffix_override=output_suffix_overrides.get(spec.name.lower()),
             overwrite=overwrite,
@@ -505,6 +562,11 @@ def main() -> None:
         help="Enable debug logging.",
     )
     parser.add_argument(
+        "--reasoning-effort",
+        choices=REASONING_EFFORT_CHOICES,
+        help="Responses API reasoning effort. Omit to use the selected model's default.",
+    )
+    parser.add_argument(
         "--overwrite",
         action="store_true",
         help="Overwrite existing agent output files without prompting.",
@@ -553,6 +615,7 @@ def main() -> None:
             run_for_directory(
                 directory,
                 model=args.model,
+                reasoning_effort=args.reasoning_effort,
                 specs=category_specs,
                 force_null_map={"filmarray_gmtest": {"FilmArray"}},
                 output_suffix_overrides=no_filmarray_overrides,
@@ -563,6 +626,7 @@ def main() -> None:
             run_for_directory(
                 directory,
                 model=args.model,
+                reasoning_effort=args.reasoning_effort,
                 specs=category_specs,
                 output_suffix_overrides=output_suffix_overrides,
                 overwrite=args.overwrite,
@@ -573,6 +637,7 @@ def main() -> None:
                     directory,
                     filmarray_spec,
                     model=args.model,
+                    reasoning_effort=args.reasoning_effort,
                     force_null_labels={"FilmArray"},
                     output_suffix_override="filmarray_gmtest_agent_no_filmarray",
                     overwrite=args.overwrite,

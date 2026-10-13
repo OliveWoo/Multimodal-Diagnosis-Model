@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "healthcare_device_opportunist_history_route_v1",
+  "policy_role": "answer_blind_history_route_shadow_overlay",
+  "eligible_transition": {
+    "from_route": "Context",
+    "to_route": "Priority",
+    "final_decision": "review_high_priority"
+  },
+  "eligible_taxonomy_families": [
+    "skin_airway_colonizer_prone"
+  ],
+  "required_all_taxonomy_traits": [
+    "healthcare_associated",
+    "pulmonary_pathogen_possible"
+  ],
+  "required_history_support_levels": [
+    "hap_setting_context",
+    "airway_device_setting_context"
+  ],
+  "consumable_history_categories": [
+    "hap_setting",
+    "airway_device_exposure"
+  ],
+  "required_specimen_contexts": [
+    "lower_respiratory"
+  ],
+  "max_best_rank_in_retained_universe": 3,
+  "min_selected_positive_test_count": 1,
+  "max_promoted_representatives_per_patient": 1,
+  "require_positive_mngs_signal": true,
+  "require_upstream_route_unchanged": true,
+  "block_when_direct_colonization_or_not_infection": true,
+  "rule_id": "HIST-HDO1-HEALTHCARE-DEVICE-CONTEXT-TO-PRIORITY",
+  "constraints": [
+    "This overlay is answer blind and never reads benchmark labels or patient identifiers.",
+    "HAP or an airway device changes review priority but does not identify a pathogen by itself.",
+    "Eligibility requires a versioned taxonomy profile with both healthcare-associated and pulmonary-pathogen-possible traits; the policy contains no organism-name allowlist.",
+    "Only a positive lower-respiratory candidate already in Context and ranked within the top three may move to Priority.",
+    "Explicit exact-organism colonization or current-not-infection evidence blocks promotion.",
+    "At most one representative per patient may move, and a candidate already changed by another history rule cannot move again.",
+    "This overlay never creates Picked and does not alter the separate aspiration Picked gate.",
+    "Missing evidence is unknown and is never interpreted as negative evidence."
+  ]
+}

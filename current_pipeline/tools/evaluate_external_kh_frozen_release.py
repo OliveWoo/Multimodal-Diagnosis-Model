@@ -169,20 +169,30 @@ def run(
         if label["status"] == "positive"
     }
     decision_path = shadow_root / "possible_pathogen_decisions.csv"
+    if not decision_path.is_file():
+        decision_path = shadow_root / "integrated_decisions.csv"
+    if not decision_path.is_file():
+        raise FileNotFoundError(
+            "Frozen release contains neither possible_pathogen_decisions.csv "
+            f"nor integrated_decisions.csv: {shadow_root}"
+        )
     rows = read_csv(decision_path)
     available_ids = {int(row["patient_id"]) for row in rows}
     missing = patient_ids - available_ids
     if missing:
         raise ValueError(f"Frozen decisions are missing labeled patients: {sorted(missing)}")
 
+    def reporting_role(row: dict[str, str]) -> str:
+        return row.get("possible_reporting_role") or row.get("reporting_role") or ""
+
     endpoints = {
-        "strict_picked": lambda row: row["possible_reporting_role"] == STRICT_ROLE,
+        "strict_picked": lambda row: reporting_role(row) == STRICT_ROLE,
         "strict_plus_analytical_or_direct_possible": lambda row: (
-            row["possible_reporting_role"] in {STRICT_ROLE, ANALYTICAL_DIRECT_ROLE}
+            reporting_role(row) in {STRICT_ROLE, ANALYTICAL_DIRECT_ROLE}
         ),
         "picked_plus_all_possible": lambda row: (
             row["selected_for_complete_report"].casefold() in TRUTHY
-            and row["possible_reporting_role"] != FALLBACK_ROLE
+            and reporting_role(row) != FALLBACK_ROLE
         ),
         "complete_report": lambda row: (
             row["selected_for_complete_report"].casefold() in TRUTHY

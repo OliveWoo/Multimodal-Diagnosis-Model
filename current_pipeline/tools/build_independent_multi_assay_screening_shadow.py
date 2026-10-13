@@ -140,7 +140,10 @@ def build_shadow(
         patient_id = str(patient["patient_id"])
         packet_cases: list[dict[str, Any]] = []
         for case in patient["cases"]:
-            case_id = str(case["case_review_id"])
+            raw_case_id = case.get("case_review_id")
+            case_id = "" if raw_case_id is None else str(raw_case_id).strip()
+            if case_id.casefold() in {"none", "null", "nan"}:
+                case_id = ""
             tests = {str(test["seq_id"]): test for test in case["tests"]}
             packet_candidates: list[dict[str, Any]] = []
             union = case["candidate_union"]

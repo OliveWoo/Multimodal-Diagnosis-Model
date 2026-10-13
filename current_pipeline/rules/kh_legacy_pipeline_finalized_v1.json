@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "release_id": "kh_legacy_pipeline_finalized_v1",
+  "release_role": "frozen_development_comparator",
+  "cohort_role": "development",
+  "independent_validation_claim": false,
+  "components": {
+    "mngs": "old_selected_DNA_20260918",
+    "scorer": "old_mngs_deterministic_level_only_v20_central_taxonomy_profile",
+    "taxonomy": "current_versioned_gap_auto_reviewed_overlays_v2_6",
+    "history": "test_aware_history_route_v4c_combined",
+    "healthcare_device_route": "healthcare_device_opportunist_history_route_v2",
+    "picked_gate": "legacy_history_picked_promotion_v1",
+    "mandatory_primary_reporting": "legacy_primary_selection_v1"
+  },
+  "paths": {
+    "frozen_a_root": "outputs/runs/2026-09-24_KH_ablation_A_frozen_old_baseline_v1",
+    "patient_root": "outputs/patient_info_KH_0728_2Days",
+    "history_policy": "rules/test_aware_history_route_v4c_combined.json",
+    "healthcare_device_policy": "rules/healthcare_device_opportunist_history_route_v2.json",
+    "picked_policy": "rules/legacy_history_picked_promotion_v1.json",
+    "benchmark_answers": "outputs/runs/2026-09-18_KH_answer_revision_metrics/kh_answers_clinical_revision_20260918.csv"
+  },
+  "locked_sha256": {
+    "frozen_a_contract": "836f4e0a6b03618ee56fac4b68d88dfec20b0858ccf1c9a0073b2394e34b284c",
+    "taxonomy_base_rules": "be5801bf9108ea388bc17faf516dd4148bcb4a9975148b55be2b5a44879d999f",
+    "taxonomy_gap_resolution_overlay": "f60b9b1505214b0f43477e5445d1382e08b5de0bad592ee9b15d57655cd12356",
+    "taxonomy_auto_overlay": "571aa2c2047fcfb67e0735e9f7c5ba8a54fe9cd0a337c876f1f5041d4fdc8ec7",
+    "taxonomy_reviewed_overlay": "9052674b1edbd1e500fc21c7f3e7394e11b81fd098e9b09d8159f72286e71c43",
+    "history_policy": "50f515eb2cbbd48fca657989e9272c2e1644d95ed777390f70969b00976d9a4d",
+    "resolved_history_policy": "9e1d0631231afef595c39fd120d1e00aea5ec3c9fcd3abac9d12047982156410",
+    "healthcare_device_policy": "41c19720632d8f8a2ee8349e35f18f5c103749a0a7a6c0d2e96d8995de248078",
+    "picked_policy": "2ffe5776c63efb31d405e2501d2178d8817a3820695e6fc256e64845d7f93750"
+  },
+  "taxonomy_reviewed_postfreeze_profiles": [
+    "acinetobacternosocomialis",
+    "acinetobacterseifertii",
+    "acinetobacterpittii"
+  ],
+  "output_labels": {
+    "picked_shadow": "Picked",
+    "review_high_priority": "Priority",
+    "review_context_needed": "Context",
+    "review_low_specificity": "Audit"
+  },
+  "expected_development_output": {
+    "patient_count": 33,
+    "candidate_count": 264,
+    "label_counts": {
+      "Picked": 63,
+      "Priority": 8,
+      "Context": 14,
+      "Audit": 179
+    }
+  },
+  "constraints": [
+    "This release has no Possible label.",
+    "Every patient with at least one candidate receives one doctor-visible primary organism; when there is no formal Picked result it is explicitly labeled Fallback-BestAvailable and is not relabeled as Picked.",
+    "Every candidate is judged independently before the per-patient representative cap is applied.",
+    "At most two HAP or airway-device representatives without exact same-organism hospital support may move from Context to Priority per patient.",
+    "Exact same-organism hospital support is exempt from the representative cap.",
+    "Candidates beyond the cap remain in Context and are not deleted.",
+    "HAP or airway-device history alone never creates Picked.",
+    "Priority to Picked requires a separate disease-specific gate; this release contains the frozen aspiration-convergence gate only.",
+    "Benchmark answers are unavailable to decision generation and are loaded only after decision_freeze.json is written.",
+    "This development cohort has informed rule design, so this release is not an independent or external validation result."
+  ]
+}

@@ -125,6 +125,36 @@ class TestOrganismTaxonomyReviewWorkflow(unittest.TestCase):
             self.assertEqual(item["input_classes"], ["unknown"])
             self.assertNotIn("SECRET-P1", json.dumps(item))
 
+    def test_queue_can_select_one_canonical_key_for_model_comparison(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "all_decisions.csv"
+            with source.open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(
+                    handle,
+                    fieldnames=["organism_name", "taxonomy_mapping_status"],
+                )
+                writer.writeheader()
+                writer.writerows(
+                    [
+                        {"organism_name": "Novelibacter testii", "taxonomy_mapping_status": "unmapped"},
+                        {"organism_name": "Secondbacter testii", "taxonomy_mapping_status": "unmapped"},
+                    ]
+                )
+            summary = build_queue(
+                source,
+                root / "out",
+                only_keys=("novelibactertestii",),
+            )
+            self.assertEqual(summary["unique_review_organisms"], 1)
+            self.assertEqual(summary["only_keys"], ["novelibactertestii"])
+            item = json.loads(
+                (root / "out" / "organism_review_queue.jsonl").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(item["canonical_key"], "novelibactertestii")
+
     def test_pubmed_pack_is_organism_only_and_resumable(self):
         class FakePubMed:
             def __init__(self, **_kwargs):

@@ -1,11 +1,56 @@
 from __future__ import annotations
 
 import unittest
+import json
+import tempfile
+from pathlib import Path
 
 from tools import evidence_preservation as preservation
 
 
 class EvidencePreservationTests(unittest.TestCase):
+    def test_patient_mngs_sample_time_falls_back_to_per_test_inventory(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            patient_dir = Path(tmp)
+            path = patient_dir / "NGS_patient_9_all_mNGS_DNA_RNA_RK_NTC_by_species.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "cases": [
+                            {"collected_time": "2024-05-03 09:00"},
+                            {"collected_time": "2024-05-01 10:30"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                preservation.patient_mngs_sample_time(patient_dir),
+                "2024-05-01 10:30",
+            )
+
+    def test_category_wrapper_forwards_other_lab_to_host_enrichment(self) -> None:
+        output = preservation.enrich_agent_payload(
+            "cbc_other_lab",
+            {},
+            {
+                "CBC": [{"item": "WBC", "value": "8.0", "unit": "x1000/uL"}],
+                "OtherLab": [{"item": "CRP", "value": "12", "unit": "mg/L"}],
+                "Underlying": [],
+                "AdmissionDiagnosis": [],
+            },
+        )
+
+        metadata = output["evidence_preservation"]
+        self.assertTrue(metadata["raw_other_lab_available"])
+        self.assertEqual(metadata["lab_observation_count"], 2)
+        self.assertEqual(
+            output["structured_host_evidence"]["lab_source_record_contract"]
+            ["other_lab_source_record_count"],
+            1,
+        )
+
     def test_lab_observations_are_source_complete_and_flag_impossible_values(self) -> None:
         observations = preservation.lab_observations_from_sources(
             [
@@ -97,6 +142,117 @@ class EvidencePreservationTests(unittest.TestCase):
         self.assertEqual(1, len(mentions))
         self.assertEqual("excluded", mentions[0]["assertion"])
         self.assertFalse(mentions[0]["microbiologic_confirmation"])
+
+    def test_image_enrichment_drops_only_undated_duplicate_findings(self) -> None:
+        payload = {
+            "observed_findings": [
+                {
+                    "finding_text": "Pneumonia in both lungs",
+                    "exam_type": "Chest AP",
+                    "collected_time": "2024-05-01 09:00",
+                    "reported_time": "2024-05-01 10:00",
+                },
+                {
+                    "finding_text": "Pneumonia in both lungs",
+                    "exam_type": "Chest AP",
+                    "collected_time": "Unknown",
+                    "reported_time": "Unknown",
+                },
+                {
+                    "finding_text": "Pneumonia in both lungs",
+                    "exam_type": "Chest AP",
+                    "collected_time": "2024-05-02 09:00",
+                    "reported_time": "2024-05-02 10:00",
+                },
+            ]
+        }
+
+        output = preservation.enrich_image_agent_output(payload, [])
+
+        self.assertEqual(2, len(output["observed_findings"]))
+        metadata = output["evidence_preservation"]
+        self.assertEqual(1, metadata["observed_findings_removed_as_duplicates"])
+
+    def test_empty_filmarray_and_gm_are_unknown_not_low_risk(self) -> None:
+        output = preservation.enrich_agent_payload(
+            "filmarray_gmtest",
+            {"infection_likelihood": "None", "resistance_risk": "Low"},
+            {"FilmArray": [], "GMTest": []},
+        )
+
+        self.assertEqual("Unknown", output["infection_likelihood"])
+        self.assertEqual("Unknown", output["resistance_risk"])
+        self.assertIn("resistance_evidence_not_available", output["data_gaps"])
+
+    def test_empty_molecular_input_is_unknown_with_explicit_gaps(self) -> None:
+        output = preservation.enrich_agent_payload(
+            "molecular_microbiology",
+            {"infection_likelihood": "None", "data_gaps": []},
+            {"MolecularMicrobiology": []},
+        )
+
+        self.assertEqual("Unknown", output["infection_likelihood"])
+        self.assertEqual([], output["molecular_observations"])
+        self.assertIn("molecular_microbiology_data_not_available", output["data_gaps"])
+
+    def test_preliminary_culture_identity_links_to_same_event_final_name(self) -> None:
+        raw = [
+            {
+                "sample": "Blood",
+                "collected_time": "2023-10-09 16:11",
+                "received_time": "2023-10-10 08:55",
+                "organism": "Escherichia coli",
+                "status": "Isolated",
+            },
+            {
+                "sample": "Blood",
+                "collected_time": "2023-10-09 16:11",
+                "received_time": "2023-10-10 08:55",
+                "organism": "G(-) Bacilli, identification to follow.",
+                "status": "Preliminary report",
+            },
+        ]
+        payload = {
+            "probable_pathogen_type": "Mixed",
+            "culture_observations": [
+                {
+                    "observation_id": "CUL-001",
+                    "organism_name": "Escherichia coli",
+                    "specimen_type": "Blood",
+                    "collected_time": "2023-10-09 16:11",
+                },
+                {
+                    "observation_id": "CUL-002",
+                    "organism_name": "G(-) Bacilli, identification to follow.",
+                    "specimen_type": "Blood",
+                    "collected_time": "2023-10-09 16:11",
+                },
+            ],
+            "organism_labels": [
+                {
+                    "organism_name": "Escherichia coli",
+                    "classification": "Bacterial",
+                    "causative_level": "Level 2",
+                    "evidence_observation_ids": ["CUL-001"],
+                },
+                {
+                    "organism_name": "G(-) Bacilli, identification to follow.",
+                    "classification": "Unknown",
+                    "causative_level": "Level 2",
+                    "evidence_observation_ids": ["CUL-002"],
+                },
+            ],
+        }
+
+        output = preservation.enrich_culture_agent_output(payload, raw)
+
+        self.assertEqual(["Escherichia coli"], [x["organism_name"] for x in output["organism_labels"]])
+        self.assertEqual("Bacterial", output["probable_pathogen_type"])
+        self.assertEqual(
+            ["CUL-001", "CUL-002"],
+            output["organism_labels"][0]["evidence_observation_ids"],
+        )
+        self.assertEqual(1, output["evidence_preservation"]["preliminary_final_link_count"])
 
     def test_p9_medications_are_pre_sample_combination_evidence(self) -> None:
         admission = [

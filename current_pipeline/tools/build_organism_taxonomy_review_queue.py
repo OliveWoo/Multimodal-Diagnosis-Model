@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from tools import pathogen_normalization
 from tools.organism_taxonomy_classifier import classify_organism
 
 
@@ -33,6 +34,7 @@ def build_queue(
     *,
     ncbi_resolution_csv: Path | None = None,
     include_inherited: bool = False,
+    only_keys: tuple[str, ...] = (),
 ) -> dict[str, Any]:
     """Whitelist organism fields only; never serialize patient-level input rows."""
     rows = _read_csv(candidates_csv)
@@ -98,6 +100,16 @@ def build_queue(
                 "lineage": record.get("ncbi_lineage", ""),
             }
 
+    requested_keys = {
+        pathogen_normalization.canonical_key(value)
+        for value in only_keys
+    }
+    requested_keys.discard("")
+    if requested_keys:
+        missing = sorted(requested_keys - set(unique))
+        if missing:
+            raise ValueError(f"Requested taxonomy keys were not found: {', '.join(missing)}")
+        unique = {key: value for key, value in unique.items() if key in requested_keys}
     queue = sorted(unique.values(), key=lambda item: item["canonical_key"])
     output_dir.mkdir(parents=True, exist_ok=True)
     queue_path = output_dir / "organism_review_queue.jsonl"
@@ -122,6 +134,7 @@ def build_queue(
         "unique_review_organisms": len(queue),
         "unique_unmapped_organisms": sum(item["classification_status"] == "unmapped" for item in queue),
         "include_inherited": include_inherited,
+        "only_keys": sorted(requested_keys),
         "queue_path": str(queue_path.resolve()),
         "ncbi_lookup_input": str(ncbi_input_path.resolve()),
         "safety_note": "A queue item is not a clinical pathogen or an approved taxonomy rule.",
@@ -136,8 +149,9 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--ncbi-resolution-csv", type=Path)
     parser.add_argument("--include-inherited", action="store_true", help="Also audit genus/key-prefix inherited species; exact profiles remain excluded")
+    parser.add_argument("--only-key", action="append", default=[], help="Emit only this canonical key; repeatable")
     args = parser.parse_args()
-    print(json.dumps(build_queue(args.candidates_csv, args.output_dir, ncbi_resolution_csv=args.ncbi_resolution_csv, include_inherited=args.include_inherited), ensure_ascii=False, indent=2))
+    print(json.dumps(build_queue(args.candidates_csv, args.output_dir, ncbi_resolution_csv=args.ncbi_resolution_csv, include_inherited=args.include_inherited, only_keys=tuple(args.only_key)), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

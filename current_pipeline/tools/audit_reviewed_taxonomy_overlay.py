@@ -6,6 +6,7 @@ import argparse
 import copy
 import csv
 import json
+import shutil
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -13,11 +14,7 @@ from unittest.mock import patch
 
 from tools import organism_taxonomy_classifier as taxonomy
 from tools import pathogen_normalization as pathogen_names
-from tools.build_independent_multi_assay_screening_shadow import build_shadow
-from tools.build_manual_style_multi_assay_screening_shadow import (
-    DEFAULT_POLICY,
-    route_candidate,
-)
+from tools.build_compact_multi_assay_entry_shadow import DEFAULT_POLICY, build_shadow
 
 
 def _read_csv(path: Path) -> list[dict[str, str]]:
@@ -31,6 +28,32 @@ def _write_csv(path: Path, rows: list[dict[str, Any]], fieldnames: list[str]) ->
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
+
+
+def _normalize_identity_value(field: str, value: Any) -> str:
+    """Normalize serialization-only differences in candidate identity fields."""
+
+    text = "" if value is None else str(value).strip()
+    if field == "case_review_id" and text.casefold() in {"none", "null", "nan"}:
+        return ""
+    return text
+
+
+def _candidate_identity(row: dict[str, Any]) -> tuple[str, str, str]:
+    key_fields = ("patient_id", "case_review_id", "organism_key")
+    return tuple(_normalize_identity_value(field, row.get(field)) for field in key_fields)
+
+
+def _reset_owned_shadow_dir(output_dir: Path) -> Path:
+    """Reset only the audit-owned shadow directory so interrupted runs can resume."""
+
+    output_root = output_dir.resolve()
+    shadow_dir = (output_root / "shadow").resolve()
+    if shadow_dir.parent != output_root or shadow_dir.name != "shadow":
+        raise ValueError(f"Refusing to reset an unexpected shadow path: {shadow_dir}")
+    if shadow_dir.exists():
+        shutil.rmtree(shadow_dir)
+    return shadow_dir
 
 
 def _combined_rules(staged_overlay: Path) -> tuple[dict[str, Any], list[str]]:
@@ -77,20 +100,18 @@ def audit(
     if not baseline_path.exists():
         raise FileNotFoundError(f"Missing baseline decisions: {baseline_path}")
 
-    shadow_dir = output_dir / "shadow"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    shadow_dir = _reset_owned_shadow_dir(output_dir)
     with patch.object(taxonomy, "rules_payload", return_value=combined):
-        shadow_summary = build_shadow(
-            inventory_dir,
-            shadow_dir,
-            policy_path,
-            router=route_candidate,
-        )
+        # The frozen baseline is built by this same compact builder.  Using a
+        # different builder here creates false rule-id changes because compact
+        # QC/specimen annotations are added after deterministic routing.
+        shadow_summary = build_shadow(inventory_dir, shadow_dir, policy_path)
 
-    key_fields = ("patient_id", "case_review_id", "organism_key")
     baseline_rows = _read_csv(baseline_path)
     shadow_rows = _read_csv(shadow_dir / "all_decisions.csv")
-    baseline_by_key = {tuple(row[field] for field in key_fields): row for row in baseline_rows}
-    shadow_by_key = {tuple(row[field] for field in key_fields): row for row in shadow_rows}
+    baseline_by_key = {_candidate_identity(row): row for row in baseline_rows}
+    shadow_by_key = {_candidate_identity(row): row for row in shadow_rows}
     if baseline_by_key.keys() != shadow_by_key.keys():
         added = sorted(shadow_by_key.keys() - baseline_by_key.keys())
         removed = sorted(baseline_by_key.keys() - shadow_by_key.keys())
@@ -147,7 +168,6 @@ def audit(
         "old_rule_ids",
         "new_rule_ids",
     ]
-    output_dir.mkdir(parents=True, exist_ok=True)
     _write_csv(output_dir / "route_changes.csv", changes, fields)
     unexpected = [row for row in changes if not row["reviewed_key"]]
     summary = {

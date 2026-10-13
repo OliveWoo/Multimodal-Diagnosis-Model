@@ -1,0 +1,109 @@
+{
+  "schema_version": "5.0.0",
+  "policy_id": "test_aware_deterministic_shadow_v5_opportunistic_safety_net",
+  "mode": "answer_blind_integrated_release_shadow",
+  "rank_bands": {
+    "top": 1,
+    "strong": 3,
+    "moderate": 10
+  },
+  "context_rescue": {
+    "single_test_rank_at_most": 3,
+    "reproducible_rank_at_most": 10
+  },
+  "missingness_context_rescue": {
+    "enabled": true,
+    "families": [
+      "typical_respiratory_pathogen",
+      "hospital_or_nonfermenter_gnb",
+      "high_consequence_opportunistic",
+      "mold_or_opportunistic_fungus"
+    ],
+    "excluded_mapping_statuses": [
+      "unmapped",
+      "rejected"
+    ],
+    "minimum_missing_axes": 1,
+    "maximum_result": "review_context_needed"
+  },
+  "opportunistic_safety_net_forwarding": {
+    "enabled": true,
+    "families": [
+      "high_consequence_opportunistic"
+    ],
+    "accepted_mapping_statuses": [
+      "exact_species"
+    ],
+    "compatible_specimen_contexts": [
+      "lower_respiratory",
+      "blood_or_systemic",
+      "sterile_or_systemic"
+    ],
+    "require_host_support": false,
+    "maximum_result": "review_context_needed"
+  },
+  "clinical_scorer_forwarding": {
+    "include_decisions": [
+      "picked_shadow",
+      "review_high_priority",
+      "review_context_needed"
+    ]
+  },
+  "analytical_pick_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb"
+  ],
+  "direct_pick_families": [
+    "typical_respiratory_pathogen",
+    "hospital_or_nonfermenter_gnb",
+    "other_respiratory_virus"
+  ],
+  "opportunistic_families": [
+    "high_consequence_opportunistic",
+    "mold_or_opportunistic_fungus"
+  ],
+  "context_only_families": [
+    "candida_or_yeast",
+    "herpes_or_reactivation_virus",
+    "oral_aspiration_or_anaerobe",
+    "skin_airway_colonizer_prone"
+  ],
+  "low_specificity_families": [
+    "environmental_low_specificity",
+    "gi_urinary_or_nonpulmonary_prone",
+    "commensal_virome_or_endogenous_element",
+    "unmapped_or_uncertain"
+  ],
+  "low_specificity_repeat_high": {
+    "enabled": true,
+    "families": [
+      "environmental_low_specificity",
+      "skin_airway_colonizer_prone"
+    ],
+    "required_mapping_status": "exact_species",
+    "required_specimen_context": "lower_respiratory",
+    "minimum_selected_branches": 2,
+    "require_no_cross_molecule": true,
+    "minimum_per_branch_rpm": 10.0,
+    "accepted_qc_statuses": [
+      "evaluable",
+      "partial_evaluable"
+    ],
+    "excluded_repeat_group_types": [
+      "explicit_original_library_rerun"
+    ],
+    "maximum_result": "review_high_priority"
+  },
+  "constraints": [
+    "Positive reads are required; detected=true with reads=0 cannot create an mNGS candidate.",
+    "Missing specimen, molecule, normalization, complete QC, or host metadata is unknown rather than negative evidence.",
+    "The missingness route applies only to clinically relevant respiratory, hospital-associated, and opportunistic pathogen families; background, colonizer-prone, and unmapped families are not rescued by missingness alone.",
+    "The opportunistic safety net is limited to exact-species high-consequence opportunists with positive mNGS evidence from a compatible specimen.",
+    "The missingness and opportunistic safety-net routes can create Context only and can never create High or Picked.",
+    "Raw reads, RPM, and ranks remain attached to individual seq_id tests and are never summed across tests.",
+    "DNA/RNA concordance and multiple tests from one specimen form one technical reproducibility axis, not independent clinical confirmations.",
+    "Route A remains High review only and never Picked.",
+    "No patient is forced to have a Picked candidate.",
+    "The policy is answer blind; benchmark answers are used only by a separate evaluator."
+  ]
+}

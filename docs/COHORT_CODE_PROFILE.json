@@ -17,5 +17,8 @@
       "path": "frontend/two_hospital/run.py",
       "sha256": "f48c85cc6f18120fb84f08f7e401254b97031420bb4245198ab74d9ac4232433"
     }
-  ]
+  ],
+  "publication_revision": "2026-10-13",
+  "previous_profile_sha256": "4d24eb55a618ca56d5b99a0d1c2f174f116be8a90ff7c6df79fe530b44e3e309",
+  "revision_note": "Rebind public example metadata to current published documentation; historical clinical decision rules are unchanged."
 }

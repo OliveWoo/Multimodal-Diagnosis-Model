@@ -89,7 +89,7 @@ def hydrate_candidate(
     location = "none"
     detail: dict[str, Any] | None = None
 
-    if source == "hospital_only":
+    if source.startswith("hospital_only"):
         location = "hospital_evidence_detail"
         detail = enrich_hospital_evidence_detail(
             candidate.get("hospital_evidence_detail"), observation_index

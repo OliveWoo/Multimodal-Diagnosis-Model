@@ -58,13 +58,14 @@ def main() -> None:
             "new_complete_includes_ober": False,
             "new_complete_includes_luna": False,
             "ablation_a_to_g_is_separate_non_ober_experiment": True,
-            "decision_stages_are_answer_blind": True,
+            "casefit_generation_is_answer_blind": True,
+            "acceptance_policy_was_developed_with_visible_answers": True,
             "benchmark_evaluation_is_posthoc": True,
         },
         "inputs_and_evidence": [
             record("frozen_answer_contract", "outputs/runs/2026-09-18_KH_answer_revision_metrics/kh_answers_clinical_revision_20260918.csv"),
             record("old_revised_metrics_and_patient_details", "outputs/runs/2026-09-18_KH_answer_revision_metrics/kh_revised_benchmark_metrics.json"),
-            record("old_upstream_reconstructed_manifest", "outputs/runs/2026-09-21_pipeline_method_alignment/KH_0728_2Days_groupmatch_speciesrep_rtcv2_20260813.manifest.json"),
+            record("old_upstream_rtcv2_reconstruction_reference", "outputs/runs/2026-09-21_pipeline_method_alignment/KH_0728_2Days_groupmatch_speciesrep_rtcv2_20260813.manifest.json"),
             record("old_r5_patient_index", "outputs/patient_database_20260826_r5/patient_database_index.csv"),
             record("old_r5_selected_additions", "outputs/patient_database_20260826_r5/r5_selected_additions.csv"),
             record("old_casefit_manifest", "full_high_context_casefit_v1_20260819/manifest.json"),
@@ -83,6 +84,9 @@ def main() -> None:
         ],
         "limitations": summary["limitations"] + [
             "The 33-patient cohort was used during method development and is not an external validation cohort.",
+            "The final old deterministic endpoint is the 67-output source-aware fullsync set recorded by the patient index; the earlier rtcv2 manifest reconstructs a 68-output pre-guardrail stage and is retained only as historical provenance.",
+            "Individual case-fit calls did not receive benchmark answers, but the OBER acceptance policy was selected after inspecting KH33 answers.",
+            "Saved legacy case-fit records do not contain populated host-factor, clinical-feature, or imaging-feature fields; the legacy endpoint is not a complete phenotype-aware evaluation.",
             "Benchmark-unmatched outputs are not equivalent to clinically proven false positives.",
         ],
     }

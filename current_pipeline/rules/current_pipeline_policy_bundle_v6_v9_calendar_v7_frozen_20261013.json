@@ -1,0 +1,47 @@
+{
+  "schema_version": "frozen_pipeline_policy_bundle.v1",
+  "bundle_id": "current_v6_v9_calendar_v7_frozen_20261013",
+  "status": "frozen_reference",
+  "frozen_on": "2026-10-13",
+  "purpose": "Publication snapshot of the current calendar-date-window policy. Not a replay of the 2026-10-08 frozen reference.",
+  "components": [
+    {
+      "role": "analytical_scorer",
+      "path": "rules/test_aware_deterministic_shadow_v6_identity_resolved.json",
+      "policy_id": "test_aware_deterministic_shadow_v6_identity_resolved",
+      "sha256": "7da3621072c2d792ac63ef9f5dd85d9cbaf795f9a31f943246d0cf1039774ad3"
+    },
+    {
+      "role": "history_route",
+      "path": "rules/test_aware_history_route_v4c_combined.json",
+      "policy_id": "test_aware_history_route_v4c_combined",
+      "sha256": "50f515eb2cbbd48fca657989e9272c2e1644d95ed777390f70969b00976d9a4d"
+    },
+    {
+      "role": "clinical_scorer",
+      "path": "rules/test_aware_clinical_deterministic_shadow_v1.json",
+      "policy_id": "test_aware_clinical_deterministic_shadow_v1",
+      "sha256": "393cefbef5814b2f17fc61c082dfef19c6ebb44070d43e761c490f89e127d022"
+    },
+    {
+      "role": "promotion",
+      "path": "rules/test_aware_clinical_promotion_v9_calendar_dates_v1.json",
+      "policy_id": "test_aware_clinical_promotion_v9_calendar_dates_v1",
+      "sha256": "25c4dc26c5fb0bdca23aaa500bcbc9134c4e3573c0d4ebedf7536eb8036e44d5"
+    },
+    {
+      "role": "reporting",
+      "path": "rules/test_aware_unified_reporting_v7_respiratory_virus_possible.json",
+      "policy_id": "test_aware_unified_reporting_v7_respiratory_virus_possible_answer_blind",
+      "sha256": "301e993b932343f8d20e6038ddf473b7bd859467ab272661c0f158810f1e95d2"
+    }
+  ],
+  "constraints": [
+    "Do not modify a frozen component in place.",
+    "Any new behavior must use a new policy ID and be evaluated against this bundle.",
+    "Benchmark labels may be loaded only after answer-blind outputs are written and hashed.",
+    "Passing validation establishes this publication snapshot only, not equivalence to an older endpoint or clinical performance."
+  ],
+  "derived_from_bundle_id": "current_v6_v9_v7_frozen_20261008",
+  "version_change": "Promotion now explicitly uses an inclusive +/-2-calendar-date window; the old +/-48-hour hash is not silently redefined."
+}

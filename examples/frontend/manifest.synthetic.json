@@ -2,7 +2,7 @@
   "schema_version": 1,
   "mode": "master_ppt",
   "run_kind": "extract",
-  "code_profile_sha256": "0e9fafc0b6bab9c1b6d2573acc2f402d3f7062a2dbf73f2619c441a9ee67a025",
+  "code_profile_sha256": "82f910bd8db38673b6bc95538248bcfd5ad13f40f7126c34d98a4dbdd3f3426d",
   "master": {
     "path": "synthetic_master.xlsx",
     "sha256": "965d2380b66702435e01057b123f474d1db3cf57ffcf904882c16b83da84b492"

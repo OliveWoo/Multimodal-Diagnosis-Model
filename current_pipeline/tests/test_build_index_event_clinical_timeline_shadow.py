@@ -33,8 +33,10 @@ class TestClinicalTimelineShadow(unittest.TestCase):
         index = "2024-04-30 10:40:00"
         self.assertEqual(episode_window_relation("2024-05-01 23:59", index), "within_window")
         self.assertEqual(episode_window_relation("2024-05-02 10:40:00", index), "within_window")
-        self.assertEqual(episode_window_relation("2024-05-02 15:20:42", index), "outside_window")
-        self.assertEqual(episode_window_relation("2024-05-02", index), "boundary_uncertain")
+        self.assertEqual(episode_window_relation("2024-05-02 15:20:42", index), "within_window")
+        self.assertEqual(episode_window_relation("2024-05-02", index), "within_window")
+        self.assertEqual(episode_window_relation("2024-04-28 00:01", index), "within_window")
+        self.assertEqual(episode_window_relation("2024-05-03 00:00", index), "outside_window")
         self.assertEqual(episode_window_relation("2024-05-04", index), "outside_window")
         self.assertEqual(episode_window_relation(None, index), "unknown")
 
@@ -65,12 +67,17 @@ class TestClinicalTimelineShadow(unittest.TestCase):
                 ]}
             ])
             packet = build_patient(patient)
-            self.assertEqual(packet["schema_version"], "index_event_clinical_timeline_shadow.v3")
+            self.assertEqual(packet["schema_version"], "index_event_clinical_timeline_shadow.v4")
             self.assertEqual(len(packet["index_events"]), 2)
             self.assertEqual([event["specimen_site"] for event in packet["index_events"]], ["Blood", "BALF"])
             self.assertEqual(packet["decision_effect"], "none_shadow_only")
-            self.assertEqual(packet["primary_analysis"], "retrospective_infection_episode_window")
+            self.assertEqual(
+                packet["primary_analysis"],
+                "retrospective_infection_episode_calendar_date_window",
+            )
             self.assertEqual(packet["episode_window_hours_each_side"], 48)
+            self.assertEqual(packet["episode_window_mode"], "inclusive_calendar_dates")
+            self.assertEqual(packet["episode_window_calendar_days_each_side"], 2)
             self.assertFalse(packet["primary_view_is_at_collection_prediction"])
             self.assertFalse(packet["source_availability"]["other_lab"])
             self.assertEqual(packet["clinical_data_status"]["cbc"]["status"], "cbc_available_differential_missing")
@@ -90,7 +97,7 @@ class TestClinicalTimelineShadow(unittest.TestCase):
             self.assertEqual(set(image["available_at_index"].values()), {"post_index_not_available"})
             self.assertEqual(set(image["episode_evidence_status"].values()), {"episode_observation"})
             self.assertEqual(image["observation_window_relation_to_index"]["P1:mngs:1"], "within_window")
-            self.assertEqual(image["report_window_relation_to_index"]["P1:mngs:1"], "outside_window")
+            self.assertEqual(image["report_window_relation_to_index"]["P1:mngs:1"], "within_window")
             self.assertFalse(image["microbiologic_confirmation"])
             self.assertIn("Pneumocystis jirovecii", [item["concept_name"] for item in image["diagnostic_mentions"]])
             self.assertEqual(image["diagnostic_mentions"][0]["assertion"], "differential")
@@ -132,7 +139,7 @@ class TestClinicalTimelineShadow(unittest.TestCase):
 
             packet = build_patient(patient, multi)
 
-        self.assertEqual("index_event_clinical_timeline_shadow.v4", packet["schema_version"])
+            self.assertEqual("index_event_clinical_timeline_shadow.v5", packet["schema_version"])
         self.assertEqual("multi_assay_case_inventory", packet["index_event_source"])
         self.assertEqual(["A", "B"], [item["case_review_id"] for item in packet["index_events"]])
         self.assertEqual(["DNA-B", "RNA-B"], packet["index_events"][1]["seq_ids"])

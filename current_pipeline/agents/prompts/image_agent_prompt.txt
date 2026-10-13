@@ -116,6 +116,7 @@ R-DET-02（decision_trace 固定結構）：
 
 R-DET-03（固定排序與去重）：
 - imaging_studies 依輸入順序保留，不可因檢查類型相同而覆蓋；每次檢查的原始 findings、impression、日期與來源文字都要保留。
+- 若同一段 finding 同時出現在有明確 collected/reported time 的紀錄，以及只有 source_time 或時間未知的較不完整紀錄，不得把後者計為另一份獨立影像證據；保留在 imaging_studies 供追溯，但 observed_findings／diagnostic_mentions 只以較完整紀錄計一次。不同明確時間的檢查仍須分開保留。
 - observed_findings 去重後固定排序：A_strong_infectious > B_moderate_infectious > C_weak_or_nonspecific > U_uninterpretable，再依 finding_text 字母序。
 - pathogen_type_support 固定輸出順序：Bacterial, Viral, Fungal（不可缺項）。
 - organism_hints 固定輸出順序：organism_name 字母序。

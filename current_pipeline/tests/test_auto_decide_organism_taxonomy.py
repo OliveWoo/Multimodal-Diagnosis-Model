@@ -8,6 +8,7 @@ from unittest.mock import Mock, patch
 
 from tools.auto_decide_organism_taxonomy import (
     _assert_answer_blind,
+    _call_codex_cli,
     apply_staged_overlay,
     clinical_prompt_for,
     ensure_codex_cli_authenticated,
@@ -72,6 +73,31 @@ def _literature() -> dict:
 
 
 class AutoTaxonomyDecisionTests(unittest.TestCase):
+    def test_codex_cli_receives_explicit_reasoning_effort(self) -> None:
+        def fake_run(command, **_kwargs):
+            output_path = Path(command[command.index("--output-last-message") + 1])
+            output_path.write_text("{}", encoding="utf-8")
+            self.assertIn('model_reasoning_effort="high"', command)
+            return Mock(returncode=0, stdout="", stderr="")
+
+        with tempfile.TemporaryDirectory() as tmp, patch(
+            "tools.auto_decide_organism_taxonomy.find_codex_executable",
+            return_value="codex.exe",
+        ), patch(
+            "tools.auto_decide_organism_taxonomy.subprocess.run",
+            side_effect=fake_run,
+        ):
+            payload, _, _ = _call_codex_cli(
+                "gpt-test",
+                [{"content": "system"}, {"content": "data"}],
+                {"type": "object"},
+                "reasoning-test",
+                Path(tmp),
+                30,
+                "high",
+            )
+        self.assertEqual(payload, {})
+
     def test_prompts_are_answer_blind(self) -> None:
         identity_messages = identity_prompt_for(_item())
         _assert_answer_blind(identity_messages)

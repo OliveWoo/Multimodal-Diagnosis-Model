@@ -55,6 +55,7 @@ def _task_analyze(
     patient_dir: Path,
     *,
     model: str,
+    reasoning_effort: str | None,
     skip_existing: bool,
     overwrite: bool,
 ) -> None:
@@ -76,6 +77,7 @@ def _task_analyze(
     analyze_llm_agent.run_for_directory(
         patient_dir,
         model=model,
+        reasoning_effort=reasoning_effort,
         specs=specs,
         overwrite=overwrite,
     )
@@ -161,6 +163,7 @@ def _run_task_sequence(
     tasks: Sequence[str],
     *,
     model: str,
+    reasoning_effort: str | None,
     prompt_path: Path | None,
     ranked_mngs_path: Path | None,
     output_suffix: str,
@@ -174,6 +177,7 @@ def _run_task_sequence(
             _task_analyze(
                 patient_dir,
                 model=model,
+                reasoning_effort=reasoning_effort,
                 skip_existing=skip_existing,
                 overwrite=overwrite,
             )
@@ -245,6 +249,11 @@ def main() -> None:
         "--prompt",
         type=Path,
         help="Override prompt path for mngs_big.",
+    )
+    parser.add_argument(
+        "--reasoning-effort",
+        choices=analyze_llm_agent.REASONING_EFFORT_CHOICES,
+        help="Responses API reasoning effort for analyze tasks.",
     )
     parser.add_argument(
         "--ranked-mngs",
@@ -321,6 +330,7 @@ def main() -> None:
                 patient_dir,
                 args.tasks,
                 model=args.model,
+                reasoning_effort=args.reasoning_effort,
                 prompt_path=args.prompt,
                 ranked_mngs_path=args.ranked_mngs,
                 output_suffix=args.output_suffix,
@@ -331,6 +341,7 @@ def main() -> None:
             ): patient_dir
             for patient_dir in target_dirs
         }
+        failures: list[tuple[Path, Exception]] = []
         for future in as_completed(futures):
             patient_dir = futures[future]
             try:
@@ -338,6 +349,15 @@ def main() -> None:
                 logging.info("Completed %s", patient_dir.name)
             except Exception as exc:  # pylint: disable=broad-exception-caught
                 logging.exception("Failed %s: %s", patient_dir.name, exc)
+                failures.append((patient_dir, exc))
+
+    if failures:
+        logging.error(
+            "%d patient task(s) failed: %s",
+            len(failures),
+            ", ".join(path.name for path, _ in failures),
+        )
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

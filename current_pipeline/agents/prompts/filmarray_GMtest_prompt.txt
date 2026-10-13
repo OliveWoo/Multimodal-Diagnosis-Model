@@ -285,7 +285,8 @@ R-S6-02：
 R-S6-03（AMR）：
 - AMR 基因 Detected 且同次有對應菌種 Detected -> resistance_risk = High
 - 只有 AMR 基因 Detected、無對應菌種 -> resistance_risk = Moderate
-- 無 AMR 基因 Detected -> resistance_risk = Low
+- 已有可判讀的 FilmArray／GM records，且無 AMR 基因 Detected -> resistance_risk = Low
+- FilmArray 與 GMTest 均為空陣列或完全沒有可判讀紀錄 -> resistance_risk = Unknown；data_gaps 必須包含 resistance_evidence_not_available。缺少檢測不能當成低風險。
 - 必須註明：AMR 基因不等於最終 AST/MIC。
 
 R-S6-04（infection_likelihood）：

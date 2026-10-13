@@ -22,6 +22,9 @@ from tools.promote_test_aware_clinical_high_shadow_v8 import (
     build_patient_promotion_context as build_patient_promotion_context_v8,
     promote_candidate as promote_candidate_v8,
 )
+from tools.promote_test_aware_clinical_high_shadow_v9 import (
+    promote_candidate as promote_candidate_v9,
+)
 
 
 def candidate(
@@ -654,6 +657,106 @@ class TestClinicalHighPromotion(unittest.TestCase):
         }]
         result = promote_candidate(item, policy)
         self.assertEqual("picked_shadow", result["clinical_decision"])
+
+    def test_event_aligned_policy_uses_inclusive_calendar_dates(self):
+        policy = json.loads(json.dumps(self.policy))
+        policy["require_event_aligned_direct_evidence"] = True
+        policy["direct_evidence_event_window_calendar_days"] = 2
+        item = candidate(
+            "respiratory syncytial virus", "other_respiratory_virus",
+            source="hospital_only", direct=2,
+        )
+        item["linked_events"] = [{"collected_time": "2024-11-14 00:01"}]
+        item["hospital_evidence_detail"]["source_observations"] = [{
+            "observation_id": "ASSAY-CALENDAR-BOUNDARY",
+            "detection_status": "detected",
+            "raw_result": "Detected",
+            "reported_time": "2024-11-16 23:59",
+            "specimen_type": "BAL",
+        }]
+        result = promote_candidate(item, policy)
+        self.assertEqual("picked_shadow", result["clinical_decision"])
+        profile = result["promotion_gate"]["axes"]["direct_evidence_timing_profile"]
+        self.assertEqual("inclusive_calendar_dates", profile["event_window_mode"])
+        self.assertEqual(2, profile["rows"][0]["nearest_event_calendar_day_delta"])
+
+    def test_v9_cmv_requires_current_reactivation_and_direct_convergence(self):
+        policy = json.loads(
+            Path(
+                "rules/test_aware_clinical_promotion_v9_pathogen_specific_convergence.json"
+            ).read_text(encoding="utf-8")
+        )
+        item = candidate(
+            "Human betaherpesvirus 5",
+            "herpes_or_reactivation_virus",
+            rank=2,
+            count=2,
+            reproducible=True,
+            cross=True,
+            direct=2,
+        )
+        item["linked_events"] = [{"collected_time": "2024-11-14 09:30"}]
+        item["hospital_profile"]["hospital_evidence_detail"] = {
+            "source_observations": [{
+                "observation_id": "CMV-PCR-1",
+                "detection_status": "detected",
+                "raw_result": "CMV DNA detected",
+                "reported_time": "2024-11-14 10:00",
+                "specimen_type": "Blood",
+                "target": "CMV PCR",
+            }]
+        }
+        retained = promote_candidate_v9(item, policy)
+        self.assertEqual("review_high_priority", retained["clinical_decision"])
+
+        item["reactivation_interpretation"] = {
+            "has_explicit_current_reactivation": True,
+            "has_quantitative_or_tissue_evidence": True,
+            "has_compatible_pulmonary_syndrome": False,
+        }
+        promoted = promote_candidate_v9(item, policy)
+        self.assertEqual("picked_shadow", promoted["clinical_decision"])
+        self.assertEqual(
+            "cmv_pathogen_specific_clinical_convergence",
+            promoted["promotion_gate"]["route"],
+        )
+
+    def test_v9_aspergillus_group_requires_direct_invasive_proof(self):
+        policy = json.loads(
+            Path(
+                "rules/test_aware_clinical_promotion_v9_pathogen_specific_convergence.json"
+            ).read_text(encoding="utf-8")
+        )
+        item = candidate(
+            "Aspergillus spp.",
+            "mold_or_opportunistic_fungus",
+            source="hospital_only",
+            direct=1,
+            context="sterile_or_systemic",
+        )
+        item["taxonomy_profile"]["taxonomic_rank"] = "genus_or_group_label"
+        item["taxonomy_profile"]["mapping_status"] = "genus_inherited"
+        item["linked_events"] = [{"collected_time": "2024-11-14 09:30"}]
+        item["hospital_evidence_detail"]["source_observations"] = [{
+            "observation_id": "PATH-1",
+            "detection_status": "positive",
+            "raw_result": "Histopathology shows tissue invasion by Aspergillus hyphae",
+            "collected_time": "2024-11-14 08:00",
+            "specimen_type": "Lung tissue",
+            "target": "Aspergillus spp.",
+        }]
+        promoted = promote_candidate_v9(item, policy)
+        self.assertEqual("picked_shadow", promoted["clinical_decision"])
+        self.assertEqual(
+            "aspergillus_group_direct_invasive_proof",
+            promoted["promotion_gate"]["route"],
+        )
+
+        item["hospital_evidence_detail"]["source_observations"][0][
+            "raw_result"
+        ] = "Serum galactomannan detected"
+        retained = promote_candidate_v9(item, policy)
+        self.assertEqual("review_high_priority", retained["clinical_decision"])
 
     def test_non_high_candidate_is_not_reclassified(self):
         item = candidate(decision="review_context_needed")

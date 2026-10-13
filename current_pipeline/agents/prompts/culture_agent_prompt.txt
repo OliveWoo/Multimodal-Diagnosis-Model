@@ -89,6 +89,7 @@ R-DET-03（applied_rules 固定格式）：
 
 R-DET-04（去重與固定排序）：
 - culture_observations 不去重、不合併；依輸入順序配置 observation_id，保留每次檢驗、檢體、日期、數量與陰性結果。
+- 同一檢體、同一 collected_time／received_time 的 generic preliminary report（例如 G(-) bacilli, identification to follow）若後續只有一個明確 final organism identity，兩者屬同一培養事件：所有 observations 都保留，但 preliminary 名稱不得另建獨立 organism label；其 observation_id 併入 final organism 的 evidence_observation_ids。若同一事件有多個 final identities 或事件連結不明確，則不得自動合併。
 - organism_labels 以正規化 organism_name 去重。
 - 同名多筆合併時，固定取最支持等級，也就是 Level 數字最小者。
 - 同名若 Level 相同，固定取較高 specimen priority 的 key_evidence：Sterile_Site > Lower_Respiratory > NonSterile_Other > Unknown。

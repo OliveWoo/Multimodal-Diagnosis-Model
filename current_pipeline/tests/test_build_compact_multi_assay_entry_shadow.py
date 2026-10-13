@@ -29,6 +29,9 @@ class TestCompactEntryShadow(unittest.TestCase):
         self.assertEqual(profile["selected_test_signals"][0]["reads"], 35)
         self.assertFalse(profile["selected_test_signals"][0]["normalization_available"])
         self.assertIn("RPM_UNAVAILABLE_USE_WITHIN_TEST_SIGNAL_ONLY", profile["rule_ids"])
+        self.assertEqual("exact_species_identity", profile["taxonomy_identity_resolution"])
+        self.assertEqual("curated_exact_species", profile["taxonomy_rule_source"])
+        self.assertIn("pulmonary_pathogen", profile["taxonomy_clinical_traits"])
 
     def test_two_tests_remain_separate_and_filtered_is_traceable(self):
         item = candidate(

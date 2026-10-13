@@ -247,6 +247,147 @@ class MultiAssayMngsEvidenceTest(unittest.TestCase):
             "no_corresponding_raw_file_unevaluable_not_negative",
         )
 
+    def test_source_unknown_molecule_is_partial_but_kept_for_compatibility(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "NGS_patient_5_all_mNGS_DNA_RNA_RK_NTC_by_species.json"
+            source.write_text(
+                json.dumps({
+                    "patient_id": 5,
+                    "cases": [{
+                        "case_review_id": "case-e",
+                        "specimen_code": "case-e",
+                        "specimen_site": "",
+                        "tests": [{
+                            "seq_id": "unknown-1",
+                            "nucleic_type": "UNKNOWN",
+                            "molecule_status": "source_unknown",
+                            "parameters": {"input_reads": None, "host_ratio": None},
+                            "raw_result_status": {
+                                "bacterial": "available",
+                                "viral": "unknown",
+                                "fungal": "unknown",
+                                "others": "unknown",
+                            },
+                        }],
+                    }],
+                    "organisms": [{
+                        "category": "bacterial",
+                        "name": "Example bacterium",
+                        "measurements": [{
+                            "case_review_id": "case-e",
+                            "seq_id": "unknown-1",
+                            "reads": 12,
+                            "detected": True,
+                            "selected": True,
+                            "selection_tags": ["Code_RK_NTC=RK0"],
+                            "raw_available": True,
+                        }],
+                    }],
+                }),
+                encoding="utf-8",
+            )
+
+            patient, tests, candidates = build_patient(source)
+
+        self.assertEqual("partial_evaluable", tests[0]["qc_status"])
+        self.assertEqual("source_unknown", tests[0]["molecule_status"])
+        self.assertIn("source_unknown_nucleic_type", tests[0]["qc_warnings"])
+        self.assertTrue(tests[0]["eligible_for_union"])
+        self.assertEqual(1, len(candidates))
+        self.assertEqual(
+            "Example bacterium",
+            patient["cases"][0]["candidate_union"]["selected_union"][0]["organism_name"],
+        )
+
+    def test_blank_case_id_is_inferred_only_from_unique_seq_id(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "NGS_patient_6_all_mNGS_DNA_RNA_RK_NTC_by_species.json"
+            source.write_text(
+                json.dumps({
+                    "patient_id": 6,
+                    "cases": [{
+                        "case_review_id": None,
+                        "specimen_code": "specimen-f",
+                        "specimen_site": "plasma",
+                        "tests": [{
+                            "seq_id": "unique-seq",
+                            "nucleic_type": "DNA",
+                            "parameters": {"input_reads": 1000, "host_ratio": 50},
+                            "raw_result_status": {
+                                key: "available" for key in ("bacterial", "viral", "fungal", "others")
+                            },
+                        }],
+                    }],
+                    "organisms": [{
+                        "category": "fungal",
+                        "name": "Pneumocystis jirovecii",
+                        "measurements": [{
+                            "case_review_id": None,
+                            "seq_id": "unique-seq",
+                            "reads": 57,
+                            "detected": True,
+                            "selected": True,
+                            "selection_tags": ["Code_NTC=00"],
+                            "raw_available": True,
+                        }],
+                    }],
+                }),
+                encoding="utf-8",
+            )
+
+            patient, _, candidates = build_patient(source)
+
+        self.assertEqual(1, len(candidates))
+        self.assertEqual([], patient["audit"]["orphan_measurements"])
+        self.assertEqual(1, len(patient["audit"]["inferred_measurement_links"]))
+        observation = patient["observations"][0]
+        self.assertEqual("specimen-f", observation["case_review_id"])
+        self.assertEqual("case_review_id_inferred_from_unique_seq_id", observation["identity_linkage"])
+
+    def test_blank_case_id_with_ambiguous_seq_id_remains_orphan(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "NGS_patient_7_all_mNGS_DNA_RNA_RK_NTC_by_species.json"
+            source.write_text(
+                json.dumps({
+                    "patient_id": 7,
+                    "cases": [
+                        {
+                            "case_review_id": case_id,
+                            "specimen_code": case_id,
+                            "tests": [{
+                                "seq_id": "duplicated-seq",
+                                "nucleic_type": "DNA",
+                                "parameters": {"input_reads": 1000, "host_ratio": 50},
+                                "raw_result_status": {
+                                    key: "available" for key in ("bacterial", "viral", "fungal", "others")
+                                },
+                            }],
+                        }
+                        for case_id in ("case-g1", "case-g2")
+                    ],
+                    "organisms": [{
+                        "category": "bacterial",
+                        "name": "Example bacterium",
+                        "measurements": [{
+                            "case_review_id": "",
+                            "seq_id": "duplicated-seq",
+                            "reads": 12,
+                            "detected": True,
+                            "selected": True,
+                            "selection_tags": ["Code_NTC=00"],
+                            "raw_available": True,
+                        }],
+                    }],
+                }),
+                encoding="utf-8",
+            )
+
+            patient, _, candidates = build_patient(source)
+
+        self.assertEqual([], candidates)
+        self.assertEqual([], patient["audit"]["inferred_measurement_links"])
+        self.assertEqual(1, len(patient["audit"]["orphan_measurements"]))
+
 
 if __name__ == "__main__":
     unittest.main()

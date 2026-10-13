@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "legacy_history_picked_promotion_v1",
+  "policy_role": "answer_blind_legacy_priority_to_picked_gate",
+  "eligible_transition": {
+    "from_route": "Context",
+    "to_route": "Priority",
+    "history_policy_family": "aspiration"
+  },
+  "eligible_taxonomy_families": [
+    "oral_aspiration_or_anaerobe"
+  ],
+  "required_history_support_level": "durable_family_specific_risk",
+  "require_explicit_aspiration_event": true,
+  "required_specimen_contexts": [
+    "lower_respiratory"
+  ],
+  "max_best_rank_in_retained_universe": 3,
+  "min_selected_positive_test_count": 1,
+  "require_history_route_changed": true,
+  "block_when_history_adjustment_blockers_present": true,
+  "block_when_direct_colonization_or_not_infection": true,
+  "final_decision": "picked_shadow",
+  "constraints": [
+    "This gate is answer blind and never reads benchmark labels or patient identifiers.",
+    "A generic aspiration risk alone is insufficient; the full transition, family, specimen, analytical, and contradiction checks must pass.",
+    "Audit-to-Context transitions are never promoted to Picked.",
+    "The same history evidence is one bounded clinical-fit axis and must not be counted again downstream.",
+    "This policy is a shadow candidate until held-out or external validation is reviewed."
+  ]
+}

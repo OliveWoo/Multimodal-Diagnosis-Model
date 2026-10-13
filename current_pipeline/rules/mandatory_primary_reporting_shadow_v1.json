@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "mandatory_primary_reporting_shadow_v1_answer_blind",
+  "accepted_qc_statuses": ["evaluable", "partial_evaluable"],
+  "formal_tier_order": {
+    "Picked": 0,
+    "Possible": 1,
+    "Fallback-Possible": 2,
+    "Fallback-BestAvailable": 3,
+    "Context": 4
+  },
+  "family_priority_order": {
+    "typical_respiratory_pathogen": 0,
+    "hospital_or_nonfermenter_gnb": 0,
+    "other_respiratory_virus": 0,
+    "high_consequence_opportunistic": 0,
+    "oral_aspiration_or_anaerobe": 0,
+    "mold_or_opportunistic_fungus": 0,
+    "gi_urinary_or_nonpulmonary_prone": 1,
+    "candida_or_yeast": 1,
+    "herpes_or_reactivation_virus": 2,
+    "skin_airway_colonizer_prone": 3,
+    "environmental_low_specificity": 4,
+    "commensal_virome_or_endogenous_element": 5,
+    "unmapped_or_uncertain": 6
+  },
+  "default_family_priority": 6,
+  "compatible_specimen_contexts": [
+    "lower_respiratory",
+    "sterile_or_systemic",
+    "blood_or_systemic"
+  ],
+  "taxonomy_mapping_priority": {
+    "exact_species": 0,
+    "genus_inherited": 1,
+    "auto_approved": 1,
+    "provisional": 3,
+    "unmapped": 4,
+    "rejected": 5
+  },
+  "default_taxonomy_mapping_priority": 2,
+  "constraints": [
+    "The policy is answer blind and contains no patient identifiers or expected organisms.",
+    "Picked and Possible tiers remain unchanged; mandatory fallback is a reporting designation, not an increase in clinical certainty.",
+    "Only candidates with positive per-test reads and non-excluded QC may become primary candidates.",
+    "Reads are never summed across tests; only per-test rank and the strongest single-test signal are used as late tie-breakers.",
+    "Clinical pathogenic plausibility and specimen compatibility precede taxonomy confidence, reproducibility, within-test rank, and single-test reads.",
+    "Background viruses, colonizer-prone organisms, environmental organisms, and uncertain taxonomy are down-ranked but remain auditable.",
+    "Missing clinical evidence remains unknown rather than negative."
+  ]
+}

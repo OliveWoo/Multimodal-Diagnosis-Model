@@ -1,0 +1,9 @@
+{
+  "cohorts": [
+    {
+      "label": "example",
+      "packets": "../private_data/ober_case_packets.jsonl",
+      "manifest": "../private_data/ober_packet_manifest.json"
+    }
+  ]
+}

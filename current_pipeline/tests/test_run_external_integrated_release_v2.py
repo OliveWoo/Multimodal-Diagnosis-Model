@@ -3,11 +3,63 @@ import csv
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from tools import run_external_integrated_release_v2 as release
 
 
 class ExternalIntegratedReleaseV2Test(unittest.TestCase):
+    def test_taxonomy_completion_manifest_must_match_active_overlay(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            overlay = root / "overlay.json"
+            overlay.write_text('{"exact_profiles": {}}', encoding="utf-8")
+            manifest = root / "completion.json"
+            manifest.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "organism_taxonomy_completion_manifest_v1",
+                        "passed": True,
+                        "answer_blind": True,
+                        "ground_truth_loaded": False,
+                        "unreviewed_keys": [],
+                        "staged_overlay": str(overlay.resolve()),
+                        "staged_overlay_sha256": release.kh_release.sha256_file(overlay),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with patch.dict(
+                "os.environ",
+                {"MNGS_TAXONOMY_AUTO_OVERLAY": str(overlay)},
+                clear=False,
+            ):
+                payload = release.load_taxonomy_completion_manifest(manifest)
+            self.assertTrue(payload["passed"])
+
+    def test_taxonomy_completion_manifest_rejects_unreviewed_keys(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            overlay = root / "overlay.json"
+            overlay.write_text('{"exact_profiles": {}}', encoding="utf-8")
+            manifest = root / "completion.json"
+            manifest.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "organism_taxonomy_completion_manifest_v1",
+                        "passed": True,
+                        "answer_blind": True,
+                        "ground_truth_loaded": False,
+                        "unreviewed_keys": ["unresolved"],
+                        "staged_overlay": str(overlay.resolve()),
+                        "staged_overlay_sha256": release.kh_release.sha256_file(overlay),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "unreviewed"):
+                release.load_taxonomy_completion_manifest(manifest)
+
     def test_cohort_partition_excludes_development_patients(self):
         with tempfile.TemporaryDirectory() as tmp:
             freeze = Path(tmp) / "freeze.json"
@@ -55,6 +107,34 @@ class ExternalIntegratedReleaseV2Test(unittest.TestCase):
             )
             self.assertTrue(result["patient_coverage_complete"])
             self.assertFalse(result["answers_loaded"])
+
+    def test_empty_integrated_output_is_valid_when_decision_packet_exists(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            reporting = root / "10_reporting_v3_route_a"
+            reporting.mkdir(parents=True)
+            fields = ["patient_id", "organism_name", "final_reporting_tier"]
+            for path in (
+                root / "integrated_decisions.csv",
+                reporting / "complete_report.csv",
+            ):
+                with path.open("w", encoding="utf-8-sig", newline="") as handle:
+                    writer = csv.DictWriter(handle, fieldnames=fields)
+                    writer.writeheader()
+                    writer.writerow({
+                        "patient_id": "4",
+                        "organism_name": "B",
+                        "final_reporting_tier": "Context",
+                    })
+
+            result = release.freeze_heldout_outputs(
+                root, {4, 5}, decision_patient_ids={4, 5}
+            )
+
+            self.assertEqual(result["patients_with_no_integrated_candidates"], [5])
+            self.assertTrue(result["decision_patient_coverage_complete"])
+            self.assertFalse(result["integrated_candidate_coverage_complete"])
+            self.assertTrue(result["patient_coverage_complete"])
 
     def test_freeze_existing_summaries_requires_matching_patient_sets(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -120,6 +200,36 @@ class ExternalIntegratedReleaseV2Test(unittest.TestCase):
             self.assertEqual(
                 by_id[14]["local_linkage_status"], "phenotype_file_missing"
             )
+
+    def test_mngs_only_mode_generates_optional_clinical_unknowns(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            inventory = root / "inventory"
+            patients = inventory / "patients"
+            patients.mkdir(parents=True)
+            (inventory / "inventory_summary.json").write_text(
+                json.dumps({"patient_count": 1}), encoding="utf-8"
+            )
+            (patients / "NGS_patient_54_multi_assay_mngs_evidence.json").write_text(
+                json.dumps({"patient_id": 54, "cases": []}), encoding="utf-8"
+            )
+
+            patient_root, phenotype_root, suffix, manifest = (
+                release.prepare_optional_input_roots(
+                    output_root=root / "release",
+                    inventory_root=inventory,
+                    patient_root=root / "unused_patients",
+                    phenotype_root=root / "unused_phenotype",
+                    source_summary_suffix="unused",
+                    mngs_only=True,
+                )
+            )
+
+            self.assertEqual("mngs_only_no_clinical_evidence_v1", suffix)
+            self.assertTrue(patient_root.is_dir())
+            self.assertTrue(phenotype_root.is_dir())
+            self.assertEqual([54], manifest["patient_ids"])
+            self.assertEqual(0, manifest["clinical_files_copied"])
 
 
 if __name__ == "__main__":

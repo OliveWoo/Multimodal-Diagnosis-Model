@@ -22,6 +22,15 @@ from tools import organism_taxonomy_classifier as taxonomy
 
 PRESERVATION_VERSION = "evidence_preservation_v2_lossless_records"
 
+_UNKNOWN_VALUES = {"", "unknown", "none", "null", "not_available", "not available"}
+_PRELIMINARY_CULTURE_PATTERNS = (
+    r"\bidentification\s+to\s+follow\b",
+    r"\b(?:gram|g)\s*\(?\s*(?:positive|negative|[+-])\s*\)?\s*(?:bacill|cocc|rod)",
+    r"\b(?:gram|g)\s*\(?\s*(?:positive|negative|[+-])\s*\)?\b",
+    r"\byeast\s*,?\s*identification\s+to\s+follow\b",
+)
+_LEVEL_RANK = {f"Level {index}": index for index in range(1, 6)}
+
 
 @dataclass(frozen=True)
 class ImagingConcept:
@@ -203,6 +212,24 @@ def _as_dict(value: Any) -> dict[str, Any]:
 
 def _as_list(value: Any) -> list[Any]:
     return value if isinstance(value, list) else []
+
+
+def _normalized_text(value: Any) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", str(value or "").casefold()).strip()
+
+
+def _known_value(value: Any) -> bool:
+    return str(value or "").strip().casefold() not in _UNKNOWN_VALUES
+
+
+def _append_data_gaps(payload: dict[str, Any], *codes: str) -> None:
+    gaps = {
+        str(item).strip()
+        for item in _as_list(payload.get("data_gaps"))
+        if str(item).strip()
+    }
+    gaps.update(code for code in codes if code)
+    payload["data_gaps"] = sorted(gaps)
 
 
 def _iter_text_leaves(value: Any, path: str = "$") -> Iterable[tuple[str, str]]:
@@ -1111,11 +1138,73 @@ def _merge_dict_rows(existing: Any, additions: Iterable[dict[str, Any]], key_fie
     return output
 
 
+def _dedupe_temporal_evidence_rows(
+    rows: Any,
+    *,
+    key_fields: tuple[str, ...],
+) -> tuple[list[dict[str, Any]], int]:
+    """Remove unlocated copies while retaining distinct dated observations."""
+
+    source_rows = [dict(item) for item in _as_list(rows) if isinstance(item, dict)]
+    grouped: dict[tuple[str, ...], list[tuple[int, dict[str, Any]]]] = {}
+    for index, row in enumerate(source_rows):
+        key = tuple(_normalized_text(row.get(field)) for field in key_fields)
+        grouped.setdefault(key, []).append((index, row))
+
+    retained_indices: set[int] = set()
+    for group in grouped.values():
+        exact_signatures: set[tuple[str, str, str]] = set()
+        unique_group: list[tuple[int, dict[str, Any]]] = []
+        for index, row in group:
+            signature = tuple(
+                _normalized_text(row.get(field))
+                for field in ("exam_type", "collected_time", "reported_time")
+            )
+            if signature in exact_signatures:
+                continue
+            exact_signatures.add(signature)
+            unique_group.append((index, row))
+
+        dated = [
+            (index, row)
+            for index, row in unique_group
+            if _known_value(row.get("collected_time"))
+            or _known_value(row.get("reported_time"))
+        ]
+        dated_exam_types = {
+            _normalized_text(row.get("exam_type"))
+            for _, row in dated
+            if _known_value(row.get("exam_type"))
+        }
+        for index, row in unique_group:
+            has_time = _known_value(row.get("collected_time")) or _known_value(
+                row.get("reported_time")
+            )
+            exam_type = _normalized_text(row.get("exam_type"))
+            if dated and not has_time and (not exam_type or exam_type in dated_exam_types):
+                continue
+            retained_indices.add(index)
+
+    retained = [row for index, row in enumerate(source_rows) if index in retained_indices]
+    return retained, len(source_rows) - len(retained)
+
+
 def enrich_image_agent_output(agent_payload: Any, raw_image: Any) -> dict[str, Any]:
     output = dict(agent_payload) if isinstance(agent_payload, dict) else {}
+    observed_before = len(_as_list(output.get("observed_findings")))
+    observed, observed_removed = _dedupe_temporal_evidence_rows(
+        output.get("observed_findings"), key_fields=("finding_text",)
+    )
+    if "observed_findings" in output:
+        output["observed_findings"] = observed
     mentions = extract_imaging_diagnostic_mentions(raw_image)
     output["diagnostic_mentions"] = _merge_dict_rows(
         output.get("diagnostic_mentions"), mentions, ("concept_name", "assertion", "source_sentence")
+    )
+    mentions_before = len(output["diagnostic_mentions"])
+    output["diagnostic_mentions"], mentions_removed = _dedupe_temporal_evidence_rows(
+        output["diagnostic_mentions"],
+        key_fields=("concept_name", "assertion", "source_sentence"),
     )
     preservation = dict(_as_dict(output.get("evidence_preservation")))
     preservation.update(
@@ -1124,6 +1213,226 @@ def enrich_image_agent_output(agent_payload: Any, raw_image: Any) -> dict[str, A
             "raw_image_available": raw_image is not None,
             "diagnostic_mention_count": len(output["diagnostic_mentions"]),
             "diagnostic_mentions_are_context_only": True,
+            "source_aware_dedup_policy": "drop_undated_copy_when_same_text_has_dated_evidence",
+            "observed_findings_before_dedup": observed_before,
+            "observed_findings_after_dedup": len(output.get("observed_findings") or []),
+            "observed_findings_removed_as_duplicates": observed_removed,
+            "diagnostic_mentions_before_dedup": mentions_before,
+            "diagnostic_mentions_after_dedup": len(output["diagnostic_mentions"]),
+            "diagnostic_mentions_removed_as_duplicates": mentions_removed,
+        }
+    )
+    output["evidence_preservation"] = preservation
+    return output
+
+
+def _preliminary_culture_name(value: Any) -> bool:
+    text = str(value or "").strip()
+    return bool(text) and any(
+        re.search(pattern, text, re.IGNORECASE)
+        for pattern in _PRELIMINARY_CULTURE_PATTERNS
+    )
+
+
+def _culture_event_key(row: Mapping[str, Any]) -> tuple[str, str, str]:
+    return (
+        _normalized_text(row.get("sample") or row.get("specimen") or row.get("specimen_type")),
+        _normalized_text(row.get("collected_time")),
+        _normalized_text(row.get("received_time")),
+    )
+
+
+def enrich_culture_agent_output(agent_payload: Any, raw_culture: Any) -> dict[str, Any]:
+    """Link a generic preliminary culture call to its single final identity."""
+
+    output = dict(agent_payload) if isinstance(agent_payload, dict) else {}
+    raw_rows = [item for item in _as_list(raw_culture) if isinstance(item, dict)]
+    groups: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+    for row in raw_rows:
+        name = str(row.get("organism") or "").strip()
+        status = str(row.get("status") or "").casefold()
+        if not name or any(term in status for term in ("not detected", "negative", "no growth")):
+            continue
+        groups.setdefault(_culture_event_key(row), []).append(row)
+
+    links: list[dict[str, Any]] = []
+    for event_key, rows in groups.items():
+        preliminary = [row for row in rows if _preliminary_culture_name(row.get("organism"))]
+        final_names = sorted(
+            {
+                str(row.get("organism") or "").strip()
+                for row in rows
+                if str(row.get("organism") or "").strip()
+                and not _preliminary_culture_name(row.get("organism"))
+            },
+            key=str.casefold,
+        )
+        if not preliminary or len(final_names) != 1:
+            continue
+        final_name = final_names[0]
+        for row in preliminary:
+            links.append(
+                {
+                    "preliminary_name": str(row.get("organism") or "").strip(),
+                    "final_organism_name": final_name,
+                    "specimen": str(row.get("sample") or row.get("specimen") or "Unknown"),
+                    "collected_time": str(row.get("collected_time") or "Unknown"),
+                    "received_time": str(row.get("received_time") or "Unknown"),
+                    "link_basis": "same_specimen_collection_event_single_final_identity",
+                }
+            )
+
+    if links:
+        observations = [
+            dict(item)
+            for item in _as_list(output.get("culture_observations"))
+            if isinstance(item, dict)
+        ]
+        labels = [
+            dict(item)
+            for item in _as_list(output.get("organism_labels"))
+            if isinstance(item, dict)
+        ]
+        removed_names: set[str] = set()
+        for link in links:
+            preliminary_key = _normalized_text(link["preliminary_name"])
+            final_key = _normalized_text(link["final_organism_name"])
+            preliminary_ids: list[str] = []
+            for observation in observations:
+                if _normalized_text(observation.get("organism_name")) != preliminary_key:
+                    continue
+                if _normalized_text(observation.get("specimen_type")) != _normalized_text(link["specimen"]):
+                    continue
+                if _normalized_text(observation.get("collected_time")) != _normalized_text(link["collected_time"]):
+                    continue
+                observation["clinical_evidence_role"] = "preliminary_same_event"
+                observation["linked_final_organism_name"] = link["final_organism_name"]
+                observation_id = str(observation.get("observation_id") or "").strip()
+                if observation_id:
+                    preliminary_ids.append(observation_id)
+
+            target = next(
+                (
+                    label
+                    for label in labels
+                    if _normalized_text(label.get("organism_name")) == final_key
+                ),
+                None,
+            )
+            if target is None:
+                continue
+            merged_ids = list(
+                dict.fromkeys(
+                    [
+                        *(target.get("evidence_observation_ids") or []),
+                        *preliminary_ids,
+                    ]
+                )
+            )
+            target["evidence_observation_ids"] = merged_ids
+            target.setdefault("linked_preliminary_reports", []).append(link)
+            removed_names.add(preliminary_key)
+
+        if removed_names:
+            labels = [
+                label
+                for label in labels
+                if _normalized_text(label.get("organism_name")) not in removed_names
+            ]
+            output["culture_observations"] = observations
+            output["organism_labels"] = labels
+            highest_rank = min(
+                (
+                    _LEVEL_RANK.get(str(label.get("causative_level")), 99)
+                    for label in labels
+                ),
+                default=99,
+            )
+            top_classes = {
+                str(label.get("classification"))
+                for label in labels
+                if _LEVEL_RANK.get(str(label.get("causative_level")), 99) == highest_rank
+                and str(label.get("classification")) not in {"", "Unknown"}
+            }
+            output["probable_pathogen_type"] = (
+                next(iter(top_classes))
+                if len(top_classes) == 1
+                else "Mixed"
+                if top_classes
+                else "Unknown"
+            )
+
+    preservation = dict(_as_dict(output.get("evidence_preservation")))
+    preservation.update(
+        {
+            "version": PRESERVATION_VERSION,
+            "raw_culture_record_count": len(raw_rows),
+            "preliminary_final_event_links": links,
+            "preliminary_final_link_count": len(links),
+            "preliminary_reports_are_not_independent_organisms": True,
+        }
+    )
+    output["evidence_preservation"] = preservation
+    return output
+
+
+def enrich_filmarray_gmtest_agent_output(
+    agent_payload: Any,
+    raw_filmarray: Any,
+    raw_gmtest: Any,
+) -> dict[str, Any]:
+    output = dict(agent_payload) if isinstance(agent_payload, dict) else {}
+    filmarray_count = _source_row_count(raw_filmarray)
+    gm_count = _source_row_count(raw_gmtest)
+    if filmarray_count + gm_count == 0:
+        output["infection_likelihood"] = "Unknown"
+        output["probable_source"] = "Unknown"
+        output["probable_pathogen_type"] = "Unknown"
+        output["resistance_risk"] = "Unknown"
+        output["organism_labels"] = []
+        output["assay_observations"] = []
+        _append_data_gaps(
+            output,
+            "filmarray_data_not_available",
+            "gm_test_data_not_available",
+            "resistance_evidence_not_available",
+        )
+    preservation = dict(_as_dict(output.get("evidence_preservation")))
+    preservation.update(
+        {
+            "version": PRESERVATION_VERSION,
+            "filmarray_source_record_count": filmarray_count,
+            "gm_test_source_record_count": gm_count,
+            "empty_assay_missingness_normalized": filmarray_count + gm_count == 0,
+        }
+    )
+    output["evidence_preservation"] = preservation
+    return output
+
+
+def enrich_molecular_microbiology_agent_output(
+    agent_payload: Any,
+    raw_molecular: Any,
+) -> dict[str, Any]:
+    output = dict(agent_payload) if isinstance(agent_payload, dict) else {}
+    source_count = _source_row_count(raw_molecular)
+    if source_count == 0:
+        output["infection_likelihood"] = "Unknown"
+        output["probable_source"] = "Unknown"
+        output["probable_pathogen_type"] = "Unknown"
+        output["organism_labels"] = []
+        output["molecular_observations"] = []
+        _append_data_gaps(
+            output,
+            "molecular_microbiology_data_not_available",
+            "targeted_molecular_confirmation_not_available",
+        )
+    preservation = dict(_as_dict(output.get("evidence_preservation")))
+    preservation.update(
+        {
+            "version": PRESERVATION_VERSION,
+            "molecular_source_record_count": source_count,
+            "empty_assay_missingness_normalized": source_count == 0,
         }
     )
     output["evidence_preservation"] = preservation
@@ -1296,6 +1605,10 @@ def mngs_sample_time_from_ranked(raw_ranked: Any) -> str:
 
 def patient_mngs_sample_time(patient_dir: Path) -> str:
     matches = sorted(patient_dir.glob("*mNGS_ranked_candidates.json"))
+    payload_kind = "ranked"
+    if not matches:
+        matches = sorted(patient_dir.glob("*all_mNGS_DNA_RNA_RK_NTC_by_species.json"))
+        payload_kind = "per_test"
     if not matches:
         return "Unknown"
     import json
@@ -1304,6 +1617,14 @@ def patient_mngs_sample_time(patient_dir: Path) -> str:
         payload = json.loads(matches[0].read_text(encoding="utf-8-sig"))
     except (OSError, ValueError):
         return "Unknown"
+    if payload_kind == "per_test" and isinstance(payload, dict):
+        collected_times = sorted(
+            str(case.get("collected_time"))
+            for case in _as_list(payload.get("cases"))
+            if isinstance(case, dict) and case.get("collected_time")
+        )
+        if collected_times:
+            return collected_times[0]
     return mngs_sample_time_from_ranked(payload)
 
 
@@ -1322,9 +1643,23 @@ def enrich_agent_payload(
         output = enrich_host_agent_output(
             agent_payload,
             raw_cbc=sources.get("cbc"),
+            raw_other_lab=sources.get("otherlab"),
             raw_underlying=sources.get("underlying"),
             raw_admission=sources.get("admissiondiagnosis"),
             sample_time=sample_time,
+        )
+    elif normalized == "culture":
+        output = enrich_culture_agent_output(agent_payload, sources.get("culture"))
+    elif normalized == "filmarray_gmtest":
+        output = enrich_filmarray_gmtest_agent_output(
+            agent_payload,
+            sources.get("filmarray"),
+            sources.get("gmtest"),
+        )
+    elif normalized == "molecular_microbiology":
+        output = enrich_molecular_microbiology_agent_output(
+            agent_payload,
+            sources.get("molecularmicrobiology"),
         )
     else:
         output = dict(agent_payload) if isinstance(agent_payload, dict) else {}
