@@ -41,7 +41,10 @@ SOURCE_CATEGORY = {
 }
 
 
-def configure_taxonomy_mode(mode: str) -> dict[str, Any]:
+def configure_taxonomy_mode(
+    mode: str,
+    overlay_paths: tuple[Path, ...] | None = None,
+) -> dict[str, Any]:
     """Make the legacy scorer's taxonomy dependency explicit and reproducible.
 
     The historical A comparator predates the later gap-resolution, automatic,
@@ -52,7 +55,13 @@ def configure_taxonomy_mode(mode: str) -> dict[str, Any]:
         raise ValueError(f"Unknown taxonomy mode: {mode}")
     taxonomy = legacy.organism_taxonomy
     taxonomy.RULE_OVERLAY_PATHS = (
-        () if mode == "base-only" else DEFAULT_TAXONOMY_OVERLAY_PATHS
+        ()
+        if mode == "base-only"
+        else (
+            tuple(overlay_paths)
+            if overlay_paths is not None
+            else DEFAULT_TAXONOMY_OVERLAY_PATHS
+        )
     )
     taxonomy.rules_payload.cache_clear()
     payload = taxonomy.rules_payload()

@@ -1,0 +1,47 @@
+{
+  "extends": "test_aware_unified_reporting_v7_respiratory_virus_possible.json",
+  "schema_version": "8.0.0",
+  "policy_id": "test_aware_unified_reporting_v8_abstention_answer_blind",
+  "mode": "answer_blind_graceful_degradation_with_abstention_shadow",
+  "fallback_best_available": {
+    "evidence_floor": {
+      "abstain_enabled": true,
+      "excluded_families": [
+        "unmapped_or_uncertain",
+        "commensal_virome_or_endogenous_element"
+      ],
+      "accepted_clinical_decisions": [
+        "review_high_priority",
+        "review_context_needed"
+      ],
+      "require_compatible_specimen": true,
+      "compatible_specimen_contexts": [
+        "lower_respiratory",
+        "sterile_or_systemic",
+        "blood_or_systemic"
+      ],
+      "require_rankable_qc_for_mngs": true,
+      "maximum_rank_by_clinical_decision": {
+        "review_high_priority": 10,
+        "review_context_needed": 3
+      },
+      "hospital_only_maximum_direct_level": 3,
+      "low_specificity_families": [
+        "environmental_low_specificity",
+        "skin_airway_colonizer_prone",
+        "gi_urinary_or_nonpulmonary_prone",
+        "candida_or_yeast",
+        "herpes_or_reactivation_virus"
+      ],
+      "low_specificity_context_requires_reproducibility": true
+    }
+  },
+  "constraints": [
+    "Fallback is optional: a patient may have no formal Picked, Possible, or Fallback-Possible result.",
+    "Fallback must pass an answer-blind evidence floor based on clinical tier, compatible specimen, rankable QC, within-test rank, and family guardrails.",
+    "Unmapped and commensal/endogenous families remain Audit or Context and cannot become Fallback-Possible.",
+    "A Level 4 hospital-only Context candidate remains visible to clinicians but cannot become Fallback-Possible.",
+    "Missing evidence is unknown rather than negative; abstention means insufficient positive evidence, not absence of infection.",
+    "The policy is answer blind; benchmark answers are used only by a separate post-hoc evaluator."
+  ]
+}

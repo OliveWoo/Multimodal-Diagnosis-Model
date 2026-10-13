@@ -44,6 +44,7 @@ class SmallPromptEvidenceContractTests(unittest.TestCase):
                 '"collected_time"',
                 '"reported_time"',
                 '"source_text"',
+                "identification to follow",
             ),
         )
 
@@ -58,6 +59,7 @@ class SmallPromptEvidenceContractTests(unittest.TestCase):
                 '"semiquant_bin"',
                 "equivocal",
                 "invalid",
+                "resistance_evidence_not_available",
             ),
         )
 
@@ -72,6 +74,7 @@ class SmallPromptEvidenceContractTests(unittest.TestCase):
                 '"source_sentence"',
                 '"diagnostic_mentions"',
                 '"microbiologic_confirmation": false',
+                "較不完整紀錄",
             ),
         )
 
@@ -86,6 +89,7 @@ class SmallPromptEvidenceContractTests(unittest.TestCase):
                 '"reference_or_cutoff"',
                 "not_detected",
                 "indeterminate",
+                "molecular_microbiology_data_not_available",
             ),
         )
 

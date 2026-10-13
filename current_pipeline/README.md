@@ -1,66 +1,87 @@
-# Current deterministic integrated pipeline（2026-10-01）
+# Current pipeline: publication snapshot 2026-10-13
 
-此目錄保存目前新版 research candidate 的可執行程式、規則與對應離線測試。它與 repository 根目錄的 legacy deterministic v20＋OBER／R5 流程並存，不會覆寫舊版。
+This directory contains the source, policies, and offline tests for the multi-assay
+DNA/RNA workflow and the legacy compatibility workflow. It contains no patient
+inputs, reference answers, run outputs, or credentials.
 
-## 主入口
+## Install
 
-```powershell
-cd current_pipeline
-python -m tools.run_kh_integrated_release_v2 `
-  --output-root C:\private_runs\current_F `
-  --inventory-root C:\private_data\per_test_inventory `
-  --patient-root C:\private_data\patient_summaries `
-  --phenotype-root C:\private_data\phenotype_evidence `
-  --linkage-audit C:\private_data\phenotype_linkage_audit.json `
-  --answers C:\private_data\answers.csv `
-  --reference-root C:\private_runs\reference
-```
-
-決策階段會先完成並寫入 answer-blind freeze；`--answers` 只供 freeze 後的 post-hoc evaluation 使用。若要做前瞻運行，應將 decision run 與後續 evaluation 分成不同權限／不同批次。
-
-## 執行階段
-
-1. current hospital-source summary；
-2. per-test DNA／RNA compact entry＋identity／taxonomy；
-3. analytical deterministic scorer；
-4. index-event clinical timeline；
-5. candidate phenotype 與 event packets；
-6. history v4C route；
-7. clinical deterministic scorer；
-8. hospital evidence rehydration；
-9. promotion v8；
-10. reporting v3 Route A＋互斥 fallback。
-
-完整流程圖：
-
-- [舊版 deterministic＋OBER／R5](../docs/KH_OLD_COMPLETE_PICKED_OBER_PIPELINE_20261001_zh.md)
-- [新版 current F deterministic 流程](../docs/KH_NEW_COMPLETE_DETERMINISTIC_PIPELINE_20261001_zh.md)
-- [菌名、taxid 與 taxonomy 詳細流程](../docs/KH_ORGANISM_TAXONOMY_DETAILED_FLOW_V2_6_20261001_zh.md)
-
-## 目錄
-
-- `tools/`：目前正式 runner 的完整 local import closure，加上 taxonomy review／approval 工具。
-- `rules/`：production 與研究比較規則；不含 benchmark answer override、held-out answer override 或人工逐病例 queue。
-- `tests/`：integrated release、scorer、history、promotion、reporting、taxonomy 與 evidence preservation 測試。
-
-## 測試
+From the repository root:
 
 ```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r current_pipeline\requirements-dev.txt
 cd current_pipeline
-python -m unittest discover -s tests -p "test_*.py"
+python -m pytest tests -q
 ```
 
-本次公開前在乾淨 clone 中執行結果：**426 tests passed，5 skipped，0 failures**。部分 integration tests 會建立合成暫存檔；不需要真實病例資料。若測試明確尋找 private frozen artifact，應在公開環境標記為 unavailable，而不是把病例資料加入 repository。
+The PowerShell launchers use the Python interpreter on PATH. Activate the virtual
+environment first. Paid model calls need an existing API credential or an
+authenticated Codex CLI, depending on the selected backend; scripts never prompt
+for an API key.
 
-`PUBLIC_SOURCE_MANIFEST.csv` 保存本目錄每個公開檔案的相對路徑、SHA-256 與大小，供教授或其他研究者核對實際檢視的版本。
+## Workflow
 
-## 資料治理界線
+1. Standardize clinical inputs; preserve source references in audit sidecars.
+2. Run five clinical evidence agents with explicit missing-data handling.
+3. Build the per-test mNGS inventory without pooling reads across tests.
+4. Detect unmapped names and resolve NCBI identity plus PubMed literature.
+5. Run identity and clinical-family reviewers, then a deterministic validator.
+6. Verify every reviewed name is Auto-approved, Provisional, or Rejected.
+7. Use a run-scoped taxonomy overlay for deterministic scoring and reporting.
+8. Keep OBER review and historical replay as explicitly selected workflows.
+9. Freeze outputs before running the separate evaluator on private answers.
 
-此公開目錄刻意排除：
+Clinical evidence, history, phenotype, and resistance data are optional. Missing
+data remain unknown; they do not become negative results. The mNGS-only mode
+explicitly creates unknown clinical inputs. Stronger claims still require the
+appropriate supporting evidence.
 
-- 病人 JSON、Excel、PDF、PPT 與原始院端資料；
-- benchmark／held-out 答案與逐病例人工 override；
-- `outputs/`、run artifacts、模型 prompts／raw responses；
-- `.env`、API key、cache、logs 與本機絕對路徑設定。
+## Public entry points
 
-本模型是研究工具，輸出是待臨床複核的候選與 audit evidence，不是自動臨床診斷。
+| Entry | Purpose |
+| --- | --- |
+| `scripts/run_small_agents.ps1` | Rebuild an answer-blind workspace, validate prompts, preflight, and resume five agents |
+| `tools.build_multi_assay_mngs_evidence` | Build per-event and per-test DNA/RNA inventory |
+| `scripts/run_taxonomy_complete_pipeline.ps1` | Resolve all unmapped names before allowing the integrated scorer |
+| `tools.run_kh_legacy_pipeline_finalized_v1` | Legacy scorer with a caller-supplied release contract |
+| `tools.run_two_hospital_22_legacy_finalized_compat_v1` | Deterministic representative-DNA legacy compatibility |
+| `tools.run_historical_ober_r5_replay` | Historical OBER evidence review plus fixed acceptance conditions |
+| `tools.select_ober_sol_escalations` | Select difficult Luna reviews for a second Sol review |
+| `tools.merge_ober_two_stage_adjudications` | Revalidate and merge both reviewers under deterministic boundaries |
+| `tools.build_mandatory_primary_reporting_shadow` | Optional best-available primary reporting; not a certainty upgrade |
+
+See [the update guide](../docs/PIPELINE_UPDATE_20261013.md) for commands and workflow
+boundaries. The repository-root `run_full_pipeline.py` remains the historical full
+workflow; it is not silently replaced by the new DNA/RNA scorer.
+
+## Reproducibility
+
+The public launcher uses scorer v6, history v4C, clinical scorer v1, calendar-window
+promotion v9, and reporting v7. Additional reporting, candidate-completeness, and
+mandatory-primary policies are explicit research alternatives, not simultaneous
+defaults. No new clinical performance claim is made by this source publication.
+
+`rules/current_pipeline_policy_bundle_v6_v9_calendar_v7_frozen_20261013.json`
+pins the public default component bytes and IDs. The promotion policy has a new ID
+because its inclusive +/-2-calendar-date window is not the old +/-48-hour
+reference. The older development manifest has not been silently rewritten.
+
+```powershell
+python -m tools.validate_frozen_policy_bundle
+```
+
+`PUBLIC_SOURCE_MANIFEST.csv` records the published source files and SHA-256 hashes.
+A source update is not proof that historical private results can be reproduced
+without their matching input and answer versions.
+
+## Data safety
+
+Do not commit patient JSON, Excel workbooks, phenotype tables, benchmark answers,
+prompts containing patient records, raw model responses, logs, or API keys.
+Cohort contracts include dataset layout and anonymous selection metadata only;
+their default local run paths are examples, not shipped input files.
+
+This is a research pipeline for candidate review, not an autonomous clinical
+diagnosis system.

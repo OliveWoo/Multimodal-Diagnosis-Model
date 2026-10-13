@@ -65,7 +65,7 @@ R-MOL-PRESERVE-01 原始紀錄保留
 - 陰性 observation 只作 provenance，不可排除其他時間、檢體或模組的感染證據。
 
 R-MOL-S0-01 資料檢查
-- 輸入為空陣列：organism_labels=[]、infection_likelihood=None、probable_source=Unknown。
+- 輸入為空陣列：organism_labels=[]、molecular_observations=[]、infection_likelihood=Unknown、probable_source=Unknown；data_gaps 加入 molecular_microbiology_data_not_available 與 targeted_molecular_confirmation_not_available。未提供檢測資料不是陰性結果。
 - 無法解析：organism_labels=[]、infection_likelihood=Unknown，data_gaps 加入 unparseable_record。
 
 R-MOL-S1-01 陽性判定

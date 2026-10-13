@@ -5,10 +5,10 @@
   "operation": "prepare_verified_snapshot",
   "source_boundary": "saved_clinical_and_mngs",
   "dataset_id": "synthetic_KH",
-  "code_profile_sha256": "89b2898605c155f6399e6bf076172b50d542e3cfb1ad427d504fedabbcb4bb4b",
+  "code_profile_sha256": "d1f2136e6afa88ab1c8ea97ed56a9cc6c9cac580a6f63dea10167b65fcbf63ba",
   "source_index": {
     "path": "source_index.synthetic.json",
-    "sha256": "187868ea510142d6c0884ef906488d4fb4680beaeeff93a37d9db16e002f9e8c"
+    "sha256": "4efc353257b659c99d96c37311aa8dda43ec1fd048e945140cdd582b6df3045a"
   },
   "cases": [
     {
@@ -19,41 +19,41 @@
       "clinical": {
         "admission_diagnosis": {
           "path": "KH/NGS_patient_3_admission_diagnosis.json",
-          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
         },
         "underlying": {
           "path": "KH/NGS_patient_3_underlying.json",
-          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
         },
         "CBC": {
           "path": "KH/NGS_patient_3_CBC.json",
-          "sha256": "d13f32bfbb935979b5443780ea0f3a2c2bdf95f828d5e94ee359c74544310023"
+          "sha256": "1adbc6f0cc48b203ada2fa79249b7637948560c48419b3a400e86c798cb68b83"
         },
         "other_lab": {
           "path": "KH/NGS_patient_3_other_lab.json",
-          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
         },
         "culture": {
           "path": "KH/NGS_patient_3_culture.json",
-          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
         },
         "filmarray": {
           "path": "KH/NGS_patient_3_filmarray.json",
-          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
         },
         "gm_test": {
           "path": "KH/NGS_patient_3_gm_test.json",
-          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
         },
         "image": {
           "path": "KH/NGS_patient_3_image.json",
-          "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
         }
       },
       "anchor_status": "specimen_checked",
       "mngs_anchor": {
         "path": "KH/NGS_patient_3_all_RK_NTC_microbes.json",
-        "sha256": "bc5327111ab34b1e2e4cc7e8c98841b26ec47a712d48f015fd496e87fa64f120"
+        "sha256": "5af3bbfd8fe27f9e50f4f510c88104e44a7a88066f2bbfb943ddff7254525675"
       }
     }
   ],

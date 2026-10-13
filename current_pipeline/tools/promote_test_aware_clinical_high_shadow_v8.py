@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from tools import promote_test_aware_clinical_high_shadow as base
+from tools.clinical_event_window import nearest_calendar_event
 from tools import promote_test_aware_clinical_high_shadow_v7 as v7
 from tools.pathogen_normalization import (
     approved_group_member_match,
@@ -76,6 +77,12 @@ def respiratory_group_convergence_profile(
             policy.get("direct_evidence_event_window_hours", 48),
         )
     )
+    calendar_days = int(
+        route.get(
+            "event_window_calendar_days",
+            policy.get("direct_evidence_event_window_calendar_days", 2),
+        )
+    )
     evaluated: list[dict[str, Any]] = []
     for row in rows:
         observed_at = base._parse_datetime(row.get("collected_time"))
@@ -83,18 +90,20 @@ def respiratory_group_convergence_profile(
         if observed_at is None:
             observed_at = base._parse_datetime(row.get("reported_time"))
             time_basis = "reported_time" if observed_at is not None else "unavailable"
+        alignment = None
         if observed_at is None or not event_times:
             timing = "unknown"
             nearest_delta_hours = None
         else:
-            deltas = [
-                abs((observed_at - event).total_seconds()) / 3600
-                for event in event_times
-            ]
-            nearest_delta_hours = min(deltas)
+            alignment = nearest_calendar_event(
+                observed_at, event_times, days_each_side=calendar_days
+            )
+            nearest_delta_hours = (
+                abs(float(alignment["signed_delta_hours"])) if alignment else None
+            )
             timing = (
                 "within_event_window"
-                if nearest_delta_hours <= window_hours
+                if alignment and alignment["within_window"]
                 else "outside_event_window"
             )
         evaluated.append({
@@ -105,6 +114,9 @@ def respiratory_group_convergence_profile(
             "timing": timing,
             "time_basis": time_basis,
             "nearest_event_delta_hours": nearest_delta_hours,
+            "nearest_event_calendar_day_delta": (
+                alignment.get("signed_calendar_day_delta") if alignment else None
+            ),
             "collected_time": row.get("collected_time"),
             "reported_time": row.get("reported_time"),
             "specimen_type": row.get("specimen_type"),
@@ -164,6 +176,9 @@ def respiratory_group_convergence_profile(
         "selected_positive_test_count": selected_count,
         "group_assay_level": group_level,
         "event_window_hours": window_hours,
+        "event_window_hours_role": "audit_sensitivity_only",
+        "event_window_mode": "inclusive_calendar_dates",
+        "event_window_calendar_days_each_side": calendar_days,
         "qualifying_observation_count": len(qualifying_rows),
         "rows": evaluated,
         "missing_timing_is_negative": False,

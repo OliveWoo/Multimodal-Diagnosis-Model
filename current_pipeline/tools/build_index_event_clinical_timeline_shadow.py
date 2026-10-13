@@ -11,6 +11,11 @@ from pathlib import Path
 from typing import Any
 
 from tools.evidence_preservation import cbc_data_status, extract_host_risk_medications, extract_imaging_diagnostic_mentions
+from tools.clinical_event_window import (
+    DEFAULT_CALENDAR_DAYS_EACH_SIDE,
+    PRIMARY_WINDOW_MODE,
+    signed_calendar_day_delta,
+)
 
 
 DATE_FORMATS = (
@@ -60,15 +65,18 @@ def episode_window_relation(value: Any, index_value: Any) -> str:
     index = time_interval(index_value)
     if observation is None or index is None:
         return "unknown"
-    earliest_start = index[0] - EPISODE_WINDOW
-    latest_end = index[1] + EPISODE_WINDOW
-    if observation[1] <= earliest_start or observation[0] >= latest_end:
-        return "outside_window"
-    if observation[2] in {"minute", "second"} and index[2] in {"minute", "second"}:
-        return "within_window" if earliest_start <= observation[0] <= index[0] + EPISODE_WINDOW else "outside_window"
-    if observation[0] >= index[1] - EPISODE_WINDOW and observation[1] <= index[0] + EPISODE_WINDOW:
-        return "within_window"
-    return "boundary_uncertain"
+    if observation[2] == "month" or index[2] == "month":
+        earliest_start = index[0] - EPISODE_WINDOW
+        latest_end = index[1] + EPISODE_WINDOW
+        if observation[1] <= earliest_start or observation[0] >= latest_end:
+            return "outside_window"
+        return "boundary_uncertain"
+    day_delta = signed_calendar_day_delta(observation[0], index[0])
+    return (
+        "within_window"
+        if abs(day_delta) <= DEFAULT_CALENDAR_DAYS_EACH_SIDE
+        else "outside_window"
+    )
 
 
 def episode_evidence_status(role: str, observation_window: str, report_window: str) -> str:
@@ -167,7 +175,7 @@ def build_patient(patient_dir: Path, multi_assay_path: Path | None = None) -> di
                 "seq_ids": seq_ids,
                 "source_ref": source_pointer(multi_assay_path, f"cases[{i}]"),
             })
-        schema_version = "index_event_clinical_timeline_shadow.v4"
+        schema_version = "index_event_clinical_timeline_shadow.v5"
         index_event_source = "multi_assay_case_inventory"
         multi_assay_status = "joined_by_patient_and_case_source_contract"
     else:
@@ -191,7 +199,7 @@ def build_patient(patient_dir: Path, multi_assay_path: Path | None = None) -> di
                 "seq_id": record.get("seq_id"),
                 "source_ref": source_pointer(ranked_path, f"records[{i}]"),
             })
-        schema_version = "index_event_clinical_timeline_shadow.v3"
+        schema_version = "index_event_clinical_timeline_shadow.v4"
         index_event_source = "current_ranked_mngs_records_only"
         multi_assay_status = "not_joined_pending_lab_field_definitions"
     sources = {name: read_source(patient_dir, patient_id, suffix) for name, suffix in (
@@ -350,9 +358,12 @@ def build_patient(patient_dir: Path, multi_assay_path: Path | None = None) -> di
         "patient_id": patient_id,
         "answer_blind": True,
         "decision_effect": "none_shadow_only",
-        "primary_analysis": "retrospective_infection_episode_window",
+        "primary_analysis": "retrospective_infection_episode_calendar_date_window",
         "episode_window_anchor": "index_mngs_specimen_collection_time",
+        "episode_window_mode": PRIMARY_WINDOW_MODE,
+        "episode_window_calendar_days_each_side": DEFAULT_CALENDAR_DAYS_EACH_SIDE,
         "episode_window_hours_each_side": 48,
+        "episode_window_hours_role": "audit_sensitivity_only",
         "primary_view_is_at_collection_prediction": False,
         "index_event_source": index_event_source,
         "multi_assay_event_link_status": multi_assay_status,
@@ -410,15 +421,18 @@ def build_shadow(
             json.dumps(packet, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
     summary = {"schema_version": (
-                   "index_event_clinical_timeline_shadow_summary.v4"
+                   "index_event_clinical_timeline_shadow_summary.v5"
                    if multi_assay_root is not None else
-                   "index_event_clinical_timeline_shadow_summary.v3"
+                   "index_event_clinical_timeline_shadow_summary.v4"
                ),
                "source_root": str(patient_root.resolve()), "counts": dict(counts),
                "multi_assay_event_root": str(multi_assay_root.resolve()) if multi_assay_root else None,
-               "primary_analysis": "retrospective_infection_episode_window",
+               "primary_analysis": "retrospective_infection_episode_calendar_date_window",
                "episode_window_anchor": "index_mngs_specimen_collection_time",
-               "episode_window_hours_each_side": 48,
+        "episode_window_mode": PRIMARY_WINDOW_MODE,
+        "episode_window_calendar_days_each_side": DEFAULT_CALENDAR_DAYS_EACH_SIDE,
+        "episode_window_hours_each_side": 48,
+        "episode_window_hours_role": "audit_sensitivity_only",
                "primary_view_is_at_collection_prediction": False,
                "decision_effect": "none_shadow_only", "phenotype_attached": False,
                "treatment_response_inferred": False}

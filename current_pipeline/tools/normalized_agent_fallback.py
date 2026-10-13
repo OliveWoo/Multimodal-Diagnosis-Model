@@ -13,6 +13,7 @@ import json
 import re
 from typing import Any
 
+from tools import evidence_preservation
 from tools import organism_taxonomy_classifier as taxonomy
 from tools import pathogen_normalization as pathogen_names
 
@@ -416,7 +417,7 @@ def culture_agent_from_source(source: Any) -> dict[str, Any]:
     source_name = _culture_source(top[0]["key_evidence"]["specimen_type"]) if top else "Unknown"
     classes = {item["classification"] for item in top if item["classification"] != "Unknown"}
     pathogen_type = next(iter(classes)) if len(classes) == 1 else "Mixed" if classes else "Unknown"
-    return {
+    payload = {
         "rule_version": "culture_normalized_source_fallback_v1",
         "infection_likelihood": likelihood,
         "probable_source": source_name,
@@ -435,6 +436,7 @@ def culture_agent_from_source(source: Any) -> dict[str, Any]:
             "one_observation_per_source_record": len(rows) == len(observations),
         },
     }
+    return evidence_preservation.enrich_culture_agent_output(payload, source)
 
 
 def _dedupe_labels(labels: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -742,7 +744,7 @@ def molecular_microbiology_agent_from_source(source: Any) -> dict[str, Any]:
         for item in top
     }
     sources.discard("Unknown")
-    return {
+    payload = {
         "rule_version": "molecular_microbiology_normalized_source_fallback_v1",
         "infection_likelihood": _likelihood(highest),
         "probable_source": next(iter(sources)) if len(sources) == 1 else "Other" if sources else "Unknown",
@@ -758,6 +760,9 @@ def molecular_microbiology_agent_from_source(source: Any) -> dict[str, Any]:
             "one_observation_per_source_record": len(rows) == len(observations),
         },
     }
+    return evidence_preservation.enrich_molecular_microbiology_agent_output(
+        payload, source
+    )
 
 
 def _filmarray_sample(value: Any) -> str:
@@ -931,7 +936,7 @@ def filmarray_agent_from_source(source: Any) -> dict[str, Any]:
     top = [item for item in labels if item["causative_level"] == highest]
     classes = {item["classification"] for item in top if item["classification"] != "Unknown"}
     source_name = "Respiratory" if sample in {"BAL", "ETA", "TA", "Sputum", "NP", "OP", "NPS"} else "Bloodstream" if sample == "Blood_culture" else "Unknown"
-    return {
+    payload = {
         "rule_version": "filmarray_normalized_source_fallback_v2",
         "assay_summary": {
             "filmarray_panel": panel,
@@ -956,6 +961,9 @@ def filmarray_agent_from_source(source: Any) -> dict[str, Any]:
             "one_observation_per_source_record": len(rows) == len(observations),
         },
     }
+    return evidence_preservation.enrich_filmarray_gmtest_agent_output(
+        payload, source, []
+    )
 
 
 def filmarray_gm_agent_from_sources(
@@ -1005,9 +1013,20 @@ def filmarray_gm_agent_from_sources(
             else:
                 gm_sample = "Unknown"
             gm_samples.add(gm_sample)
-            positive = bool(numeric is not None and numeric >= 0.5)
+            # Some hospital exports report GM qualitatively (for example,
+            # ``Detected``) without preserving the numeric index.  Missing the
+            # number is uncertainty about strength, not a negative result.  A
+            # qualitative positive therefore remains visible as conservative
+            # Level 3 evidence below; numeric BAL/serum thresholds still govern
+            # the stronger Level 1/2 routes.
+            qualitative_status = _assay_detection_status(result)
+            positive = bool(
+                numeric >= 0.5
+                if numeric is not None
+                else qualitative_status == "detected"
+            )
             detection_status = "detected" if positive else (
-                "not_detected" if numeric is not None else _assay_detection_status(result)
+                "not_detected" if numeric is not None else qualitative_status
             )
             reference_or_cutoff = "BAL/Serum >=0.5 detection; BAL >=1.0 strong"
         else:
@@ -1146,4 +1165,6 @@ def filmarray_gm_agent_from_sources(
             len(filmarray_rows) + len(gm_rows) == len(observations)
         ),
     }
-    return output
+    return evidence_preservation.enrich_filmarray_gmtest_agent_output(
+        output, filmarray_source, gm_source
+    )

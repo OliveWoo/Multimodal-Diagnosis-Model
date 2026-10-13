@@ -956,6 +956,7 @@ def ensure_codex_cli_authenticated() -> str:
 def call_codex_cli(
     *, executable: str, model: str, packet: dict[str, Any], schema: dict[str, Any],
     output_dir: Path, timeout_seconds: int, boundary_profile: str,
+    reasoning_effort: str,
 ) -> tuple[dict[str, Any], str]:
     safe_id = re.sub(r"[^A-Za-z0-9_.-]+", "_", str(packet.get("case_id") or "case"))
     work_dir = output_dir / "_codex_cli_runtime"
@@ -987,6 +988,7 @@ def call_codex_cli(
         "--output-schema", str(schema_path.resolve()),
         "--output-last-message", str(result_path.resolve()),
         "--cd", str(work_dir.resolve()),
+        "--config", f'model_reasoning_effort="{reasoning_effort}"',
         "-",
     ]
     completed = subprocess.run(
@@ -1012,6 +1014,26 @@ def call_codex_cli(
     if not raw_text:
         raise RuntimeError("Codex CLI wrote an empty structured final response")
     return json.loads(raw_text), raw_text
+
+
+def is_terminal_backend_error(exc: Exception) -> bool:
+    """Return True when retrying more packets cannot succeed in this run."""
+    message = str(exc).casefold()
+    return any(
+        marker in message
+        for marker in (
+            "401 unauthorized",
+            "missing bearer or basic authentication",
+            "not authenticated",
+            "not logged in",
+            "usage limit",
+            "rate limit",
+            "rate_limit",
+            "insufficient_quota",
+            "credit_balance_exhausted",
+            "no credits remaining",
+        )
+    )
 
 
 def usage_dict(response: Any) -> dict[str, int | None]:
@@ -1075,6 +1097,36 @@ def main(argv: Sequence[str] | None = None) -> int:
     completed: list[dict[str, Any]] = []
     failures: list[dict[str, Any]] = []
     usage_rows: list[dict[str, Any]] = []
+    aborted_early = False
+    abort_error: str | None = None
+
+    def checkpoint() -> None:
+        write_jsonl(args.output_dir / "adjudications.jsonl", completed)
+        write_jsonl(args.output_dir / "failures.jsonl", failures)
+        total_input = sum(int(row.get("input_tokens") or 0) for row in usage_rows)
+        total_output = sum(int(row.get("output_tokens") or 0) for row in usage_rows)
+        manifest = {
+            "schema_version": "rag_adjudication_run_manifest_v2.0",
+            "backend": args.backend,
+            "model": args.model,
+            "reasoning_effort": args.reasoning_effort,
+            "adjudication_policy_version": ADJUDICATION_POLICY_VERSION,
+            "boundary_profile": args.boundary_profile,
+            "packet_count": len(packets),
+            "completed_count": len(completed),
+            "failure_count": len(failures),
+            "aborted_early": aborted_early,
+            "abort_error": abort_error,
+            "total_input_tokens": total_input,
+            "total_output_tokens": total_output,
+            "estimated_usd_at_current_sol_list_price": round(
+                total_input / 1_000_000 * 5.0 + total_output / 1_000_000 * 30.0, 6
+            ) if args.model in {"gpt-5.6", "gpt-5.6-sol"} else None,
+            "answer_source_read": False,
+        }
+        write_json(args.output_dir / "run_manifest.json", manifest)
+
+    checkpoint()
     for index, packet in enumerate(packets, 1):
         case_id = str(packet.get("case_id") or "")
         output_path = args.output_dir / "cases" / f"{re.sub(r'[^A-Za-z0-9_.-]+', '_', case_id)}.json"
@@ -1091,6 +1143,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 completed.append(existing)
                 usage_rows.append(existing.get("usage") or {})
                 print(f"[{index}/{len(packets)}] {case_id} skipped_existing")
+                checkpoint()
                 continue
         response = None
         try:
@@ -1129,6 +1182,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     output_dir=args.output_dir,
                     timeout_seconds=max(args.call_timeout_seconds, 60),
                     boundary_profile=args.boundary_profile,
+                    reasoning_effort=args.reasoning_effort,
                 )
                 usage = {
                     "input_tokens": None,
@@ -1160,6 +1214,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             completed.append(record)
             usage_rows.append(usage)
             print(f"[{index}/{len(packets)}] {case_id} {adjudication['decision']['recommended_action']} {usage.get('total_tokens')}")
+            checkpoint()
         except Exception as exc:  # noqa: BLE001
             failure_usage = usage_dict(response) if response is not None else {}
             failure_usage["case_id"] = case_id
@@ -1167,29 +1222,17 @@ def main(argv: Sequence[str] | None = None) -> int:
             failures.append(failure)
             usage_rows.append(failure_usage)
             print(f"[{index}/{len(packets)}] {case_id} FAILED {exc}")
+            if is_terminal_backend_error(exc):
+                aborted_early = True
+                abort_error = str(exc)
+                checkpoint()
+                print("Terminal backend/authentication/quota error; stopping before remaining packets.")
+                break
+            checkpoint()
 
-    write_jsonl(args.output_dir / "adjudications.jsonl", completed)
-    write_jsonl(args.output_dir / "failures.jsonl", failures)
-    total_input = sum(int(row.get("input_tokens") or 0) for row in usage_rows)
-    total_output = sum(int(row.get("output_tokens") or 0) for row in usage_rows)
-    manifest = {
-        "schema_version": "rag_adjudication_run_manifest_v2.0",
-        "backend": args.backend,
-        "model": args.model,
-        "reasoning_effort": args.reasoning_effort,
-        "adjudication_policy_version": ADJUDICATION_POLICY_VERSION,
-        "boundary_profile": args.boundary_profile,
-        "packet_count": len(packets),
-        "completed_count": len(completed),
-        "failure_count": len(failures),
-        "total_input_tokens": total_input,
-        "total_output_tokens": total_output,
-        "estimated_usd_at_current_sol_list_price": round(total_input / 1_000_000 * 5.0 + total_output / 1_000_000 * 30.0, 6) if args.model in {"gpt-5.6", "gpt-5.6-sol"} else None,
-        "answer_source_read": False,
-    }
-    write_json(args.output_dir / "run_manifest.json", manifest)
+    checkpoint()
     print(f"completed={len(completed)} failures={len(failures)}")
-    return 1 if failures else 0
+    return 2 if aborted_early else (1 if failures else 0)
 
 
 if __name__ == "__main__":

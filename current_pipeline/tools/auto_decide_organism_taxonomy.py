@@ -463,10 +463,18 @@ def _safe_error(exc: Exception, canonical_key: str, stage: str, model: str) -> d
     }
 
 
-def _call_openai(client: Any, model: str, messages: list[dict[str, str]], schema: dict[str, Any], name: str):
+def _call_openai(
+    client: Any,
+    model: str,
+    messages: list[dict[str, str]],
+    schema: dict[str, Any],
+    name: str,
+    reasoning_effort: str,
+):
     response = client.responses.create(
         model=model,
         input=messages,
+        reasoning={"effort": reasoning_effort},
         text={"format": {"type": "json_schema", "name": name, "schema": schema, "strict": True}},
         store=False,
     )
@@ -516,6 +524,7 @@ def _call_codex_cli(
     name: str,
     work_dir: Path,
     timeout_seconds: int,
+    reasoning_effort: str,
 ):
     executable = find_codex_executable()
     if not executable:
@@ -545,8 +554,9 @@ def _call_codex_cli(
         str(result_path.resolve()),
         "--cd",
         str(REPO_ROOT),
-        "-",
     ]
+    command.extend(["--config", f'model_reasoning_effort="{reasoning_effort}"'])
+    command.append("-")
     completed = subprocess.run(
         command,
         input=prompt,
@@ -639,6 +649,7 @@ def run_decisions(
     limit: int | None = None,
     only_keys: tuple[str, ...] = (),
     call_timeout_seconds: int = 900,
+    reasoning_effort: str = "high",
     prompt_api_key: bool = False,
     force: bool = False,
 ) -> dict[str, Any]:
@@ -702,6 +713,7 @@ def run_decisions(
                 "clinical_model": clinical_model,
                 "identity_prompt_version": IDENTITY_PROMPT_VERSION,
                 "clinical_prompt_version": CLINICAL_PROMPT_VERSION,
+                "reasoning_effort": reasoning_effort,
             }
         )
         decision_path = output_dir / "decisions" / f"{key}.json"
@@ -726,11 +738,17 @@ def run_decisions(
                     f"{key}.identity",
                     output_dir,
                     call_timeout_seconds,
+                    reasoning_effort,
                 )
             else:
                 call_attempts += 1
                 identity_review, identity_raw, identity_response_id = _call_openai(
-                    client, identity_model, identity_messages, IDENTITY_SCHEMA, "organism_identity_review"
+                    client,
+                    identity_model,
+                    identity_messages,
+                    IDENTITY_SCHEMA,
+                    "organism_identity_review",
+                    reasoning_effort,
                 )
             completed_calls += 1
             (output_dir / "raw").mkdir(parents=True, exist_ok=True)
@@ -753,11 +771,17 @@ def run_decisions(
                         f"{key}.clinical",
                         output_dir,
                         call_timeout_seconds,
+                        reasoning_effort,
                     )
                 else:
                     call_attempts += 1
                     clinical_review, clinical_raw, clinical_response_id = _call_openai(
-                        client, clinical_model, clinical_messages, CLINICAL_SCHEMA, "organism_clinical_family_review"
+                        client,
+                        clinical_model,
+                        clinical_messages,
+                        CLINICAL_SCHEMA,
+                        "organism_clinical_family_review",
+                        reasoning_effort,
                     )
                 completed_calls += 1
                 (output_dir / "raw" / f"{key}.clinical.txt").write_text(clinical_raw, encoding="utf-8")
@@ -779,6 +803,7 @@ def run_decisions(
                 "backend": backend,
                 "identity_model": identity_model,
                 "clinical_model": clinical_model,
+                "reasoning_effort": reasoning_effort,
                 "identity_prompt_version": IDENTITY_PROMPT_VERSION,
                 "clinical_prompt_version": CLINICAL_PROMPT_VERSION,
                 "identity_response_id": identity_response_id,
@@ -818,6 +843,7 @@ def run_decisions(
         "backend": backend,
         "identity_model": identity_model,
         "clinical_model": clinical_model,
+        "reasoning_effort": reasoning_effort,
         "queued": len(queue),
         "skipped_existing_exact": len(queue) - len(eligible),
         "eligible": len(eligible),
@@ -886,11 +912,16 @@ def main() -> None:
     decide.add_argument("--literature-json", type=Path, required=True)
     decide.add_argument("--output-dir", type=Path, required=True)
     decide.add_argument("--backend", choices=("openai-api", "codex-cli"), default="codex-cli")
-    decide.add_argument("--identity-model", default="gpt-6-sol")
-    decide.add_argument("--clinical-model", default="gpt-6-sol")
+    decide.add_argument("--identity-model", default="gpt-6.1-sol")
+    decide.add_argument("--clinical-model", default="gpt-6.1-sol")
     decide.add_argument("--limit", type=int)
     decide.add_argument("--only-key", action="append", default=[], help="Process only this canonical key; repeatable")
     decide.add_argument("--call-timeout-seconds", type=int, default=900)
+    decide.add_argument(
+        "--reasoning-effort",
+        choices=("low", "medium", "high", "xhigh", "max"),
+        default="high",
+    )
     decide.add_argument("--execute", action="store_true")
     decide.add_argument("--prompt-api-key", action="store_true")
     decide.add_argument("--force", action="store_true")
@@ -918,6 +949,7 @@ def main() -> None:
             limit=args.limit,
             only_keys=tuple(args.only_key),
             call_timeout_seconds=args.call_timeout_seconds,
+            reasoning_effort=args.reasoning_effort,
             prompt_api_key=args.prompt_api_key,
             force=args.force,
         )

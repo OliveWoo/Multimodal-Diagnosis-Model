@@ -159,6 +159,7 @@ def _compact_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
     promotion_axes = promotion.get("axes") or {}
     possible = candidate.get("possible_pathogen_gate") or {}
     possible_axes = possible.get("axes") or {}
+    evidence_profile = candidate.get("decision_evidence_profile") or {}
     history_route = candidate.get("history_adjusted_route")
     pre_promotion = candidate.get("pre_promotion_decision")
     final_tier = candidate.get("final_reporting_tier")
@@ -223,6 +224,16 @@ def _compact_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
             "fallback_rank": possible_axes.get("fallback_rank"),
             "fallback_primary": possible_axes.get("fallback_primary"),
         },
+        "decision_evidence": {
+            "patient_mode": evidence_profile.get("decision_evidence_mode"),
+            "candidate_mode": candidate.get(
+                "candidate_decision_evidence_mode"
+            ),
+            "positive_or_contextual_sources": evidence_profile.get(
+                "positive_or_contextual_sources"
+            ) or [],
+            "absence_semantics": evidence_profile.get("absence_semantics"),
+        },
         "audit": {
             "history_rule_ids": candidate.get("history_rule_ids") or [],
             "decision_rule_ids": candidate.get("rule_ids") or [],
@@ -262,6 +273,7 @@ def build_integrated_results(reporting_root: Path, output_root: Path) -> dict[st
         for candidate in candidates:
             path = candidate["decision_path"]
             reporting_data = candidate["reporting"]
+            decision_evidence = candidate["decision_evidence"]
             taxonomy = candidate["taxonomy"]
             analytical = candidate["analytical_evidence"]
             clinical = candidate["clinical_evidence"]
@@ -293,6 +305,15 @@ def build_integrated_results(reporting_root: Path, output_root: Path) -> dict[st
                     "selected_for_complete_report"
                 ],
                 "reporting_route": reporting_data["route"],
+                "patient_decision_evidence_mode": decision_evidence[
+                    "patient_mode"
+                ],
+                "candidate_decision_evidence_mode": decision_evidence[
+                    "candidate_mode"
+                ],
+                "positive_or_contextual_sources": _join(
+                    decision_evidence["positive_or_contextual_sources"]
+                ),
                 "best_rank": analytical["best_rank"],
                 "selected_positive_test_count": analytical[
                     "selected_positive_test_count"
@@ -317,6 +338,9 @@ def build_integrated_results(reporting_root: Path, output_root: Path) -> dict[st
                 "answer_blind": True,
                 "patient_id": patient_id,
                 "candidate_count": len(candidates),
+                "decision_evidence_profile": source.get(
+                    "decision_evidence_profile"
+                ),
                 "final_report": [
                     item for item in candidates
                     if item["reporting"]["selected_for_complete_report"]

@@ -30,7 +30,7 @@ from tools import build_test_aware_deterministic_shadow_scorer as scorer
 from tools import build_test_aware_possible_pathogen_shadow as reporting
 from tools import evaluate_test_aware_clinical_deterministic_shadow as eval_clinical
 from tools import evaluate_test_aware_possible_pathogen_shadow as eval_reporting
-from tools import promote_test_aware_clinical_high_shadow_v8 as promotion
+from tools import promote_test_aware_clinical_high_shadow_v9 as promotion
 from tools import rehydrate_clinical_hospital_evidence_shadow as rehydrate
 from tools.pathogen_normalization import canonical_key
 from tools.run_kh_integrated_decision_pipeline import build_integrated_results
@@ -355,14 +355,17 @@ def run(
     linkage_audit: Path = DEFAULT_LINKAGE_AUDIT,
     answers: Path = DEFAULT_ANSWERS,
     reference_root: Path = DEFAULT_REFERENCE,
+    analytical_policy: Path = ANALYTICAL_POLICY,
+    promotion_policy: Path = PROMOTION_POLICY,
+    reporting_policy: Path = REPORTING_POLICY,
 ) -> dict[str, Any]:
     if output_root.exists() and any(output_root.iterdir()):
         raise FileExistsError(f"Refusing to overwrite non-empty release: {output_root}")
     required = [
         inventory_root / "inventory_summary.json", patient_root, phenotype_root,
         linkage_audit, answers, reference_root / "integrated_decisions.csv",
-        COMPACT_POLICY, ANALYTICAL_POLICY, HISTORY_POLICY, CLINICAL_POLICY,
-        PROMOTION_POLICY, REPORTING_POLICY, IDENTITY_ALIAS_FILE,
+        COMPACT_POLICY, analytical_policy, HISTORY_POLICY, CLINICAL_POLICY,
+        promotion_policy, reporting_policy, IDENTITY_ALIAS_FILE,
         TAXONOMY_REVIEWED_FILE, EPISODE_IDENTITY_FILE,
     ]
     missing = [str(path) for path in required if not path.exists()]
@@ -388,7 +391,7 @@ def run(
         stage["01_compact_taxonomy"], patient_root, stage["02_analytical_scorer"],
         summary_suffix=CURRENT_SUMMARY_SUFFIX,
         summary_root=stage["00_current_source_summary"],
-        policy_path=ANALYTICAL_POLICY,
+        policy_path=analytical_policy,
     )
     stage_summaries["clinical_timeline"] = timeline.build_shadow(
         patient_root, stage["03_clinical_timeline"],
@@ -417,11 +420,11 @@ def run(
     )
     stage_summaries["promotion_v8"] = promotion.run(
         stage["08_evidence_rehydrated"], stage["09_promotion_v8"],
-        policy_path=PROMOTION_POLICY,
+        policy_path=promotion_policy,
     )
     stage_summaries["reporting_v3_route_a"] = reporting.run(
         stage["09_promotion_v8"], stage["10_reporting_v3_route_a"],
-        policy_path=REPORTING_POLICY,
+        policy_path=reporting_policy,
     )
     stage_summaries["integrated_output"] = build_integrated_results(
         stage["10_reporting_v3_route_a"], output_root
@@ -482,11 +485,11 @@ def run(
 
     components = [
         _component(COMPACT_POLICY, "compact_entry_policy"),
-        _component(ANALYTICAL_POLICY, "analytical_scorer_policy_route_a"),
+        _component(analytical_policy, "analytical_scorer_policy"),
         _component(HISTORY_POLICY, "history_v4c_policy"),
         _component(CLINICAL_POLICY, "clinical_scorer_policy"),
-        _component(PROMOTION_POLICY, "promotion_v8_policy"),
-        _component(REPORTING_POLICY, "reporting_v3_route_a_policy"),
+        _component(promotion_policy, "promotion_policy"),
+        _component(reporting_policy, "reporting_policy"),
         _component(IDENTITY_ALIAS_FILE, "production_identity_aliases"),
         *_taxonomy_components(),
         _component(EPISODE_IDENTITY_FILE, "episode_separation_policy"),
@@ -501,7 +504,7 @@ def run(
         (history, "history_router_implementation"),
         (clinical, "clinical_scorer_implementation"),
         (rehydrate, "evidence_rehydration_implementation"),
-        (promotion, "promotion_v8_implementation"),
+            (promotion, "promotion_v9_implementation"),
         (reporting, "reporting_implementation"),
     ):
         components.append(_component(Path(module.__file__), role))
@@ -516,7 +519,7 @@ def run(
         "execution_boundary": (
             "Rebuilt from the fixed 33-patient multi-assay per-test inventory and current "
             "hospital-source summaries through taxonomy, v4C history, clinical scoring, "
-            "promotion v8, reporting v3 Route A, and mutually exclusive fallback."
+            "promotion v8, the configured reporting policy, and mutually exclusive fallback."
         ),
         "input": {
             "inventory_root": str(inventory_root.resolve()),
@@ -525,6 +528,8 @@ def run(
             "phenotype_root": str(phenotype_root.resolve()),
             "linkage_audit": str(linkage_audit.resolve()),
             "linkage_audit_sha256": sha256_file(linkage_audit),
+            "promotion_policy": str(promotion_policy.resolve()),
+            "promotion_policy_sha256": sha256_file(promotion_policy),
         },
         "components": components,
         "stage_roots": {name: str(path.resolve()) for name, path in stage.items()},
@@ -571,6 +576,9 @@ def main() -> None:
     parser.add_argument("--linkage-audit", type=Path, default=DEFAULT_LINKAGE_AUDIT)
     parser.add_argument("--answers", type=Path, default=DEFAULT_ANSWERS)
     parser.add_argument("--reference-root", type=Path, default=DEFAULT_REFERENCE)
+    parser.add_argument("--analytical-policy", type=Path, default=ANALYTICAL_POLICY)
+    parser.add_argument("--promotion-policy", type=Path, default=PROMOTION_POLICY)
+    parser.add_argument("--reporting-policy", type=Path, default=REPORTING_POLICY)
     args = parser.parse_args()
     print(json.dumps(run(
         args.output_root,
@@ -580,6 +588,9 @@ def main() -> None:
         linkage_audit=args.linkage_audit,
         answers=args.answers,
         reference_root=args.reference_root,
+        analytical_policy=args.analytical_policy,
+        promotion_policy=args.promotion_policy,
+        reporting_policy=args.reporting_policy,
     ), ensure_ascii=False, indent=2))
 
 

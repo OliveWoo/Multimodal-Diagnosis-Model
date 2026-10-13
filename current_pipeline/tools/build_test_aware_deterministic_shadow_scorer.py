@@ -101,7 +101,10 @@ def analytical_profile(entry: dict[str, Any], policy: dict[str, Any]) -> dict[st
     best_rank = min(as_int(signal.get("rank_in_retained_universe")) for signal in signals)
     selected_count = len(signals)
     cross_molecule = bool(entry.get("cross_molecule_selected"))
-    repeated_test = selected_count >= 2
+    unknown_molecule = bool(entry.get("unknown_molecule_selected")) or any(
+        signal.get("nucleic_type") not in {"DNA", "RNA"} for signal in signals
+    )
+    repeated_test = selected_count >= 2 and not unknown_molecule
     reproducible = cross_molecule or repeated_test
     return {
         "best_rank_in_retained_universe": best_rank,
@@ -109,6 +112,7 @@ def analytical_profile(entry: dict[str, Any], policy: dict[str, Any]) -> dict[st
         "selected_positive_test_count": selected_count,
         "dna_selected": bool(entry.get("dna_selected")),
         "rna_selected": bool(entry.get("rna_selected")),
+        "unknown_molecule_selected": unknown_molecule,
         "cross_molecule_selected": cross_molecule,
         "technical_repeat": repeated_test,
         "technical_repeat_group_type": technical_repeat_group_type(signals),
@@ -116,7 +120,11 @@ def analytical_profile(entry: dict[str, Any], policy: dict[str, Any]) -> dict[st
         "reproducibility_note": (
             "DNA/RNA concordance or repeated seq_id support within one specimen; counted once and not treated as independent clinical confirmation."
             if reproducible else
-            "Single-test analytical signal only."
+            (
+                "Multiple source tests are present, but molecule identity is unknown; no repeat/concordance credit is assigned."
+                if unknown_molecule and selected_count >= 2
+                else "Single-test analytical signal only."
+            )
         ),
         "normalization_available_test_count": sum(bool(signal.get("normalization_available")) for signal in signals),
         "fully_evaluable_test_count": sum(signal.get("qc_status") == "evaluable" for signal in signals),
@@ -192,6 +200,89 @@ def context_rescue_eligible(analytical: dict[str, Any], policy: dict[str, Any]) 
         analytical["reproducibility_axis"]
         and best_rank <= int(rescue["reproducible_rank_at_most"])
     )
+
+
+def missingness_context_rescue_eligible(
+    entry: dict[str, Any], analytical: dict[str, Any], policy: dict[str, Any]
+) -> tuple[bool, dict[str, Any]]:
+    """Keep plausible positive signals visible when metadata are incomplete.
+
+    This is deliberately a forwarding rule, not an analytical promotion rule:
+    it can create Context only.  Missing specimen, molecule, normalization, or
+    complete QC must never be interpreted as negative evidence, but it also
+    cannot manufacture the independent support required for High or Picked.
+    """
+    config = policy.get("missingness_context_rescue") or {}
+    signals = analytical.get("per_test_signals") or []
+    families = set(config.get("families") or [])
+    excluded_mapping = set(
+        config.get("excluded_mapping_statuses") or ["unmapped", "rejected"]
+    )
+    missing_axes: list[str] = []
+    if str(entry.get("specimen_context") or "unknown_or_other") == "unknown_or_other":
+        missing_axes.append("specimen_context")
+    if analytical.get("unknown_molecule_selected"):
+        missing_axes.append("molecule_identity")
+    if signals and any(not bool(signal.get("normalization_available")) for signal in signals):
+        missing_axes.append("normalization")
+    if signals and any(str(signal.get("qc_status") or "") != "evaluable" for signal in signals):
+        missing_axes.append("complete_qc")
+    axes = {
+        "enabled": bool(config.get("enabled")),
+        "taxonomy_family": entry.get("taxonomy_family"),
+        "taxonomy_mapping_status": entry.get("taxonomy_mapping_status"),
+        "positive_test_count": len(signals),
+        "missing_axes": missing_axes,
+        "minimum_missing_axes": int(config.get("minimum_missing_axes", 1)),
+        "maximum_result": config.get("maximum_result", "review_context_needed"),
+    }
+    eligible = bool(
+        axes["enabled"]
+        and signals
+        and entry.get("taxonomy_family") in families
+        and entry.get("taxonomy_mapping_status") not in excluded_mapping
+        and len(missing_axes) >= axes["minimum_missing_axes"]
+    )
+    axes["eligible"] = eligible
+    return eligible, axes
+
+
+def opportunistic_safety_net_eligible(
+    entry: dict[str, Any], analytical: dict[str, Any], policy: dict[str, Any]
+) -> tuple[bool, dict[str, Any]]:
+    """Forward a credible high-consequence opportunist as Context only.
+
+    This route intentionally does not require host metadata, a top-rank cutoff,
+    or corroborating hospital evidence.  It is narrowly limited to an accepted
+    identity, a compatible specimen, and a positive per-test mNGS signal.  It
+    can therefore prevent a clinically important candidate from disappearing
+    when metadata are incomplete, but it can never create High or Picked.
+    """
+    config = policy.get("opportunistic_safety_net_forwarding") or {}
+    signals = analytical.get("per_test_signals") or []
+    family = str(entry.get("taxonomy_family") or "unmapped_or_uncertain")
+    mapping_status = str(entry.get("taxonomy_mapping_status") or "")
+    specimen_context = str(entry.get("specimen_context") or "unknown_or_other")
+    axes = {
+        "enabled": bool(config.get("enabled")),
+        "taxonomy_family": family,
+        "taxonomy_mapping_status": mapping_status,
+        "specimen_context": specimen_context,
+        "positive_test_count": len(signals),
+        "host_support_required": bool(config.get("require_host_support", False)),
+        "maximum_result": config.get("maximum_result", "review_context_needed"),
+    }
+    eligible = bool(
+        axes["enabled"]
+        and signals
+        and family in set(config.get("families") or [])
+        and mapping_status in set(config.get("accepted_mapping_statuses") or [])
+        and specimen_context in set(config.get("compatible_specimen_contexts") or [])
+        and not axes["host_support_required"]
+        and axes["maximum_result"] == "review_context_needed"
+    )
+    axes["eligible"] = eligible
+    return eligible, axes
 
 
 def forward_to_clinical_scorer(decision: str, policy: dict[str, Any]) -> bool:
@@ -389,6 +480,14 @@ def decide_entry(
     strong = best_rank <= int(policy["rank_bands"]["strong"])
     reproducible = analytical["reproducibility_axis"]
     rescue_for_context = context_rescue_eligible(analytical, policy)
+    missingness_rescue, missingness_axes = missingness_context_rescue_eligible(
+        entry, analytical, policy
+    )
+    analytical["missingness_context_rescue_gate"] = missingness_axes
+    opportunistic_safety_net, opportunistic_safety_net_axes = (
+        opportunistic_safety_net_eligible(entry, analytical, policy)
+    )
+    analytical["opportunistic_safety_net_gate"] = opportunistic_safety_net_axes
     lower_respiratory = specimen == "lower_respiratory"
     impossible = pathogen_rule_lists.impossible_infection_source_rule(entry.get("organism_name"))
     analytical_pick_families = set(policy["analytical_pick_families"])
@@ -512,7 +611,16 @@ def decide_entry(
 
     if family in opportunistic_families:
         high = strong and reproducible and host_support
-        context = strong or host_support or rescue_for_context
+        context = (
+            strong
+            or host_support
+            or rescue_for_context
+            or missingness_rescue
+            or opportunistic_safety_net
+        )
+        safety_net_only = opportunistic_safety_net and not (
+            strong or host_support or rescue_for_context or missingness_rescue
+        )
         return {
             "decision": "review_high_priority" if high else "review_context_needed" if context else "review_low_specificity",
             "integrated_level": "Level 3" if high else "Level 4" if context else "Level 5",
@@ -520,11 +628,33 @@ def decide_entry(
             "rule_ids": rules + [
                 "TA-S4-OPPORTUNISTIC-HOST-REVIEW"
                 if high else
+                "TA-S4-MISSINGNESS-CONTEXT-RESCUE"
+                if missingness_rescue and not (strong or host_support or rescue_for_context) else
+                "TA-S4-OPPORTUNISTIC-SAFETY-NET-CONTEXT"
+                if safety_net_only else
                 "TA-S4-OPPORTUNISTIC-CONTEXT-RESCUE"
                 if rescue_for_context else
                 "TA-S4-OPPORTUNISTIC-CONTEXT"
             ],
-            "reasons": reasons + ["Opportunistic candidates require host and/or pathogen-specific confirmation; analytical evidence alone cannot make them Picked."],
+            "reasons": reasons + [
+                "An exact-identity high-consequence opportunist with positive mNGS evidence from a compatible specimen is retained as Context by the safety net; missing host support is unknown, but this route cannot create High or Picked."
+                if safety_net_only else
+                "Opportunistic candidates require host and/or pathogen-specific confirmation; analytical evidence alone cannot make them Picked."
+            ],
+            "analytical_profile": analytical,
+            "hospital_profile": hospital,
+            "host_support": host_support,
+        }
+
+    if missingness_rescue:
+        return {
+            "decision": "review_context_needed",
+            "integrated_level": "Level 4",
+            "formal_pick_allowed": False,
+            "rule_ids": rules + ["TA-S4-MISSINGNESS-CONTEXT-RESCUE"],
+            "reasons": reasons + [
+                "Positive mNGS reads belong to a clinically relevant pathogen family, but one or more required metadata axes are missing. The candidate is forwarded as Context; missing data neither erase it nor permit High/Picked promotion."
+            ],
             "analytical_profile": analytical,
             "hospital_profile": hospital,
             "host_support": host_support,
@@ -587,14 +717,52 @@ def decide_entry(
     }
 
 
+def _representative_case_sort_key(row: dict[str, Any]) -> tuple[Any, ...]:
+    """Choose the strongest existing event without pooling evidence across events."""
+    analytical = row.get("analytical_profile") or {}
+    hospital = row.get("hospital_profile") or {}
+    direct_level = legacy.level_rank(hospital.get("best_direct_level"))
+    best_rank = as_int(analytical.get("best_rank_in_retained_universe"))
+    positive_tests = as_int(analytical.get("selected_positive_test_count"), 0)
+    fully_evaluable = as_int(analytical.get("fully_evaluable_test_count"), 0)
+    return (
+        DECISION_ORDER[row["decision"]],
+        legacy.level_rank(row["integrated_level"]),
+        direct_level,
+        -int(bool(analytical.get("reproducibility_axis"))),
+        -int(bool(analytical.get("cross_molecule_selected"))),
+        -positive_tests,
+        best_rank,
+        -fully_evaluable,
+        str(row.get("case_review_id") or ""),
+    )
+
+
 def aggregate_patient_candidates(case_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     grouped: dict[str, list[dict[str, Any]]] = {}
     for row in case_rows:
         grouped.setdefault(str(row["organism_key"]), []).append(row)
     output = []
     for organism_key, rows in grouped.items():
-        rows.sort(key=lambda row: (DECISION_ORDER[row["decision"]], legacy.level_rank(row["integrated_level"])))
+        rows.sort(key=_representative_case_sort_key)
         representative = dict(rows[0])
+        representative["representative_case_selection"] = {
+            "strategy": "best_existing_case_without_cross_event_evidence_pooling",
+            "selected_case_review_id": representative.get("case_review_id"),
+            "candidate_case_count": len(rows),
+            "priority_order": [
+                "clinical_decision",
+                "integrated_level",
+                "direct_hospital_level",
+                "analytical_reproducibility",
+                "cross_molecule_signal",
+                "positive_test_count",
+                "within_test_rank",
+                "fully_evaluable_test_count",
+            ],
+            "cross_event_reads_summed": False,
+            "cross_event_test_counts_summed": False,
+        }
         representative["case_decision_refs"] = [
             {
                 "case_review_id": row["case_review_id"],
@@ -614,6 +782,7 @@ def hospital_only_shadow(
     patient_candidates: list[dict[str, Any]],
     host: dict[str, Any],
     observation_index: dict[str, dict[str, Any]] | None = None,
+    policy: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     existing = [{"organism_name": item["organism_name"]} for item in patient_candidates]
     candidates = legacy.hospital_only_candidates(final_summary, existing, host)
@@ -638,6 +807,68 @@ def hospital_only_shadow(
                 observation_index,
             ),
         })
+    # vNext shadow route: a canonical, positive hospital observation may be
+    # clinically worth seeing even when its evidence level is 4.  The legacy
+    # constructor intentionally drops these rows because they cannot enter the
+    # formal pick.  When explicitly enabled by policy, retain them as Context
+    # only.  This is generic, answer-blind, and cannot create High or Picked.
+    config = (policy or {}).get("hospital_only_context_forwarding") or {}
+    if config.get("enabled"):
+        existing_keys = {
+            legacy.mngs.normalize_organism_name(item.get("organism_name"))
+            for item in [*patient_candidates, *output]
+        }
+        accepted_levels = set(config.get("accepted_levels") or ["Level 4"])
+        excluded_families = set(
+            config.get("excluded_taxonomy_families")
+            or ["unmapped_or_uncertain", "commensal_virome_or_endogenous_element"]
+        )
+        for evidence_item in final_summary.get("hospital_organism_evidence") or []:
+            if not isinstance(evidence_item, dict):
+                continue
+            name = legacy.mngs.canonical_display_name(
+                evidence_item.get("organism_name") or evidence_item.get("name")
+            )
+            organism_key = legacy.mngs.normalize_organism_name(name)
+            if not name or not organism_key or organism_key in existing_keys:
+                continue
+            level = str(evidence_item.get("best_hospital_level") or "")
+            if level not in accepted_levels:
+                continue
+            taxonomy = legacy.organism_taxonomy.classify_organism(
+                name,
+                biological_class=str(evidence_item.get("classification") or "Unknown"),
+            )
+            family = str(taxonomy.get("primary_rule_family") or "unmapped_or_uncertain")
+            if family in excluded_families:
+                continue
+            modules = legacy.direct_hospital_support_modules(
+                evidence_item, max_level_rank=legacy.level_rank(level)
+            )
+            if not modules:
+                continue
+            detail = legacy.hospital_evidence_detail(evidence_item, modules)
+            output.append({
+                "organism_name": name,
+                "organism_key": organism_key,
+                "decision": "review_context_needed",
+                "integrated_level": level,
+                "formal_pick_allowed": False,
+                "forward_to_clinical_scorer": True,
+                "evidence_source": "hospital_only_context",
+                "rule_ids": [
+                    "D-S1-CANDIDATE-FROM-HOSPITAL-LEVEL4-CONTEXT",
+                    "R-HOSPITAL-ONLY-L4-CONTEXT-CEILING",
+                ],
+                "reasons": [
+                    "Canonical positive hospital evidence is retained as Context despite Level 4 uncertainty.",
+                    "This route cannot create High or Picked and still requires clinical review.",
+                ],
+                "hospital_evidence_detail": enrich_hospital_evidence_detail(
+                    detail, observation_index
+                ),
+            })
+            existing_keys.add(organism_key)
     return output
 
 
@@ -747,7 +978,7 @@ def build_shadow(
             })
         patient_candidates = aggregate_patient_candidates(case_rows)
         hospital_only = hospital_only_shadow(
-            final_summary, patient_candidates, host, observation_index
+            final_summary, patient_candidates, host, observation_index, policy
         )
         counts["hospital_only_candidates"] += len(hospital_only)
         for row in patient_candidates:

@@ -7,15 +7,15 @@
       "patient_id": "900001",
       "ranked": {
         "path": "ranked.synthetic.json",
-        "sha256": "ea39d0fca24fb7d473365f643747549ed5357ba6e684c6f6fa48edd877e5729e"
+        "sha256": "6bd1ca2ba06b19268e47b40b240bdace521c4a652e8bf8b9cf6cfc44c50fec39"
       },
       "summary": {
         "path": "summary.synthetic.json",
-        "sha256": "8ccd895f16786aed22f65a3ec2297e75b9a7026e34c3f8650dcf19126f4b3b96"
+        "sha256": "45aa053c051f02bdcf6cbde6e3e7e3469c9e05fddc638746f6907df928b30b09"
       },
       "expected_scorer": {
         "path": "expected_scorer.synthetic.json",
-        "sha256": "5ed4e9ac61b9dd1e0164e4e1a97e0ad40b257b9c5800eb57fb88894d27b87cc7"
+        "sha256": "81a3f88411d080dd5cb6df0913751bd67adf471d0ec7a2f8e8554594130e6ebb"
       }
     }
   ]

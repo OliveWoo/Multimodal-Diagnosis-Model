@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import re
 import shutil
 from collections import Counter
@@ -21,13 +22,15 @@ from typing import Any
 from tools import apply_test_aware_history_route_shadow as history
 from tools import build_compact_multi_assay_entry_shadow as compact
 from tools import build_index_event_clinical_timeline_shadow as timeline
+from tools import build_mngs_only_external_input as mngs_only_input
 from tools import build_phenotype_event_packets as phenotype_packets
 from tools import build_test_aware_candidate_phenotype_shadow as candidate_phenotype
 from tools import build_test_aware_clinical_deterministic_shadow as clinical
 from tools import build_test_aware_deterministic_shadow_scorer as scorer
 from tools import build_test_aware_possible_pathogen_shadow as reporting
-from tools import promote_test_aware_clinical_high_shadow_v8 as promotion
+from tools import promote_test_aware_clinical_high_shadow_v9 as promotion
 from tools import rehydrate_clinical_hospital_evidence_shadow as rehydrate
+from tools import hydrate_scorer_evidence_predecision as predecision_hydrate
 from tools.run_kh_integrated_decision_pipeline import build_integrated_results
 from tools import run_kh_integrated_release_v2 as kh_release
 
@@ -64,6 +67,43 @@ def write_json(path: Path, payload: Any) -> None:
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+
+
+def load_taxonomy_completion_manifest(path: Path | None) -> dict[str, Any]:
+    """Require a complete run-scoped taxonomy review before scoring."""
+
+    if path is None:
+        raise ValueError(
+            "A taxonomy completion manifest is required. Run the organism-only "
+            "NCBI/LLM/validator workflow before the deterministic scorer."
+        )
+    if not path.is_file():
+        raise FileNotFoundError(f"Missing taxonomy completion manifest: {path}")
+    payload = read_json(path)
+    if payload.get("schema_version") != "organism_taxonomy_completion_manifest_v1":
+        raise ValueError("Unsupported taxonomy completion manifest schema")
+    if payload.get("passed") is not True:
+        raise ValueError("Taxonomy completion manifest did not pass")
+    if payload.get("answer_blind") is not True or payload.get("ground_truth_loaded") is not False:
+        raise ValueError("Taxonomy completion manifest is not answer-blind")
+    if payload.get("unreviewed_keys"):
+        raise ValueError("Taxonomy completion manifest still contains unreviewed organisms")
+
+    staged_overlay = Path(str(payload.get("staged_overlay") or ""))
+    if not staged_overlay.is_file():
+        raise FileNotFoundError(f"Missing staged taxonomy overlay: {staged_overlay}")
+    expected_hash = str(payload.get("staged_overlay_sha256") or "")
+    if kh_release.sha256_file(staged_overlay) != expected_hash:
+        raise ValueError("Staged taxonomy overlay hash does not match completion manifest")
+
+    active_overlay = str(os.environ.get("MNGS_TAXONOMY_AUTO_OVERLAY") or "").strip()
+    if not active_overlay:
+        raise ValueError(
+            "MNGS_TAXONOMY_AUTO_OVERLAY must point to the validated run-scoped overlay"
+        )
+    if Path(active_overlay).resolve() != staged_overlay.resolve():
+        raise ValueError("Active taxonomy overlay differs from the validated staged overlay")
+    return payload
 
 
 def patient_id_from_name(value: str) -> int:
@@ -131,7 +171,9 @@ def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 
 
 def freeze_heldout_outputs(
-    output_root: Path, heldout_ids: set[int]
+    output_root: Path,
+    heldout_ids: set[int],
+    decision_patient_ids: set[int] | None = None,
 ) -> dict[str, Any]:
     subset_root = output_root / "heldout_subset"
     integrated_source = output_root / "integrated_decisions.csv"
@@ -153,6 +195,11 @@ def freeze_heldout_outputs(
     _write_csv(integrated_path, integrated_rows)
     _write_csv(report_path, report_rows)
     observed_ids = {int(row["patient_id"]) for row in integrated_rows}
+    decision_ids = (
+        set(decision_patient_ids) & heldout_ids
+        if decision_patient_ids is not None
+        else set(observed_ids)
+    )
     tier_counts = Counter(
         row.get("final_reporting_tier") or "" for row in integrated_rows
     )
@@ -160,8 +207,16 @@ def freeze_heldout_outputs(
         "answer_blind": True,
         "heldout_patient_ids": sorted(heldout_ids),
         "heldout_patient_count": len(heldout_ids),
+        "patients_with_decision_packets": sorted(decision_ids),
         "patients_with_integrated_candidates": sorted(observed_ids),
-        "patient_coverage_complete": observed_ids == heldout_ids,
+        "patients_with_no_integrated_candidates": sorted(heldout_ids - observed_ids),
+        "decision_patient_coverage_complete": decision_ids == heldout_ids,
+        "integrated_candidate_coverage_complete": observed_ids == heldout_ids,
+        # A patient may validly have no reportable candidate.  Cohort
+        # completeness therefore means that every patient reached the
+        # deterministic decision stage, not that the pipeline was forced to
+        # emit at least one candidate for every patient.
+        "patient_coverage_complete": decision_ids == heldout_ids,
         "integrated_candidate_count": len(integrated_rows),
         "complete_report_candidate_count": len(report_rows),
         "final_tier_counts": dict(sorted(tier_counts.items())),
@@ -184,7 +239,9 @@ def refresh_heldout_metadata(output_root: Path) -> dict[str, Any]:
     freeze = read_json(freeze_path)
     partition = freeze["cohort_partition"]
     heldout = freeze_heldout_outputs(
-        output_root, {int(value) for value in partition["heldout_patient_ids"]}
+        output_root,
+        {int(value) for value in partition["heldout_patient_ids"]},
+        {int(value) for value in freeze.get("decision_patient_ids") or []},
     )
     freeze["heldout_subset"] = heldout
     freeze["passed"] = bool(
@@ -333,6 +390,29 @@ def component(path: Path, role: str) -> dict[str, Any]:
     }
 
 
+def prepare_optional_input_roots(
+    *,
+    output_root: Path,
+    inventory_root: Path,
+    patient_root: Path,
+    phenotype_root: Path,
+    source_summary_suffix: str,
+    mngs_only: bool,
+) -> tuple[Path, Path, str, dict[str, Any] | None]:
+    """Resolve clinical inputs, generating explicit unknowns for mNGS-only runs."""
+    if not mngs_only:
+        return patient_root, phenotype_root, source_summary_suffix, None
+
+    generated_root = output_root / "00_mngs_only_input"
+    generated_manifest = mngs_only_input.run(inventory_root, generated_root)
+    return (
+        generated_root,
+        generated_root / "phenotype_unavailable",
+        mngs_only_input.SUMMARY_SUFFIX,
+        generated_manifest,
+    )
+
+
 def run(
     output_root: Path = DEFAULT_OUTPUT,
     *,
@@ -343,30 +423,60 @@ def run(
     upstream_extraction_model: str = "not_declared",
     development_freeze: Path = DEFAULT_DEVELOPMENT_FREEZE,
     compatibility_target: str = "KH integrated release v2.6",
+    analytical_policy: Path = kh_release.ANALYTICAL_POLICY,
+    promotion_policy: Path = kh_release.PROMOTION_POLICY,
+    reporting_policy: Path = kh_release.REPORTING_POLICY,
+    taxonomy_completion_manifest: Path | None = None,
+    mngs_only: bool = False,
+    predecision_evidence_graph: bool = False,
 ) -> dict[str, Any]:
     if output_root.exists() and any(output_root.iterdir()):
         raise FileExistsError(f"Refusing to overwrite non-empty release: {output_root}")
+    taxonomy_completion = load_taxonomy_completion_manifest(
+        taxonomy_completion_manifest
+    )
+    effective_taxonomy_overlay = Path(taxonomy_completion["staged_overlay"])
+    (
+        patient_root,
+        phenotype_root,
+        source_summary_suffix,
+        generated_mngs_only_manifest,
+    ) = prepare_optional_input_roots(
+        output_root=output_root,
+        inventory_root=inventory_root,
+        patient_root=patient_root,
+        phenotype_root=phenotype_root,
+        source_summary_suffix=source_summary_suffix,
+        mngs_only=mngs_only,
+    )
+    input_evidence_mode = (
+        "mngs_only_optional_clinical_absent"
+        if mngs_only
+        else "mngs_plus_provided_optional_clinical"
+    )
     required = [
         inventory_root / "inventory_summary.json",
         patient_root,
         phenotype_root,
         kh_release.COMPACT_POLICY,
-        kh_release.ANALYTICAL_POLICY,
+        analytical_policy,
         kh_release.HISTORY_POLICY,
         kh_release.CLINICAL_POLICY,
-        kh_release.PROMOTION_POLICY,
-        kh_release.REPORTING_POLICY,
+        promotion_policy,
+        reporting_policy,
         kh_release.IDENTITY_ALIAS_FILE,
         kh_release.TAXONOMY_BASE_FILE,
         kh_release.TAXONOMY_GAP_FILE,
-        kh_release.TAXONOMY_AUTO_FILE,
+        effective_taxonomy_overlay,
         kh_release.TAXONOMY_REVIEWED_FILE,
         kh_release.EPISODE_IDENTITY_FILE,
         development_freeze,
+        taxonomy_completion_manifest,
     ]
     missing = [str(path) for path in required if not path.exists()]
     if missing:
         raise FileNotFoundError(f"Missing required external-shadow inputs: {missing}")
+    reporting_policy_payload = read_json(reporting_policy)
     output_root.mkdir(parents=True, exist_ok=True)
     stage = {
         name: output_root / name
@@ -374,6 +484,7 @@ def run(
             "00_source_summary_freeze",
             "01_compact_taxonomy",
             "02_analytical_scorer",
+            "02b_predecision_evidence_graph",
             "03_clinical_timeline",
             "04_candidate_phenotype",
             "05_phenotype_event_packets",
@@ -406,8 +517,15 @@ def run(
         stage["02_analytical_scorer"],
         summary_suffix=EXTERNAL_SUMMARY_SUFFIX,
         summary_root=stage["00_source_summary_freeze"],
-        policy_path=kh_release.ANALYTICAL_POLICY,
+        policy_path=analytical_policy,
     )
+    decision_scorer_root = stage["02_analytical_scorer"]
+    if predecision_evidence_graph:
+        stage_summaries["predecision_evidence_graph"] = predecision_hydrate.run(
+            stage["02_analytical_scorer"],
+            stage["02b_predecision_evidence_graph"],
+        )
+        decision_scorer_root = stage["02b_predecision_evidence_graph"]
     stage_summaries["clinical_timeline"] = timeline.build_shadow(
         patient_root,
         stage["03_clinical_timeline"],
@@ -427,14 +545,21 @@ def run(
         stage["05_phenotype_event_packets"],
     )
     stage_summaries["history_v4c"] = history.run(
-        stage["02_analytical_scorer"],
+        decision_scorer_root,
         patient_root,
         stage["06_history_v4c"],
         policy_path=kh_release.HISTORY_POLICY,
         phenotype_root=stage["04_candidate_phenotype"],
     )
+    if predecision_evidence_graph:
+        stage_summaries["evidence_consumption_ledger"] = (
+            predecision_hydrate.sync_history_consumption_ledger(
+                stage["02b_predecision_evidence_graph"],
+                stage["06_history_v4c"],
+            )
+        )
     stage_summaries["clinical_scorer"] = clinical.run(
-        stage["02_analytical_scorer"],
+        decision_scorer_root,
         stage["03_clinical_timeline"],
         stage["05_phenotype_event_packets"],
         stage["07_clinical_scorer"],
@@ -443,32 +568,33 @@ def run(
     )
     stage_summaries["evidence_rehydrated"] = rehydrate.run(
         stage["07_clinical_scorer"],
-        stage["02_analytical_scorer"],
+        decision_scorer_root,
         stage["08_evidence_rehydrated"],
     )
     stage_summaries["promotion_v8"] = promotion.run(
         stage["08_evidence_rehydrated"],
         stage["09_promotion_v8"],
-        policy_path=kh_release.PROMOTION_POLICY,
+        policy_path=promotion_policy,
     )
     stage_summaries["reporting_v3_route_a"] = reporting.run(
         stage["09_promotion_v8"],
         stage["10_reporting_v3_route_a"],
-        policy_path=kh_release.REPORTING_POLICY,
+        policy_path=reporting_policy,
     )
     stage_summaries["integrated_output"] = build_integrated_results(
         stage["10_reporting_v3_route_a"], output_root
     )
-    heldout_summary = freeze_heldout_outputs(
-        output_root, set(partition["heldout_patient_ids"])
-    )
-
     decision_ids = {
         patient_id_from_name(path.name)
         for path in (stage["02_analytical_scorer"] / "patient_outputs").glob(
             "NGS_patient_*_test_aware_deterministic_shadow.json"
         )
     }
+    heldout_summary = freeze_heldout_outputs(
+        output_root,
+        set(partition["heldout_patient_ids"]),
+        decision_ids,
+    )
     patient_count_assertions = {
         name: summary.get("patient_count") == len(expected_ids)
         for name, summary in stage_summaries.items()
@@ -510,13 +636,17 @@ def run(
 
     components = [
         component(kh_release.COMPACT_POLICY, "compact_entry_policy"),
-        component(kh_release.ANALYTICAL_POLICY, "analytical_scorer_policy_route_a"),
+        component(analytical_policy, "analytical_scorer_policy"),
         component(kh_release.HISTORY_POLICY, "history_v4c_policy"),
         component(kh_release.CLINICAL_POLICY, "clinical_scorer_policy"),
-        component(kh_release.PROMOTION_POLICY, "promotion_v8_policy"),
-        component(kh_release.REPORTING_POLICY, "reporting_v3_route_a_policy"),
+        component(promotion_policy, "promotion_policy"),
+        component(reporting_policy, "reporting_policy"),
         component(kh_release.IDENTITY_ALIAS_FILE, "production_identity_aliases"),
-        *kh_release._taxonomy_components(),
+        component(kh_release.TAXONOMY_BASE_FILE, "central_taxonomy_base"),
+        component(kh_release.TAXONOMY_GAP_FILE, "taxonomy_gap_resolution_overlay"),
+        component(effective_taxonomy_overlay, "run_scoped_auto_taxonomy_overlay"),
+        component(kh_release.TAXONOMY_REVIEWED_FILE, "reviewed_taxonomy_overlay"),
+        component(taxonomy_completion_manifest, "taxonomy_completion_manifest"),
         component(kh_release.EPISODE_IDENTITY_FILE, "episode_separation_policy"),
     ]
     manifest = {
@@ -532,6 +662,7 @@ def run(
         "upstream_extraction_model": upstream_extraction_model,
         "decision_model": "deterministic_only",
         "input": {
+            "evidence_mode": input_evidence_mode,
             "inventory_root": str(inventory_root.resolve()),
             "inventory_summary_sha256": kh_release.sha256_file(
                 inventory_root / "inventory_summary.json"
@@ -543,10 +674,36 @@ def run(
             "phenotype_linkage_manifest_sha256": kh_release.sha256_file(
                 linkage_path
             ),
+            "analytical_policy": str(analytical_policy.resolve()),
+            "analytical_policy_sha256": kh_release.sha256_file(analytical_policy),
+            "promotion_policy": str(promotion_policy.resolve()),
+            "promotion_policy_sha256": kh_release.sha256_file(promotion_policy),
+            "reporting_policy": str(reporting_policy.resolve()),
+            "reporting_policy_sha256": kh_release.sha256_file(reporting_policy),
+            "predecision_evidence_graph": predecision_evidence_graph,
+            "taxonomy_completion_manifest": str(
+                taxonomy_completion_manifest.resolve()
+            ),
+            "taxonomy_completion_manifest_sha256": kh_release.sha256_file(
+                taxonomy_completion_manifest
+            ),
+            "run_scoped_taxonomy_overlay": str(
+                effective_taxonomy_overlay.resolve()
+            ),
+            "run_scoped_taxonomy_overlay_sha256": kh_release.sha256_file(
+                effective_taxonomy_overlay
+            ),
+            "generated_mngs_only_input_manifest": (
+                generated_mngs_only_manifest
+                if generated_mngs_only_manifest is not None
+                else None
+            ),
         },
         "components": components,
         "stage_roots": {
-            name: str(path.resolve()) for name, path in stage.items()
+            name: str(path.resolve())
+            for name, path in stage.items()
+            if path.exists()
         },
         "patient_count": len(decision_ids),
         "candidate_count": stage_summaries["integrated_output"][
@@ -558,15 +715,29 @@ def run(
         "episode_separation": episode_validation,
         "identity_aliases_active": True,
         "taxonomy_auto_overlay_active": True,
+        "taxonomy_review_complete": True,
+        "taxonomy_review_status_counts": taxonomy_completion.get(
+            "status_counts", {}
+        ),
         "route_a_possible_active": True,
         "route_b_fallback_active": True,
+        "graceful_degradation_reporting_active": bool(
+            (reporting_policy_payload.get("graceful_degradation") or {}).get(
+                "enabled"
+            )
+        ),
+        "predecision_evidence_graph_active": predecision_evidence_graph,
         "ober_included": False,
         "evaluation_attached_posthoc": False,
         "constraints": [
             "No benchmark answers were loaded or evaluated.",
             "Phenotype links are provisional and cannot independently create Picked.",
             "Missing phenotype files remain explicit missingness.",
-            "Existing external-cohort hospital summaries are frozen as-is.",
+            (
+                "Clinical, imaging, phenotype, and other hospital evidence was not provided; absence is unknown, not negative."
+                if mngs_only
+                else "Existing external-cohort hospital summaries are frozen as-is."
+            ),
             "OBER and Luna are not decision stages; the declared LLM model was upstream extraction only.",
         ],
     }
@@ -577,6 +748,8 @@ def run(
         "answer_blind_freeze_passed": freeze["passed"],
         "patient_count": len(decision_ids),
         "candidate_count": manifest["candidate_count"],
+        "input_evidence_mode": input_evidence_mode,
+        "predecision_evidence_graph_active": predecision_evidence_graph,
         "cohort_partition": partition,
         "heldout_subset": heldout_summary,
         "stage_summaries": stage_summaries,
@@ -594,6 +767,14 @@ def main() -> None:
     parser.add_argument("--patient-root", type=Path, default=DEFAULT_PATIENT_ROOT)
     parser.add_argument("--phenotype-root", type=Path, default=DEFAULT_PHENOTYPE_ROOT)
     parser.add_argument("--source-summary-suffix", default=DEFAULT_SUMMARY_SUFFIX)
+    parser.add_argument(
+        "--mngs-only",
+        action="store_true",
+        help=(
+            "Use the multi-assay inventory as the only required cohort data. "
+            "Missing clinical and phenotype inputs are generated as explicit unknowns."
+        ),
+    )
     parser.add_argument("--upstream-extraction-model", default="not_declared")
     parser.add_argument(
         "--development-freeze", type=Path, default=DEFAULT_DEVELOPMENT_FREEZE
@@ -605,6 +786,41 @@ def main() -> None:
     )
     parser.add_argument(
         "--compatibility-target", default="KH integrated release v2.6"
+    )
+    parser.add_argument(
+        "--analytical-policy",
+        type=Path,
+        default=kh_release.ANALYTICAL_POLICY,
+        help="Analytical scorer policy; defaults to the frozen production policy.",
+    )
+    parser.add_argument(
+        "--promotion-policy",
+        type=Path,
+        default=kh_release.PROMOTION_POLICY,
+        help="Clinical promotion policy; defaults to the frozen production policy.",
+    )
+    parser.add_argument(
+        "--reporting-policy",
+        type=Path,
+        default=kh_release.REPORTING_POLICY,
+        help="Reporting policy; defaults to the frozen production policy.",
+    )
+    parser.add_argument(
+        "--predecision-evidence-graph",
+        action="store_true",
+        help=(
+            "Hydrate canonical candidate evidence and initialize the evidence "
+            "ledger before history and clinical decisions. This is an opt-in "
+            "vNext shadow and does not alter the frozen default pipeline."
+        ),
+    )
+    parser.add_argument(
+        "--taxonomy-completion-manifest",
+        type=Path,
+        help=(
+            "Passed organism_taxonomy_completion_manifest_v1. The staged overlay "
+            "must also be active through MNGS_TAXONOMY_AUTO_OVERLAY."
+        ),
     )
     args = parser.parse_args()
     if args.refresh_heldout_only:
@@ -623,6 +839,12 @@ def main() -> None:
         upstream_extraction_model=args.upstream_extraction_model,
         development_freeze=args.development_freeze,
         compatibility_target=args.compatibility_target,
+        analytical_policy=args.analytical_policy,
+        promotion_policy=args.promotion_policy,
+        reporting_policy=args.reporting_policy,
+        taxonomy_completion_manifest=args.taxonomy_completion_manifest,
+        mngs_only=args.mngs_only,
+        predecision_evidence_graph=args.predecision_evidence_graph,
     ), ensure_ascii=False, indent=2))
 
 

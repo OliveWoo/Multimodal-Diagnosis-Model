@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "release_id": "two_hospital_22_legacy_finalized_compat_v1",
+  "parent_release_contract": "rules/kh_legacy_pipeline_finalized_v1.json",
+  "release_role": "external_compatibility_run",
+  "independent_validation_claim": false,
+  "selected_dna_emulation": {
+    "scope": "one representative DNA test per infection event",
+    "selection_rule": "earliest DNA test with at least one selected positive-read measurement; otherwise lowest source test_number, then seq_id",
+    "observation_rule": "selected=true and reads>0 in the representative DNA test",
+    "excluded_from_legacy_scorer": [
+      "all RNA tests",
+      "all non-representative DNA tests",
+      "all non-selected or zero-read measurements"
+    ]
+  },
+  "cohorts": [
+    {
+      "cohort_id": "clinical11",
+      "source_root": "11_other_hospital_patients_all_mNGS_DNA_RNA_RK_NTC_by_species_no_zero_reads",
+      "patient_root": "outputs/runs/2026-10-07_two_hospital_new_mngs_11_v2_6_input_v2/patients",
+      "summary_suffix": "release_input_new_mngs_11_evidence_bridge_v1",
+      "required_summary_fields": ["hospital_organism_evidence"],
+      "summary_schema_role": "structured_hospital_evidence_bridge",
+      "clinical_data_mode": "available_when_present",
+      "expected_patient_ids": [58, 62, 66, 69, 71, 73, 75, 80, 88, 104, 107],
+      "postfreeze_answer_path": "outputs/runs/2026-10-07_two_hospital_new_mngs_11_integrated_release_v2_6_graceful_v1/postfreeze_evaluation/answer_contract/two_hospital_11patient_answers_postfreeze.csv"
+    },
+    {
+      "cohort_id": "mngs_only11",
+      "source_root": "11_additional_other_hospital_patients_all_mNGS_DNA_RNA_RK_NTC_by_species_no_zero_reads",
+      "patient_root": "outputs/runs/2026-10-07_two_hospital_additional11_mngs_only_input_v1",
+      "summary_suffix": "mngs_only_no_clinical_evidence_v1",
+      "required_summary_fields": ["hospital_organism_evidence"],
+      "summary_schema_role": "explicit_mngs_only_missingness",
+      "clinical_data_mode": "unavailable_unknown_not_negative",
+      "expected_patient_ids": [54, 55, 67, 74, 82, 85, 90, 91, 94, 99, 105],
+      "postfreeze_answer_path": "outputs/runs/2026-10-07_two_hospital_additional11_mngs_only_v5_release_v1/postfreeze_evaluation/answer_contract/two_hospital_8patient_answers_postfreeze.csv"
+    }
+  ],
+  "constraints": [
+    "The original manually selected DNA file is unavailable for these cohorts, so this is a deterministic selected-DNA emulation rather than a historical replay.",
+    "The emulation rule is answer blind and identical for every patient.",
+    "The legacy scorer receives exactly one DNA test per infection event and receives no RNA or cross-test reproducibility evidence.",
+    "Missing clinical evidence is unknown and is never interpreted as negative evidence.",
+    "The parent release taxonomy, history, healthcare-device Priority route, Picked gate, and four output labels remain unchanged.",
+    "The reporting repair emits one primary organism per patient whenever at least one candidate exists; low-confidence fallback does not become a formal Picked label.",
+    "Answers are opened only after the 22-patient decision freeze is persisted.",
+    "The clinical11 labels and cases were previously inspected, and the mngs_only11 subset lacks complete clinical modalities; results are compatibility evidence, not untouched external validation."
+  ]
+}

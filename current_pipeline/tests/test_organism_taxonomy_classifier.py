@@ -88,6 +88,35 @@ class OrganismTaxonomyClassifierTests(unittest.TestCase):
         self.assertIn("opportunistic_yeast", profile["clinical_traits"])
         self.assertIn("nonsterile_source_caution", profile["clinical_traits"])
 
+    def test_reviewed_acb_complex_members_have_exact_identity_and_hospital_routing(self) -> None:
+        cases = {
+            "Acinetobacter nosocomialis": 106654,
+            "Acinetobacter seifertii": 1530123,
+            "Acinetobacter pittii": 48296,
+        }
+        for name, taxid in cases.items():
+            with self.subTest(name=name):
+                profile = taxonomy.classify_organism(name)
+                self.assertEqual(taxid, profile["taxid"])
+                self.assertEqual("exact_species", profile["mapping_status"])
+                self.assertEqual(
+                    "exact_species_identity", profile["identity_resolution"]
+                )
+                self.assertEqual(
+                    "hospital_or_nonfermenter_gnb",
+                    profile["primary_rule_family"],
+                )
+                self.assertIn("acb_complex_member", profile["clinical_traits"])
+                self.assertEqual(
+                    "curated_exact_species", profile["taxonomy_rule_source"]
+                )
+
+    def test_group_identity_is_separate_from_taxonomy_rule_source(self) -> None:
+        profile = taxonomy.classify_organism("Aspergillus spp.")
+        self.assertEqual("group_or_genus_identity", profile["identity_resolution"])
+        self.assertEqual("genus_inherited", profile["mapping_status"])
+        self.assertEqual("curated_genus_profile", profile["taxonomy_rule_source"])
+
     def test_human_respirovirus_3_has_exact_curated_identity(self) -> None:
         profile = taxonomy.classify_organism("Human respirovirus 3")
         self.assertEqual(11216, profile["taxid"])

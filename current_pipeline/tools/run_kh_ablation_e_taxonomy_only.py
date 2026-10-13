@@ -120,8 +120,9 @@ def score_mode(
     inventory: dict[tuple[int, str], dict[str, str]],
     patient_root: Path,
     output_dir: Path,
+    taxonomy_overlay_paths: tuple[Path, ...] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    taxonomy = configure_taxonomy_mode(mode)
+    taxonomy = configure_taxonomy_mode(mode, taxonomy_overlay_paths)
     output_dir.mkdir(parents=True)
     patient_output = output_dir / "patient_outputs"
     patient_output.mkdir()

@@ -234,6 +234,24 @@ class NormalizedAgentFallbackTests(unittest.TestCase):
         self.assertEqual("antigen", label["key_evidence"]["non_gm_test_type"])
         self.assertEqual(["ASSAY-001"], label["evidence_observation_ids"])
 
+    def test_qualitative_detected_gm_without_index_is_retained_as_level3(self) -> None:
+        payload = fallback.filmarray_gm_agent_from_sources(
+            [],
+            [{
+                "sample": "Blood",
+                "target": "Aspergillus galactomannan Ag",
+                "result": "Detected",
+            }],
+        )
+
+        label = payload["organism_labels"][0]
+        self.assertEqual("Aspergillus spp.", label["organism_name"])
+        self.assertEqual("Level 3", label["causative_level"])
+        self.assertEqual("detected", payload["assay_observations"][0]["detection_status"])
+        self.assertEqual(
+            "qualitative_by_design", label["key_evidence"]["quantitation_status"]
+        )
+
     def test_hospital_support_floor_does_not_downgrade_existing_m1_signal(self) -> None:
         raw_candidate = {
             "organism_name": "Klebsiella pneumoniae",
@@ -378,6 +396,47 @@ class NormalizedAgentFallbackTests(unittest.TestCase):
         self.assertEqual("Level 3", levels["Influenza A virus"])
         self.assertEqual(
             "CNS", payload["molecular_observations"][2]["specimen_category"]
+        )
+
+    def test_empty_assay_fallbacks_preserve_unknown_missingness(self) -> None:
+        filmarray = fallback.filmarray_gm_agent_from_sources([], [])
+        molecular = fallback.molecular_microbiology_agent_from_source([])
+
+        self.assertEqual("Unknown", filmarray["infection_likelihood"])
+        self.assertEqual("Unknown", filmarray["resistance_risk"])
+        self.assertIn("resistance_evidence_not_available", filmarray["data_gaps"])
+        self.assertEqual("Unknown", molecular["infection_likelihood"])
+        self.assertIn(
+            "molecular_microbiology_data_not_available", molecular["data_gaps"]
+        )
+
+    def test_culture_fallback_links_preliminary_and_final_same_event(self) -> None:
+        payload = fallback.culture_agent_from_source(
+            [
+                {
+                    "sample": "Blood",
+                    "collected_time": "2023-10-09 16:11",
+                    "received_time": "2023-10-10 08:55",
+                    "organism": "Escherichia coli",
+                    "status": "Isolated",
+                },
+                {
+                    "sample": "Blood",
+                    "collected_time": "2023-10-09 16:11",
+                    "received_time": "2023-10-10 08:55",
+                    "organism": "G(-) Bacilli, identification to follow.",
+                    "status": "Preliminary report",
+                },
+            ]
+        )
+
+        self.assertEqual(
+            ["Escherichia coli"],
+            [item["organism_name"] for item in payload["organism_labels"]],
+        )
+        self.assertEqual(
+            ["CUL-001", "CUL-002"],
+            payload["organism_labels"][0]["evidence_observation_ids"],
         )
 
 

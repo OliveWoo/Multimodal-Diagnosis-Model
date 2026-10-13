@@ -220,6 +220,14 @@ def classify_organism(name: Any, *, biological_class: Any = None) -> dict[str, A
         "unmapped": "low",
     }[mapping_status]
     rank = str(matched.get("taxonomic_rank") or inferred_taxonomic_rank(display))
+    if mapping_status == "exact_species" and rank in {"species", "species_candidate"}:
+        identity_resolution = "exact_species_identity"
+    elif rank == "genus_or_group_label":
+        identity_resolution = "group_or_genus_identity"
+    elif mapping_status == "genus_inherited" and rank in {"species", "species_candidate"}:
+        identity_resolution = "species_name_with_genus_inherited_routing"
+    else:
+        identity_resolution = "unresolved_identity"
     review_recommended = bool(
         matched.get("literature_review_recommended")
         or mapping_status == "unmapped"
@@ -238,9 +246,11 @@ def classify_organism(name: Any, *, biological_class: Any = None) -> dict[str, A
         "primary_rule_family": primary_family,
         "secondary_rule_families": _unique_strings(_as_list(matched.get("secondary_rule_families"))),
         "clinical_traits": traits,
+        "identity_resolution": identity_resolution,
         "mapping_status": mapping_status,
         "classification_confidence": confidence,
         "rule_source": rule_source,
+        "taxonomy_rule_source": rule_source,
         "matched_rule_ids": _unique_strings([matched.get("rule_id")]),
         "needs_literature_review": review_recommended,
         "routing_only": True,

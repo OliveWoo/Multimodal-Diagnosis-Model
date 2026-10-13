@@ -16,7 +16,7 @@
     },
     {
       "path": "upstream/README.md",
-      "sha256": "d07583141d49af795863b3a3c69b4ac1b876f24d1d163723fc6afc5409e85fa0"
+      "sha256": "a65ed64ecf4c3ec69eec7e8731af9a12cf62508f0c030878375b1e33d80d587d"
     },
     {
       "path": "upstream/agents/prompts/CBC_Lab_underlying_prompt.txt",
@@ -28,11 +28,11 @@
     },
     {
       "path": "upstream/agents/prompts/culture_agent_prompt.txt",
-      "sha256": "06bc5f1647b8d58a52b96d7618721d269474fa5a46d235a0558e6b0e8412bba1"
+      "sha256": "e1631735b119fe955a84853d7d72b4cc129a6c7b1c8b2016840120f54966f8d3"
     },
     {
       "path": "upstream/agents/prompts/filmarray_GMtest_prompt.txt",
-      "sha256": "89e196bc6a0426fd5eac9d51a35db52f4104f7490d1c2ae2ea292e415a81d84f"
+      "sha256": "2a092516ff13bdd2be47bff77056e7e7d3b674e476f38c668fc319cc483b3bb4"
     },
     {
       "path": "upstream/agents/prompts/image_agent_prompt.txt",
@@ -40,7 +40,7 @@
     },
     {
       "path": "upstream/agents/prompts/mNGS_to_specimen_prompt.txt",
-      "sha256": "305c06840b930802d419d10f92a9b318d359f8fda718832b0125148a5cfcafed"
+      "sha256": "643dcf157308e7b649e9182275b128ef48e331958022d2dddbae13de57955290"
     },
     {
       "path": "upstream/agents/prompts/molecular_microbiology_prompt.txt",
@@ -48,19 +48,19 @@
     },
     {
       "path": "upstream/analytics/__init__.py",
-      "sha256": "dbfeade6dc4970e8c998c7bb013316e88b109eade5ad62a798b67d0d4538b41c"
+      "sha256": "fe2f40d6adcb013fab0c8ba6c5c055d46965bd73f751dfb8b8d6ab5e05279eea"
     },
     {
       "path": "upstream/analytics/generate_charts.py",
-      "sha256": "4d693767d110b8c3f1888aa85b52524407dab7acf538c1c42f9e440946de9fc2"
+      "sha256": "7736e38ffb0db1008055447ed5e8b7c6a9a850fab43b98fefc80ecb54f45dce1"
     },
     {
       "path": "upstream/analytics/metrics.py",
-      "sha256": "40a374a4a0c811642d498a409ef79f6abd28cdda2fe482e6414c601363f3edc8"
+      "sha256": "7fcee002321236f532f5b0d35a93079e094727da15765d957abf8641820440b2"
     },
     {
       "path": "upstream/analytics/tracking.py",
-      "sha256": "d40a86c20cd77eb589e67db1181e25e903da0004f56593f6f9a212cbcf475bff"
+      "sha256": "ef37342796c02fbe2847043f6da6bd7b08df32dbbf1a9fdf85b33eb295fb09b2"
     },
     {
       "path": "upstream/core/__init__.py",
@@ -68,19 +68,19 @@
     },
     {
       "path": "upstream/core/llm_parser.py",
-      "sha256": "41ec9c296d9c5e682d8d968ab2ade99c6c1f390b8409c14110c4ec8757291b8d"
+      "sha256": "8da0d9fc05152a7e9c50353632c7eb1fe1d75263b6ea895c79e72431732fb68d"
     },
     {
       "path": "upstream/core/main.py",
-      "sha256": "de053fec61ca04660492315ecab7ee404c5b704110ea3c2291e72746355e3977"
+      "sha256": "c05dc5704c2d0653481ef6e5203d39fa7c6096d5f7c2884d1c46bb96119c669e"
     },
     {
       "path": "upstream/core/raw_parser.py",
-      "sha256": "b3301011851e7c42eaa8a1fc0c3435292578223ffb4d9f1ff1fba647744534f4"
+      "sha256": "21cbe075bb637064d9e0eb6022858b18e41231f0730b42feeb89100525d759e2"
     },
     {
       "path": "upstream/core/summarize_agent.py",
-      "sha256": "1057817db042af14552dedd28333d6e016b4014c1bbc7d960ceb27e010a179aa"
+      "sha256": "f248eb7af98f49614fa48e260f5a182eba3118efa2badd0476eaee08c7977ea5"
     },
     {
       "path": "upstream/evaluation/rag_v2_acceptance_cases.json",
@@ -88,7 +88,7 @@
     },
     {
       "path": "upstream/parsers/CBC_parser.py",
-      "sha256": "d4aaa41bd2d1deac2f2a023f28c5b00b5407f96c35a9bf862425e4fe4bb46b79"
+      "sha256": "e5d549b3eabc79180968264e2590115d00d6080b4d31b512085bce01910ac16d"
     },
     {
       "path": "upstream/parsers/__init__.py",
@@ -96,91 +96,91 @@
     },
     {
       "path": "upstream/parsers/admission_diagnosis_parser.py",
-      "sha256": "24562446bbc41e56470171fbf90330eabd48f4e7ec7896a19363b772f8370973"
+      "sha256": "be53d06314cd4a116402d2d288cb2dbb90ba3f4e2dbc037b230cd2bec1466c99"
     },
     {
       "path": "upstream/parsers/culture_parser.py",
-      "sha256": "94eccbe168aca441d69ac0198d16efe05884e8bd047361f4cec1fd4611b6db84"
+      "sha256": "073e2e761da89680d122ea14849ce6559dcfc8b450856c6b8b1d418f5341a59f"
     },
     {
       "path": "upstream/parsers/filmarray_parser.py",
-      "sha256": "878aa79f2ba4e0987e9ce89727588567b0fe97f91887583319a3f1ebc4df1f24"
+      "sha256": "b290980c21b00b753206903f7e277c2ca87e8a313e458088e96911cba6edb99b"
     },
     {
       "path": "upstream/parsers/gm_test_parser.py",
-      "sha256": "db60ca24dae4056c21c7cfe7b356cd6bb472d2938a088197a7788d190cfd46f3"
+      "sha256": "93feb59e4fa355106b4389283afcbedb45fd29db09e5b8f97cae984df1c9b6a5"
     },
     {
       "path": "upstream/parsers/image_parser.py",
-      "sha256": "e235bd19790d63d5094ab5cb16dc469c052c3261a0673be831d0d2132af36777"
+      "sha256": "4d66d6b419388402ed114727f61d8e4583ae89583f3dd25f61b37279e11f703c"
     },
     {
       "path": "upstream/parsers/mNGS_parser.py",
-      "sha256": "eeba4b99e666bb18362ab984306c2b517b55ab5e8b9f7e9e3fefd651f59c85f0"
+      "sha256": "8e711484b96fd4813d94d4306e36c4c6a4e8e2a7631eb5542325f3a0c050e432"
     },
     {
       "path": "upstream/parsers/other_lab_parser.py",
-      "sha256": "20f3f4746e1f81a13016f500457ccfdaa48081de267d2f4476c9a47882e92cf2"
+      "sha256": "d54377472634c8b23772969e27d1b3e6ed2b437f9e84ce4e935f8a9ffcc10bb8"
     },
     {
       "path": "upstream/parsers/underlying_parser.py",
-      "sha256": "de9ba36a67a7ee4611bdf968657813b124271ed8aa66f33f1b063b1ac26c7578"
+      "sha256": "9729823b566452afadf58a0b979a44c937232ecfd8f2c7c93fb7f7a56d989192"
     },
     {
       "path": "upstream/ppt_patient_parser/__init__.py",
-      "sha256": "212b06ed1a26475984da2d62f8baeb7b28e3b71fefe5e3810a903b0384b21a2a"
+      "sha256": "da9f14ac122bc561c5590fe7bb8b2f61359b3bff589ee6abba55e91157f177e3"
     },
     {
       "path": "upstream/ppt_patient_parser/__main__.py",
-      "sha256": "87542982f474f2d3ba4df407bb248a2a04224155d522841128b131e6c561b7f3"
+      "sha256": "c2ee4ddb093c9af060cafaf68219907f8a6b7b301ed3f8bea75db7555adec987"
     },
     {
       "path": "upstream/ppt_patient_parser/cli.py",
-      "sha256": "674f6cab7d7a7b1ad7f7e072972a6dc3082bf494729329dde05bce87d8a255be"
+      "sha256": "fc4d876f9d1ff26ea092c4ebd92c33dbfb16620b616a54132cfefb372172b310"
     },
     {
       "path": "upstream/ppt_patient_parser/modality_classifier.py",
-      "sha256": "ef61ba4c0ff9b629f9f0a1a69968167f33a13b6f9ab25384583a74b43e44a871"
+      "sha256": "a47c66174286a30fcf11ceb7ecf429bf9aaf28f8fb1850889039cab77a49bd23"
     },
     {
       "path": "upstream/ppt_patient_parser/parsers/__init__.py",
-      "sha256": "7a7bdbf49a7ff02a3aec217d176903619e456101534401e91f80257b0bb575f8"
+      "sha256": "a6dfb55c96b8978c8d4f5cc6b84e67a24f3310de31357dfcb36fc456a0c48af5"
     },
     {
       "path": "upstream/ppt_patient_parser/parsers/slide_parser.py",
-      "sha256": "0bae77823cf90164c64c2538da4bb61b12c2e9f37bf362d5b97566dd1eab5b5a"
+      "sha256": "2acdcd51b938a696f8996566ae3c60d5af2d0ee794959ab705ff3a699185c36d"
     },
     {
       "path": "upstream/ppt_patient_parser/ppt_reader.py",
-      "sha256": "70753d65992f74b96cc01db411e271b71dadfdf074e7af39abf4c76f0ea2daba"
+      "sha256": "e0f08d6c5e07418c8ba29f9baab3a976256490af3951a7c2ebb33467b58d1f8a"
     },
     {
       "path": "upstream/ppt_patient_parser/slide_extractor.py",
-      "sha256": "14c48b3e11b3bd02f76f635e8faca3f2afe4c854eb2f4827f79f1676f90027e9"
+      "sha256": "5684d51f5e689a1605941faa922796645daf61c07388f1fbe1d0821a95820461"
     },
     {
       "path": "upstream/ppt_patient_parser/utils/__init__.py",
-      "sha256": "1380d8edbcc7a5723294ea76f783231bab3dbcfd9472352dde31c59103d3c3d3"
+      "sha256": "c28eef0288351a8cfdca2734b014d5934fc6426038e0a68ce14031931b0fe5f2"
     },
     {
       "path": "upstream/ppt_patient_parser/utils/io.py",
-      "sha256": "976c5e6642ce873f32e7b69f344b28ae74a24d20456d947a229792c84785ab67"
+      "sha256": "716735a9a72f7b6cc0d422b242320a43ce63190693f233ae6e992162aef4f24e"
     },
     {
       "path": "upstream/ppt_patient_parser/utils/logging.py",
-      "sha256": "a2667fdefb4c3722daf0b5295ef53980f0fef2845f61dce002d19da59a9114dd"
+      "sha256": "faa806366628b8f797c2a3aaa1daa33214d167d10eab00b40a8e73ab79070cfe"
     },
     {
       "path": "upstream/ppt_patient_parser/vision_hooks.py",
-      "sha256": "d8101f0a8679d36858ffae9eec577c153422bd1c0d77143bd29b9070aba97ac1"
+      "sha256": "218ab6e29bedc4f006796cbe72228864f81e18da95f9cf52c8cbb9e741ea8f61"
     },
     {
       "path": "upstream/requirements.txt",
-      "sha256": "9d1b0c817a83c5edd020bf35bad713ff75160445f8928446ca4b31c803f8b81b"
+      "sha256": "9e57000ed50f64d0b81998901c28021570ebee11cc0fd6cc91f707b75fae42f0"
     },
     {
       "path": "upstream/rules/impossible_infection_sources.json",
-      "sha256": "87578f56150cf58f78f521cf79d07ac8334bb51fddd5e7296a9cde476c215dd3"
+      "sha256": "f7fbfdb0d3024d1e24958c08267c75e6c4349d4a50ab8ace8d84262e629834e2"
     },
     {
       "path": "upstream/rules/negative_evidence_rules.json",
@@ -240,7 +240,7 @@
     },
     {
       "path": "upstream/tools/analyze_llm_agent.py",
-      "sha256": "8daf110df1326fb3c0486d83eb641135e34d2c3e968e63f08c58d259843aa713"
+      "sha256": "e4fb114f412bd9612f1cc6f3d87c620e73a16b2db468645d91c9bf1f6c88f284"
     },
     {
       "path": "upstream/tools/annotate_deterministic_mngs_max_tags.py",
@@ -272,7 +272,7 @@
     },
     {
       "path": "upstream/tools/build_chosen_ranked_mngs_from_mngs_to_specimen.py",
-      "sha256": "7670d109d62feee81266c0a71396afd63df33f8e27086723dd0501db61877921"
+      "sha256": "fbde340ea138558461e0efb5bedfee15c767db481eb57071c5b64343ea05aab8"
     },
     {
       "path": "upstream/tools/build_context_convergence_shadow.py",
@@ -280,23 +280,23 @@
     },
     {
       "path": "upstream/tools/build_deterministic_summary.py",
-      "sha256": "bf75dee85450f96ae5948e670d0327170eb241bbd3748797dbdbfcbbc59ce6c7"
+      "sha256": "394d4dfaafbb826f47fc32e72465de082ed3a0c63d2242a07e55c5cf74f9f90c"
     },
     {
       "path": "upstream/tools/build_deterministic_summary_v3_recovered.py",
-      "sha256": "821769fc06b88ee1b0c3b117bb8093ce971795cf9e462eb5d173f6521c6eea5b"
+      "sha256": "44f1447dea883e4b84bc95fcfab58ce0d123dc46583145eea542e1d8a68e95f6"
     },
     {
       "path": "upstream/tools/build_mNGS_data_mapping.py",
-      "sha256": "7ab5aaeb5f7b5890cfc06ccb97ca315f67a78a7001fab8ac3a9194b069e5d5aa"
+      "sha256": "fea8ba6e3de36f4aa55de8237e6ea0ee1f8722b134fc43baebd0bc5eaea03363"
     },
     {
       "path": "upstream/tools/build_missed_candidate_review_queue.py",
-      "sha256": "48641f71336c447b2e89ea6c574c2be8c36240801b519099db5f490c69e84719"
+      "sha256": "06b73a0b8064ea49e4d36a401eba9d1bfd14d48081c1198b87d7f0451af9d120"
     },
     {
       "path": "upstream/tools/build_mngs_grouped_from_excel.py",
-      "sha256": "ccbfe537f54e3ed67b0018944d1d2e0a37f47dd1a29db77b881557ba70536606"
+      "sha256": "26d243aac93c1bc5d09cc4ff5ffcbf55096b4a4a7a786e4bd35b253031085469"
     },
     {
       "path": "upstream/tools/build_output_only_false_positive_audit.py",
@@ -304,11 +304,11 @@
     },
     {
       "path": "upstream/tools/build_patient_cutoffs_from_mngs.py",
-      "sha256": "0d0b73af1e3b1cc6929a1e57d98471b87886b19cef103f6515efdeb42633805c"
+      "sha256": "7364274672e5d8ed561b03962a64328d8cadb6485018d7f75aa1dea3791174e9"
     },
     {
       "path": "upstream/tools/build_patient_database_index.py",
-      "sha256": "2be4dfbda6f12acdca9d7dbb9af7a056a0d833a80fba8f7c5dfc908a1d044234"
+      "sha256": "50e2a48261dc4ba868bf4ac261307a2d2bf72aa10dca513ecfb006e2675f5688"
     },
     {
       "path": "upstream/tools/build_picked_evidence_axis_audit.py",
@@ -336,7 +336,7 @@
     },
     {
       "path": "upstream/tools/build_readable_mngs_selected_review_report.py",
-      "sha256": "f8ecec01e681115a06771a11c932d641fa3c309d11f12a10ad1fc3efd6de88a7"
+      "sha256": "41ef68eb3a2d57d544c66648128b88b9b4d04df7f3d198a0865ee2845e243870"
     },
     {
       "path": "upstream/tools/build_review_tier_convergence_shadow_v2.py",
@@ -360,7 +360,7 @@
     },
     {
       "path": "upstream/tools/check_excel_duplicates.py",
-      "sha256": "8a0678d0505535af0b60d573769bb63d8f8bb39759af78ebbe8a754e4291e851"
+      "sha256": "398ccc52055e8c6cfdcd9f912525e99aeeda615f2b1ddba27558194ce1a1a958"
     },
     {
       "path": "upstream/tools/combine_rag_v2_production_inputs.py",
@@ -384,15 +384,15 @@
     },
     {
       "path": "upstream/tools/culture_bal_extractor.py",
-      "sha256": "a4f0b29d00647825a13e7d7b47e47be6ae00e441e4bfe025bed0991f59f273ba"
+      "sha256": "5246f356e798a7096296a700bd519d5c1deb34a255c3c93bbf1bb7b7494c8798"
     },
     {
       "path": "upstream/tools/deterministic_mngs_max_scorer.py",
-      "sha256": "c0d460a996b58f53eaa0b5abd94074191fd3c09510b13e411f092d847af8aae5"
+      "sha256": "f30c1324ba2462bf42b66e2915179ee235288848313883ec8f9821be82c183a2"
     },
     {
       "path": "upstream/tools/deterministic_mngs_max_scorer_v19_recovered.py",
-      "sha256": "8a7a20a15a3021d0547eb1414c97415d37db5579faa09f59ecff2446b6cd9fd9"
+      "sha256": "dc2064508e4aaa75d01844a1dfcaf5023c1852911a4cd7ef803ee98e56d4cbb8"
     },
     {
       "path": "upstream/tools/evaluate_rag_v2_calibration.py",
@@ -412,27 +412,27 @@
     },
     {
       "path": "upstream/tools/extract_mngs_candidate_microbes.py",
-      "sha256": "d0b2ca46a600f460c4e45eb9522b881ddb3c6ed75f502ea4c20144f9d80f394e"
+      "sha256": "90cf7b83c2b4f5a90f478a4242687c069663983d5f093ab00bbf1903e03d3531"
     },
     {
       "path": "upstream/tools/filter_mngs_by_cutoff.py",
-      "sha256": "57398ed6b6fbfc394087119ece17c854e8b01e06d72d3daf34b8ca1b7e9d3b3f"
+      "sha256": "64370d18b9d6221b4e626be8e746dda4858d41ec156a26ca7c735e38accb34da"
     },
     {
       "path": "upstream/tools/filter_patient_info_by_cutoff.py",
-      "sha256": "2ae8bc18d2ec75b0af84d92af9d420e733a36341a46ed5b5760324e041976e4e"
+      "sha256": "a70f7eaa9883c9ca5fe49c34b2165bef4b02a91f77ded193ff5c86d0c5e421ef"
     },
     {
       "path": "upstream/tools/generate_source_mapping.py",
-      "sha256": "ca6043374549234720b33c0f7cb8bf3125e9c24cd0cfc13a5b94029532efb403"
+      "sha256": "ee05e1eb74af26b8eed6a6dc5c2f5461cf7a16a58fca16a02b7b973ec1118413"
     },
     {
       "path": "upstream/tools/llm_requester.py",
-      "sha256": "e13123ef486694196e794274425771e5f2ba3c379b1c492efcb96fb51bbb459d"
+      "sha256": "5c0e338becd34e314f9e6f3868836a2b6e944fd384996930a698fa6500868932"
     },
     {
       "path": "upstream/tools/merge_deterministic_max_with_missed_review.py",
-      "sha256": "0a6cfce4b907ce18ee9e5b3e230ac48965c829c72eb05d17d0fb17787e3b47af"
+      "sha256": "b5f256d0fce20f44c955b26a286e770efa4023c12dc24b10dec6efc47918d98e"
     },
     {
       "path": "upstream/tools/mngs_common.py",
@@ -452,7 +452,7 @@
     },
     {
       "path": "upstream/tools/optimize_mngs_rank_read_precision.py",
-      "sha256": "f21140830b73ad18ba2d967ab440c56c4618d173cf3c5753eff294cc5b8cf593"
+      "sha256": "c8c10efa306b8ebc7c35f2d85819b918fc8afd84c003e122176b0e2adadd8486"
     },
     {
       "path": "upstream/tools/organism_taxonomy_classifier.py",
@@ -464,7 +464,7 @@
     },
     {
       "path": "upstream/tools/pathogen_rule_lists.py",
-      "sha256": "a6a1e377e0e1d3654a0bcad775157597bc4a21654d1266c1d7c0d9ad9955567e"
+      "sha256": "1f0cf0c72706ed59660c5906ab0540c82aab921e5298d53ef4f2c925e689c30a"
     },
     {
       "path": "upstream/tools/prepare_patient_batch.py",
@@ -492,7 +492,7 @@
     },
     {
       "path": "upstream/tools/review_missed_mngs_candidates.py",
-      "sha256": "dd441bf00358c34288bf656632ead954935c9caabadddde8116537382a7e2f5d"
+      "sha256": "f98deea1962cddb36810629086a5ff43368ef4024903ac2c87ad35bd1910b243"
     },
     {
       "path": "upstream/tools/review_triage_rule_table.py",
@@ -504,7 +504,7 @@
     },
     {
       "path": "upstream/tools/run_mngs_to_specimen_agent.py",
-      "sha256": "26361f05f915cb4c0f28e36862148212c764d710cadcab6c47297ba86976ee28"
+      "sha256": "eaa291ca5db4c70bf0ef1fe385f0e478de362fec8fdd3274f504eb082435c511"
     },
     {
       "path": "upstream/tools/run_mngs_to_specimen_full_pipeline.py",
@@ -520,11 +520,11 @@
     },
     {
       "path": "upstream/tools/split_mngs_by_patient.py",
-      "sha256": "3a0f61c6af8d5220046d99499a72a3c8e8880cddbad503c86812b0b619653b90"
+      "sha256": "6e89269d569da261a75dc54c5866a21601df545084569892a22dd1eeed114f81"
     },
     {
       "path": "upstream/tools/split_mngs_candidates_for_llm.py",
-      "sha256": "481c0a55d29fc56063e3b8071cdf121b6fefe75f65c831b5a4506b570f8ddc87"
+      "sha256": "8c29561c05e316641bc758708688d12ec6154167365fd4bc30db64d6d705ff3d"
     },
     {
       "path": "upstream/tools/split_mngs_to_specimen_outputs_by_patient.py",
@@ -536,11 +536,14 @@
     },
     {
       "path": "upstream/tools/token_count.py",
-      "sha256": "57691e002563f655de8e2b092700c782712b6a69e27d88a52a30db470de994f4"
+      "sha256": "f6991b2128d5888b44f56c893e98dd5d1b01dd88b381cc52c058e73ffae48e19"
     },
     {
       "path": "upstream/utils.py",
-      "sha256": "a7b730118b60f77e12705573fca047ebc3fbeed0756daa4fcb2650fbd9c8cfb6"
+      "sha256": "71756128d4f19fec9018acc6e21ab0463f23100222cad5571e04976c83309dfd"
     }
-  ]
+  ],
+  "publication_revision": "2026-10-13",
+  "previous_profile_sha256": "f50530af0f96cf49710db5c681a1a5c62bfd7166e23f249a4359c99dd050d783",
+  "revision_note": "Rebind public example metadata to current published documentation; historical clinical decision rules are unchanged."
 }

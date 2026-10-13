@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "release_id": "kh_18_legacy_finalized_compat_v1",
+  "parent_release_contract": "rules/kh_legacy_pipeline_finalized_v1.json",
+  "release_role": "heldout_compatibility_run",
+  "independent_validation_claim": false,
+  "expected_patient_count": 18,
+  "combined_metric_key": "combined_labeled15",
+  "selected_dna_emulation": {
+    "scope": "one representative DNA test per infection event",
+    "selection_rule": "earliest DNA test with at least one selected positive-read measurement; otherwise lowest source test_number, then seq_id",
+    "observation_rule": "selected=true and reads>0 in the representative DNA test",
+    "excluded_from_legacy_scorer": [
+      "all RNA tests",
+      "all non-representative DNA tests",
+      "all non-selected or zero-read measurements"
+    ]
+  },
+  "cohorts": [
+    {
+      "cohort_id": "kh_heldout18",
+      "source_root": "52_patients_all_mNGS_DNA_RNA_RK_NTC_by_species_no_zero_reads",
+      "patient_root": "outputs/extracted_workbooks_pipeline_input_v3_51patients/patients",
+      "summary_suffix": "final_summary_51patients_no_zero_20260930",
+      "required_summary_fields": ["hospital_organism_evidence"],
+      "summary_schema_role": "structured_hospital_evidence_bridge",
+      "clinical_data_mode": "available_when_present",
+      "allow_source_superset": true,
+      "expected_patient_ids": [1, 2, 26, 27, 31, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52],
+      "postfreeze_answer_path": "outputs/runs/2026-09-30_51patients_integrated_release_v2_6_heldout_freeze_v3_evaluation/answer_contract/kh_18patient_heldout_answers_postfreeze_20260930.csv"
+    }
+  ],
+  "constraints": [
+    "The original manually selected DNA file is unavailable for these held-out patients, so this is a deterministic selected-DNA emulation rather than a bit-for-bit historical replay.",
+    "The emulation rule is answer blind and identical for every patient.",
+    "The legacy scorer receives exactly one DNA test per infection event and receives no RNA or cross-test reproducibility evidence.",
+    "Missing clinical evidence is unknown and is never interpreted as negative evidence.",
+    "The parent release taxonomy, history, healthcare-device Priority route, Picked gate, and four output labels remain unchanged.",
+    "The reporting repair emits one primary organism per patient whenever at least one candidate exists; low-confidence fallback does not become a formal Picked label.",
+    "The 18-patient answer contract was already available before this compatibility run; decisions do not read answers, but this is not untouched or prospectively blinded external validation.",
+    "The finalized-v1 evaluator reports precision only among patients with positive organism answers; explicit no-pathogen patients are retained in processing but excluded from those legacy-compatible metrics."
+  ]
+}

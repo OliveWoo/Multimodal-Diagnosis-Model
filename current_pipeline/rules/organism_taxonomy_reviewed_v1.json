@@ -101,6 +101,102 @@
         ]
       }
     },
+    "acinetobacternosocomialis": {
+      "rule_id": "TAX-REVIEWED-ACINETOBACTERNOSOCOMIALIS",
+      "taxid": 106654,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "hospital_or_nonfermenter_gnb",
+      "clinical_traits": [
+        "acb_complex_member",
+        "colonization_possible",
+        "direct_pulmonary_evidence_preferred",
+        "healthcare_associated",
+        "pulmonary_pathogen_possible",
+        "species_identity_matters",
+        "technical_reproducibility_not_independent_clinical_confirmation"
+      ],
+      "literature_review_recommended": false,
+      "review_provenance": {
+        "reviewer": "Project team taxonomy review (answer-blind rule development)",
+        "reviewed_at": "2026-10-07",
+        "rationale": "NCBI verifies Acinetobacter nosocomialis as species taxid 106654. Clinical studies place it within the Acinetobacter calcoaceticus-baumannii complex and document healthcare-associated infection. Route it with hospital-associated non-fermenting Gram-negative organisms while retaining colonization and source-confirmation cautions. This profile does not establish patient-level causality.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=106654"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7593844/"
+          }
+        ]
+      }
+    },
+    "acinetobacterseifertii": {
+      "rule_id": "TAX-REVIEWED-ACINETOBACTERSEIFERTII",
+      "taxid": 1530123,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "hospital_or_nonfermenter_gnb",
+      "clinical_traits": [
+        "acb_complex_member",
+        "colonization_possible",
+        "direct_pulmonary_evidence_preferred",
+        "healthcare_associated",
+        "pulmonary_pathogen_possible",
+        "species_identity_matters",
+        "technical_reproducibility_not_independent_clinical_confirmation"
+      ],
+      "literature_review_recommended": false,
+      "review_provenance": {
+        "reviewer": "Project team taxonomy review (answer-blind rule development)",
+        "reviewed_at": "2026-10-07",
+        "rationale": "NCBI verifies Acinetobacter seifertii as species taxid 1530123. Clinical literature identifies it as an emerging member of the Acinetobacter calcoaceticus-baumannii complex associated with human infection. Route it with hospital-associated non-fermenting Gram-negative organisms while retaining colonization and source-confirmation cautions. This profile does not establish patient-level causality.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1530123"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6440288/"
+          }
+        ]
+      }
+    },
+    "acinetobacterpittii": {
+      "rule_id": "TAX-REVIEWED-ACINETOBACTERPITTII",
+      "taxid": 48296,
+      "taxonomic_rank": "species",
+      "biological_class": "bacterium",
+      "primary_rule_family": "hospital_or_nonfermenter_gnb",
+      "clinical_traits": [
+        "acb_complex_member",
+        "colonization_possible",
+        "direct_pulmonary_evidence_preferred",
+        "healthcare_associated",
+        "pulmonary_pathogen_possible",
+        "species_identity_matters",
+        "technical_reproducibility_not_independent_clinical_confirmation"
+      ],
+      "literature_review_recommended": false,
+      "review_provenance": {
+        "reviewer": "Project team taxonomy review (answer-blind rule development)",
+        "reviewed_at": "2026-10-07",
+        "rationale": "NCBI verifies Acinetobacter pittii as species taxid 48296. Clinical studies place it within the Acinetobacter calcoaceticus-baumannii complex and document healthcare-associated infection. Route it with hospital-associated non-fermenting Gram-negative organisms while retaining colonization and source-confirmation cautions. This profile does not establish patient-level causality.",
+        "source_references": [
+          {
+            "role": "identity",
+            "url": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=48296"
+          },
+          {
+            "role": "clinical",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7593844/"
+          }
+        ]
+      }
+    },
     "schizophyllumcommune": {
       "rule_id": "TAX-REVIEWED-SCHIZOPHYLLUMCOMMUNE",
       "taxid": 5334,

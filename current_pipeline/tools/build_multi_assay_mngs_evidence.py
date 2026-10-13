@@ -139,6 +139,11 @@ def derive_test_qc(test: dict[str, Any]) -> dict[str, Any]:
     warnings: list[str] = []
     seq_id = str(test.get("seq_id") or "").strip()
     nucleic_type = str(test.get("nucleic_type") or "").strip().upper()
+    molecule_status = str(test.get("molecule_status") or "").strip().lower()
+    source_unknown_molecule = (
+        nucleic_type not in {"DNA", "RNA"}
+        and molecule_status == "source_unknown"
+    )
     params = test.get("parameters") if isinstance(test.get("parameters"), dict) else {}
     input_reads = to_float(params.get("input_reads"))
     host_ratio = to_float(params.get("host_ratio"))
@@ -147,8 +152,10 @@ def derive_test_qc(test: dict[str, Any]) -> dict[str, Any]:
 
     if not seq_id:
         issues.append("missing_seq_id")
-    if nucleic_type not in {"DNA", "RNA"}:
+    if nucleic_type not in {"DNA", "RNA"} and not source_unknown_molecule:
         issues.append("invalid_or_missing_nucleic_type")
+    elif source_unknown_molecule:
+        warnings.append("source_unknown_nucleic_type")
     if input_reads is None:
         issues.append("source_missing_input_reads")
     elif input_reads <= 0:
@@ -213,6 +220,11 @@ def derive_test_qc(test: dict[str, Any]) -> dict[str, Any]:
     return {
         "status": status,
         "eligible_for_union": status in {"evaluable", "partial_evaluable"},
+        "molecule_status": (
+            "source_unknown"
+            if source_unknown_molecule
+            else molecule_status or "source_declared"
+        ),
         "issues": issues,
         "warnings": warnings,
         "category_status": category_status,
@@ -294,6 +306,7 @@ def build_patient(source_path: Path) -> tuple[dict[str, Any], list[dict[str, Any
     organisms = source.get("organisms") if isinstance(source.get("organisms"), list) else []
 
     test_lookup: dict[tuple[str, str], dict[str, Any]] = {}
+    test_keys_by_seq_id: dict[str, list[tuple[str, str]]] = defaultdict(list)
     normalized_cases: list[dict[str, Any]] = []
     test_rows: list[dict[str, Any]] = []
     duplicate_test_keys: list[str] = []
@@ -312,6 +325,7 @@ def build_patient(source_path: Path) -> tuple[dict[str, Any], list[dict[str, Any
             qc = derive_test_qc(test)
             enriched_test = {**test, "qc": qc}
             test_lookup[key] = enriched_test
+            test_keys_by_seq_id[seq_id].append(key)
             normalized_tests.append(enriched_test)
             test_rows.append(
                 {
@@ -322,6 +336,7 @@ def build_patient(source_path: Path) -> tuple[dict[str, Any], list[dict[str, Any
                     "specimen_site": case.get("specimen_site"),
                     "seq_id": seq_id,
                     "nucleic_type": test.get("nucleic_type"),
+                    "molecule_status": qc["molecule_status"],
                     "start_time": test.get("start_time"),
                     "report_time": None if is_missing(test.get("report_time")) else test.get("report_time"),
                     "report_time_status": qc["report_time_status"],
@@ -345,6 +360,7 @@ def build_patient(source_path: Path) -> tuple[dict[str, Any], list[dict[str, Any
 
     observations_by_test: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     orphan_measurements: list[dict[str, Any]] = []
+    inferred_measurement_links: list[dict[str, Any]] = []
     for organism in organisms:
         if not isinstance(organism, dict):
             continue
@@ -357,6 +373,22 @@ def build_patient(source_path: Path) -> tuple[dict[str, Any], list[dict[str, Any
             case_id = str(measurement.get("case_review_id") or "").strip()
             seq_id = str(measurement.get("seq_id") or "").strip()
             test = test_lookup.get((case_id, seq_id))
+            identity_linkage = "source_case_review_id_and_seq_id"
+            if test is None and not case_id and seq_id:
+                matching_keys = test_keys_by_seq_id.get(seq_id, [])
+                if len(matching_keys) == 1:
+                    case_id, _ = matching_keys[0]
+                    test = test_lookup[matching_keys[0]]
+                    identity_linkage = "case_review_id_inferred_from_unique_seq_id"
+                    inferred_measurement_links.append(
+                        {
+                            "organism": name,
+                            "source_case_review_id": "",
+                            "resolved_case_review_id": case_id,
+                            "seq_id": seq_id,
+                            "rule": "blank_case_review_id_and_unique_patient_seq_id",
+                        }
+                    )
             if test is None:
                 orphan_measurements.append({"organism": name, "case_review_id": case_id, "seq_id": seq_id})
                 continue
@@ -379,7 +411,9 @@ def build_patient(source_path: Path) -> tuple[dict[str, Any], list[dict[str, Any
                     "patient_id": patient_id,
                     "case_review_id": case_id,
                     "seq_id": seq_id,
+                    "identity_linkage": identity_linkage,
                     "nucleic_type": str(test.get("nucleic_type") or "").upper(),
+                    "molecule_status": qc["molecule_status"],
                     "category": category,
                     "organism_name": name,
                     "organism_key": organism_key,
@@ -433,6 +467,11 @@ def build_patient(source_path: Path) -> tuple[dict[str, Any], list[dict[str, Any
             continue
         dna_detected = [value for value in detected if value["nucleic_type"] == "DNA"]
         rna_detected = [value for value in detected if value["nucleic_type"] == "RNA"]
+        unknown_molecule_detected = [
+            value
+            for value in detected
+            if value["nucleic_type"] not in {"DNA", "RNA"}
+        ]
         selected_union = bool(selected)
         row = {
             "patient_id": patient_id,
@@ -451,6 +490,7 @@ def build_patient(source_path: Path) -> tuple[dict[str, Any], list[dict[str, Any
             "selected_test_count": len(selected),
             "dna_detected_test_count": len(dna_detected),
             "rna_detected_test_count": len(rna_detected),
+            "unknown_molecule_detected_test_count": len(unknown_molecule_detected),
             "cross_molecule_support": bool(dna_detected and rna_detected),
             "repeated_detection": len(detected) >= 2,
             "distinct_protocol_conditions": sorted({str(value.get("protocol_condition") or "-") for value in detected}),
@@ -517,6 +557,7 @@ def build_patient(source_path: Path) -> tuple[dict[str, Any], list[dict[str, Any
         "audit": {
             "duplicate_test_keys": duplicate_test_keys,
             "orphan_measurements": orphan_measurements,
+            "inferred_measurement_links": inferred_measurement_links,
         },
     }
     return patient_output, test_rows, candidate_rows

@@ -119,6 +119,37 @@ class TestIndependentRouting(unittest.TestCase):
             self.assertEqual({row["disposition"] for row in rows}, {"scorer_entry", "clinical_review"})
             self.assertTrue(all(row["old_selected_dna_status_audit_only"] == "retained_from_selected_dna" for row in rows))
 
+    def test_missing_case_review_id_is_written_as_empty_string(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inventory = root / "inventory"
+            patients = inventory / "patients"
+            patients.mkdir(parents=True)
+            item = candidate(observation())
+            document = {
+                "patient_id": "107",
+                "cases": [
+                    {
+                        "case_review_id": None,
+                        "tests": [{"seq_id": "S1", "qc": {"status": "partial_evaluable"}}],
+                        "candidate_union": {"selected_union": [item], "detected_but_filtered_union": []},
+                    }
+                ],
+            }
+            (patients / "NGS_patient_107_multi_assay_mngs_evidence.json").write_text(
+                json.dumps(document), encoding="utf-8"
+            )
+            (inventory / "selected_dna_comparison.csv").write_text(
+                "patient_id,organism_key,comparison_status\n", encoding="utf-8"
+            )
+
+            output = root / "shadow"
+            build_shadow(inventory, output, Path("rules/independent_multi_assay_screening_v1.json"))
+
+            with (output / "all_decisions.csv").open(encoding="utf-8-sig", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            self.assertEqual(rows[0]["case_review_id"], "")
+
 
 if __name__ == "__main__":
     unittest.main()

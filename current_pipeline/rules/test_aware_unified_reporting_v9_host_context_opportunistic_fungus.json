@@ -1,0 +1,105 @@
+{
+  "schema_version": "9.0.0",
+  "policy_id": "test_aware_unified_reporting_v9_host_context_opportunistic_fungus_answer_blind",
+  "extends": "test_aware_unified_reporting_v7_respiratory_virus_possible.json",
+  "mode": "answer_blind_host_context_and_opportunistic_fungus_shadow",
+  "provisional_phenotype_host_context": {
+    "enabled": true,
+    "accepted_phenotypes": [
+      "IMMUNOCOMPROMISED"
+    ],
+    "accepted_statuses": [
+      "YES"
+    ],
+    "accepted_confidences": [
+      "HIGH"
+    ],
+    "accepted_temporal_relations": [
+      "PRE_PNEUMONIA"
+    ],
+    "accepted_qc_statuses": [
+      "PASS",
+      "REVIEW_REQUIRED"
+    ],
+    "maximum_result": "Possible"
+  },
+  "recorded_host_review_context": {
+    "enabled": true,
+    "accepted_roles": [
+      "host_medication"
+    ],
+    "accepted_verified_assertions": [
+      "verified_active_exposure",
+      "verified_high_risk_host",
+      "verified_immunosuppression"
+    ],
+    "accepted_recorded_exposure_assertions": [
+      "recorded_pre_sample_exposure_not_administration_verified"
+    ],
+    "minimum_distinct_recorded_medications": 2,
+    "missing_dose_is_negative": false,
+    "maximum_result": "Possible"
+  },
+  "pjp_possible": {
+    "require_host_context": true,
+    "allow_provisional_phenotype_host_context": true,
+    "allow_recorded_host_review_context": true
+  },
+  "reactivation_possible": {
+    "allow_provisional_phenotype_host_context": true,
+    "allow_recorded_host_review_context": true,
+    "enable_host_supported_reproducible": true,
+    "host_supported_reproducible_contexts": [
+      "lower_respiratory"
+    ],
+    "host_supported_reproducible_organism_keys": [
+      "humanalphaherpesvirus1",
+      "humanalphaherpesvirus2",
+      "humanalphaherpesvirus3"
+    ],
+    "host_supported_reproducible_maximum_rank": 3,
+    "host_supported_reproducible_minimum_positive_tests": 2,
+    "host_supported_reproducible_require_reproducibility": true,
+    "host_supported_reproducible_require_recorded_host_review_context": true,
+    "maximum_result": "Possible"
+  },
+  "opportunistic_fungus_possible": {
+    "enabled": true,
+    "family": "mold_or_opportunistic_fungus",
+    "allowed_clinical_decisions": [
+      "review_high_priority",
+      "review_context_needed"
+    ],
+    "compatible_specimen_contexts": [
+      "lower_respiratory",
+      "sterile_or_systemic",
+      "blood_or_systemic"
+    ],
+    "maximum_rank": 3,
+    "minimum_positive_tests": 2,
+    "require_reproducibility": true,
+    "require_cross_molecule": true,
+    "maximum_direct_hospital_level": 3,
+    "require_event_aligned_direct_positive": true,
+    "require_precise_identity": true,
+    "maximum_result": "Possible"
+  },
+  "constraints": [
+    "The final report is emitted once as Picked, Possible, Fallback-Possible, or Context.",
+    "CMV cross-molecule evidence still requires event-aligned candidate-specific current evidence; host risk alone is insufficient.",
+    "A lower-respiratory HSV/VZV candidate may enter Possible with exact identity, rank at most three, at least two reproducible positive tests, and deterministically extracted pre-sample immunosuppressive medication history. A provisional phenotype or generic host flag alone is insufficient.",
+    "Pneumocystis may enter Possible with a reproducible top-three lower-respiratory signal plus policy-qualified pre-sample host context. Missing dose, PCR, beta-D-glucan, staining, or pathology is unknown rather than negative, and this route cannot create Picked.",
+    "An exact opportunistic-fungus species may enter Possible only when reproducible cross-molecule mNGS converges with an event-aligned same-candidate hospital positive at Level 1-3. Respiratory culture does not prove invasive disease and this route cannot create Picked.",
+    "Aspergillus spp. may enter Possible as species unresolved when event-aligned mycological evidence converges with accepted host risk or exact imaging context; antigen alone never identifies a species.",
+    "Klebsiella pneumoniae identity and carbapenem-resistance phenotype are reported separately; missing resistance evidence remains unknown.",
+    "Clinical decision and formal-pick fields remain immutable inside the reporting stage.",
+    "Technical branches are analytical reproducibility, not independent biological specimens.",
+    "Reads remain per-test evidence and are never summed across events, DNA, RNA, or technical repeats.",
+    "Missing confirmatory evidence is unknown and never negative.",
+    "mNGS-only evidence may produce Possible or Fallback-Possible but never strict Picked.",
+    "Partial-QC tests may contribute within-test rank to fallback ordering but cannot imitate complete QC.",
+    "Family-aware fallback is applied only after ordinary Picked and Possible routes and is mutually exclusive with them.",
+    "History evidence consumed upstream cannot be reused as independent organism proof.",
+    "The policy is answer blind; benchmark answers are used only by a separate post-hoc evaluator."
+  ]
+}

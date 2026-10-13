@@ -55,6 +55,12 @@ class IntegratedDecisionPipelineTest(unittest.TestCase):
             "final_reporting_tier": "Possible",
             "selected_for_complete_report": True,
             "possible_reporting_role": "pneumocystis_possible_pathogen",
+            "decision_evidence_profile": {
+                "decision_evidence_mode": "mngs_only",
+                "positive_or_contextual_sources": ["mngs"],
+                "absence_semantics": "unknown is not negative",
+            },
+            "candidate_decision_evidence_mode": "mngs_only",
             "history_rule_ids": ["HIST-OPP4-EXAMPLE"],
             "rule_ids": ["CLIN-S1-EXAMPLE"],
             "promotion_gate": {
@@ -80,6 +86,13 @@ class IntegratedDecisionPipelineTest(unittest.TestCase):
             "final_reporting_tier": "Possible",
         })
         self.assertTrue(result["reporting"]["selected_for_complete_report"])
+        self.assertEqual(
+            "mngs_only", result["decision_evidence"]["patient_mode"]
+        )
+        self.assertEqual(
+            ["mngs"],
+            result["decision_evidence"]["positive_or_contextual_sources"],
+        )
         self.assertEqual(
             result["audit"]["history_rule_ids"], ["HIST-OPP4-EXAMPLE"]
         )

@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any
 
 from tools.build_index_event_clinical_timeline_shadow import sha256_file
+from tools.clinical_event_window import nearest_calendar_event
 from tools.pathogen_normalization import canonical_key
 
 
@@ -243,7 +244,8 @@ def candida_evidence_profile(candidate: dict[str, Any], policy: dict[str, Any]) 
     rows = _module_evidence_rows(detail)
     event_times = candidate_event_times(candidate)
     group_identity = candida_group_label(candidate, policy)
-    window_hours = float(policy["candida_invasive_evidence"]["event_window_hours"])
+    window_hours = float(policy["candida_invasive_evidence"].get("event_window_hours", 48))
+    calendar_days = int(policy["candida_invasive_evidence"].get("event_window_calendar_days", 2))
     evaluated_rows: list[dict[str, Any]] = []
     for row in rows:
         assertion = candida_positive_assertion(row, policy)
@@ -251,11 +253,15 @@ def candida_evidence_profile(candidate: dict[str, Any], policy: dict[str, Any]) 
         observed_at = _parse_datetime(row.get("collected_time"))
         if observed_at is None or not event_times:
             timing = "unknown"
-        elif any(abs((observed_at - event_time).total_seconds()) <= window_hours * 3600
-                 for event_time in event_times):
-            timing = "within_event_window"
         else:
-            timing = "outside_event_window"
+            alignment = nearest_calendar_event(
+                observed_at, event_times, days_each_side=calendar_days
+            )
+            timing = (
+                "within_event_window"
+                if alignment and alignment["within_window"]
+                else "outside_event_window"
+            )
         row_name = str(row.get("organism_name") or "").strip()
         row_name_text = row_name.casefold()
         identity_match = (
@@ -318,6 +324,7 @@ def direct_evidence_timing_profile(
     rows = _module_evidence_rows(detail)
     event_times = candidate_event_times(candidate)
     window_hours = float(policy.get("direct_evidence_event_window_hours", 48))
+    calendar_days = int(policy.get("direct_evidence_event_window_calendar_days", 2))
     evaluated = []
     for row in rows:
         text = f" {_recursive_text(row)} "
@@ -336,13 +343,18 @@ def direct_evidence_timing_profile(
         if observed_at is None:
             observed_at = _parse_datetime(row.get("reported_time"))
             time_basis = "reported_time" if observed_at is not None else "unavailable"
+        alignment = None
         if observed_at is None or not event_times:
             timing = "unknown"
-        elif any(abs((observed_at - event_time).total_seconds()) <= window_hours * 3600
-                 for event_time in event_times):
-            timing = "within_event_window"
         else:
-            timing = "outside_event_window"
+            alignment = nearest_calendar_event(
+                observed_at, event_times, days_each_side=calendar_days
+            )
+            timing = (
+                "within_event_window"
+                if alignment and alignment["within_window"]
+                else "outside_event_window"
+            )
         evaluated.append({
             "observation_id": row.get("observation_id"),
             "positive": positive,
@@ -350,6 +362,12 @@ def direct_evidence_timing_profile(
             "time_basis": time_basis,
             "collected_time": row.get("collected_time"),
             "reported_time": row.get("reported_time"),
+            "nearest_event_calendar_day_delta": (
+                alignment.get("signed_calendar_day_delta") if alignment else None
+            ),
+            "nearest_event_delta_hours": (
+                alignment.get("signed_delta_hours") if alignment else None
+            ),
             "specimen_type": row.get("specimen_type"),
             "target": row.get("target") or row.get("organism_name"),
             "raw_result": row.get("raw_result"),
@@ -359,7 +377,10 @@ def direct_evidence_timing_profile(
         if row["positive"] and row["timing"] == "within_event_window"
     ]
     return {
+        "event_window_mode": "inclusive_calendar_dates",
+        "event_window_calendar_days_each_side": calendar_days,
         "event_window_hours": window_hours,
+        "event_window_hours_role": "audit_sensitivity_only",
         "evaluated_row_count": len(evaluated),
         "event_aligned_positive_count": len(qualifying),
         "event_aligned_positive": bool(qualifying),
