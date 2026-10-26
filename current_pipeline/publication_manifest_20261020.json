@@ -1,0 +1,159 @@
+{
+  "schema_version": "public_pipeline_publication.v1",
+  "published_on": "2026-10-26",
+  "source_logic_date": "2026-10-20",
+  "private_inputs_included": false,
+  "reference_answers_included": false,
+  "ober_in_current_entry": false,
+  "unchanged_function_contracts": [
+    {
+      "file": "tools/run_current_integrated_pipeline.py",
+      "function": "apply_patient_policy",
+      "ast_sha256": "428017ad3ff9f7828ac5a25a0fb06bcb33c890170d3c3cce2869379331ffcbda"
+    },
+    {
+      "file": "tools/run_current_integrated_pipeline.py",
+      "function": "remap_clarifications",
+      "ast_sha256": "d1e946576debe823bc65eaab98ca887be5e9fb34df693e2606c59563467ec550"
+    },
+    {
+      "file": "tools/run_current_integrated_pipeline.py",
+      "function": "write_reporting",
+      "ast_sha256": "f076ba6ed385ba1c89f71540fba74ceda9970f5245165c834b95d6c3cb89c439"
+    },
+    {
+      "file": "tools/review_cmv_evidence_paths_shadow.py",
+      "function": "decide",
+      "ast_sha256": "79414d79c4a5302ed5faeb72cb9271c9337885814fa37c1442a1b3f5bd2d4472"
+    },
+    {
+      "file": "tools/review_cmv_evidence_paths_shadow.py",
+      "function": "apply_clarifications",
+      "ast_sha256": "889daa0bbd7174b77451612a3aa24224126faee09abe879cc2f962cd552b95b7"
+    },
+    {
+      "file": "tools/review_cmv_evidence_paths_shadow.py",
+      "function": "counterfactual_independence",
+      "ast_sha256": "7d1ff8213d6fe7e01116018777cacc1b76b0beae1b5abe8bcab5a249ef6b34b7"
+    },
+    {
+      "file": "tools/viral_evidence_axes_shadow.py",
+      "function": "interpret",
+      "ast_sha256": "6933f367a46746856ccedb0804510ab06f0580ae111e48f749a43d7760620e2f"
+    },
+    {
+      "file": "tools/bind_viral_evidence_shadow.py",
+      "function": "align",
+      "ast_sha256": "69b15fb01004584b9f134b44c1c37df28f80a9f4636a4406bbcfdbbd07117363"
+    },
+    {
+      "file": "tools/bind_viral_evidence_shadow.py",
+      "function": "row_facts",
+      "ast_sha256": "12c2eed32dff885131e0566633afaed973212eaf9c1be450c40f55008c00dcaa"
+    },
+    {
+      "file": "tools/bind_viral_evidence_shadow.py",
+      "function": "claim_from_fact",
+      "ast_sha256": "af01f34cd85f245b212b6923ba37469b7cf78d3ab77226d4e3c0bb1a5b24250e"
+    },
+    {
+      "file": "tools/bind_viral_evidence_shadow.py",
+      "function": "deduplicate_claims",
+      "ast_sha256": "869056afc3c63b9224cc182e45130c010031c63c1c5f64385c48c0fbdc42d356"
+    },
+    {
+      "file": "tools/bind_viral_evidence_shadow.py",
+      "function": "bind_candidate",
+      "ast_sha256": "e23184388ce53f14463c095511a45b22ab1c96343ff41b5035c4513af816f777"
+    },
+    {
+      "file": "tools/project_viral_evidence_patient_outputs.py",
+      "function": "audit_binding",
+      "ast_sha256": "572d2ff4f56d065f0576bb864e48051f0d24413271fe96fe4b4742a6da3a78c2"
+    },
+    {
+      "file": "tools/project_viral_evidence_patient_outputs.py",
+      "function": "pointer_value",
+      "ast_sha256": "3e923c29c5b4f76b724af943d5af8833fc89dcd82cd881bfe553381b829e5a5b"
+    },
+    {
+      "file": "tools/project_viral_evidence_patient_outputs.py",
+      "function": "attach_annotations",
+      "ast_sha256": "59c2c0740deab9f0812c2a09ad3731b19e7da1ba9868fb7f6849d6fe7166d652"
+    },
+    {
+      "file": "tools/restore_cmv_fallback_shadow.py",
+      "function": "finalize_patient",
+      "ast_sha256": "0bb585930e0028f1c07c116c079b96b02c4159af96cd2d1e0dfe3aecc96e46d2"
+    }
+  ],
+  "rule_files": [
+    {
+      "path": "rules/manual_style_multi_assay_entry_v2_20261020.json",
+      "sha256": "c9aed4811dc1cd0ea91534067c252e2d690d2f091de6cd79ddd9e2bfbb88b8a1"
+    },
+    {
+      "path": "rules/phenotype_candidate_policy_20261020.json",
+      "sha256": "09bd061693da6347c5727244ed2fc3dd92ca962d22c4cba8dab93866bae43b29"
+    },
+    {
+      "path": "rules/test_aware_clinical_deterministic_shadow_v1_20261020.json",
+      "sha256": "03c775dc6ee0f4885ad11184e717cfd3313c3727158c298a7b7b19cf8bce2def"
+    },
+    {
+      "path": "rules/test_aware_deterministic_shadow_v6_identity_resolved_20261020.json",
+      "sha256": "a1e6deafe7b8749b83781c4196475d15480202c66df590faf2a4d288438f1253"
+    },
+    {
+      "path": "rules/test_aware_clinical_promotion_v9_pathogen_specific_convergence_20261020.json",
+      "sha256": "4168bce1ca737a7c7c2bbf5199374afaeed42032b2a55f9b4627bd035fe40e16"
+    },
+    {
+      "path": "rules/test_aware_unified_reporting_v7_respiratory_virus_possible_20261020.json",
+      "sha256": "3e252912d4582db3282ec467be7e67d50660dda03715d89669eb25fbf714c4c0"
+    },
+    {
+      "path": "rules/organism_taxonomy_rules_20261020.json",
+      "sha256": "f4064f805dfefb94d5cc4152345b7fbb48f9841edf0fb3af55d977b565ef96c9"
+    },
+    {
+      "path": "rules/organism_taxonomy_gap_resolution_v1_20261020.json",
+      "sha256": "08eb4f2fb70245d7bd7d33234e04b5bf608e80c479273138fa67a0471c77d001"
+    },
+    {
+      "path": "rules/organism_taxonomy_reviewed_v1_20261020.json",
+      "sha256": "9a94e9e71cfca675788d0843ab3e77f11a128597216302b537421456ddc5ce6d"
+    },
+    {
+      "path": "rules/cmv_evidence_reporting_shadow_v1.json",
+      "sha256": "d49e61e93ed709b3c2f9a4134d13726e9b5eee34ede52effe6e4bc09b1e217e5"
+    },
+    {
+      "path": "rules/cmv_evidence_reporting_shadow_v2_fallback.json",
+      "sha256": "d206c8d96ed2e474837bce008e7f5375ea7ddd8d41fb5aa7eb29082457c99dea"
+    },
+    {
+      "path": "rules/viral_evidence_axes_shadow_v1.json",
+      "sha256": "36d98541f9f3c30101e46ed9ec7ac7815d34944c125a6894090badb72cd6fe0d"
+    },
+    {
+      "path": "rules/viral_evidence_binding_shadow_v1.json",
+      "sha256": "0b961f914b1a2f39acbb33d224a983a69daee93c15eee7425fbb051bc252ad35"
+    },
+    {
+      "path": "rules/clinical_source_clarifications_template.json",
+      "sha256": "efe871962a0a895c72394341fcb9782e39a3b22173c5a2c36bbd65c5d1f8e78d"
+    },
+    {
+      "path": "rules/current_pipeline_policy_bundle_integrated_cmv_20261020.json",
+      "sha256": "9ec131a64317a116893325e3c1c67226035e622c844c4b84c3c807ad6b9c7569"
+    }
+  ],
+  "historical_20261013_bundle_sha256": "094f894d2743b5e7197706cd4cd2bd1f1108ffcf494653d3dac30520c35be509",
+  "packaging_differences": [
+    "Explicit private run configuration replaces embedded research paths/cohort rosters.",
+    "New versioned rule files/IDs preserve historical frozen components.",
+    "Patient-specific source clarifications and answer contracts are not distributed.",
+    "Reporting-only helpers omit historical per-patient narrative report text."
+  ]
+}

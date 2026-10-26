@@ -1,0 +1,26 @@
+{
+  "policy_id": "cmv_evidence_reporting_shadow_v2_preserve_fallback_20261020",
+  "status": "research_shadow_not_production",
+  "base_policy_id": "cmv_evidence_reporting_shadow_v1_20261020",
+  "fallback": {
+    "mode": "preserve_existing_validated_patient_level_fallback",
+    "require_no_patient_picked_or_ordinary_possible": true,
+    "retain_tier": "Fallback-Possible",
+    "include_in_positive_prediction_endpoint": true,
+    "label_zh": "Fallback-Possible：無一般Picked／Possible時的最可能候選；低信心，肺炎歸因未確認",
+    "ranker": "reuse_frozen_v7_fallback_selection_no_new_ranking",
+    "infer_activity_or_pulmonary_disease": false,
+    "allow_fabricated_candidate": false
+  },
+  "constraints": [
+    "The user requested at least one reported candidate and explicit inclusion of Fallback-Possible in positive prediction evaluation.",
+    "Selection and clinical evidence are separate: fallback does not upgrade activity or organ attribution.",
+    "Check the entire patient's candidates, not only the CMV/viral subset, before preserving fallback.",
+    "Do not add fallback alongside an ordinary Picked or Possible.",
+    "Preserve only an existing selected, credible fallback; this scoped patch does not implement a new cross-pathogen ranker.",
+    "No candidate or failed/uninterpretable detection cannot be made positive merely to satisfy a quota.",
+    "Explicit resolved/shedding evidence requires review, not blind restoration.",
+    "No patient IDs, benchmark answers or species-specific performance tuning enter the finalization rule.",
+    "Unknown assay independence remains unknown unless the exact source row is explicitly verified."
+  ]
+}

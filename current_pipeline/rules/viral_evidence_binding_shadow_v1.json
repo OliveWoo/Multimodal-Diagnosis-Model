@@ -1,0 +1,39 @@
+{
+  "schema_version": "viral_evidence_binding_shadow.v1",
+  "policy_id": "viral_evidence_binding_shadow_v1_20261019",
+  "mode": "answer_blind_source_binding_shadow",
+  "episode_window_mode": "inclusive_calendar_dates",
+  "calendar_days_each_side": 2,
+  "source_modules": ["molecular_microbiology", "culture", "filmarray", "gm_test", "other_lab", "image", "admission_diagnosis", "underlying"],
+  "organism_targets": {
+    "humanbetaherpesvirus5": ["CMV", "CMV-VL", "CMV-DNA", "cytomegalovirus", "human betaherpesvirus 5"],
+    "humanalphaherpesvirus1": ["HSV-1", "HSV1", "herpes simplex virus 1", "human alphaherpesvirus 1"],
+    "humanalphaherpesvirus2": ["HSV-2", "HSV2", "herpes simplex virus 2", "human alphaherpesvirus 2"],
+    "humanalphaherpesvirus3": ["VZV", "varicella zoster virus", "varicella-zoster virus", "human alphaherpesvirus 3"],
+    "humangammaherpesvirus4": ["EBV", "Epstein-Barr virus", "human gammaherpesvirus 4"],
+    "humanbetaherpesvirus6a": ["HHV-6A", "human betaherpesvirus 6A"],
+    "humanbetaherpesvirus6b": ["HHV-6B", "human betaherpesvirus 6B"],
+    "humanbetaherpesvirus7": ["HHV-7", "HHV7", "human betaherpesvirus 7"],
+    "betapolyomavirushominis": ["BK virus", "BK polyomavirus", "BKPyV", "BKV", "Betapolyomavirus hominis"]
+  },
+  "group_targets": {
+    "HSV": ["humanalphaherpesvirus1", "humanalphaherpesvirus2"],
+    "herpes simplex": ["humanalphaherpesvirus1", "humanalphaherpesvirus2"],
+    "HHV-6": ["humanbetaherpesvirus6a", "humanbetaherpesvirus6b"]
+  },
+  "pulmonary_context_patterns": ["\\bpneumonia\\b", "\\bpneumonitis\\b", "\\bARDS\\b", "\\bconsolidation\\b", "\\binfiltrat(?:e|es|ion|ions)\\b", "ground[- ]glass", "肺炎"],
+  "rules": [
+    "All 67 frozen candidates remain in the output. Hospital facts without an existing matched candidate are audit-visible and do not create candidates.",
+    "Collection time controls episode alignment. Report time and unspecified source_time do not replace it. Exact hour offsets remain audit fields.",
+    "Same patient and exact/alias organism identity are required. Generic HSV/HHV-6 labels remain group context.",
+    "A source assertion is not a newly adjudicated clinical diagnosis. Only deterministic source checks are marked complete.",
+    "Source review_required/unusable flags are preserved. Composite unaligned results cannot be repaired by guessing.",
+    "Serology is not molecular detection or active replication. Numeric CMV-VL data remain measurements and do not automatically establish activity or disease.",
+    "A generic Non-panel Molecular Test label does not identify PCR/qPCR. Missing assay method remains unknown.",
+    "Different technical branches of one mNGS specimen share one biological evidence group.",
+    "Repeated source copies are retained as provenance references to one fact and cannot create independent corroboration.",
+    "Blood-only evidence never establishes pulmonary disease. An explicit independent respiratory specimen can corroborate detection without proving disease.",
+    "No probable/proven pulmonary disease claims are generated from keyword matches. Organ attribution policy remains unchanged.",
+    "Missing, unknown, negative, historical and outside-window are distinct states."
+  ]
+}

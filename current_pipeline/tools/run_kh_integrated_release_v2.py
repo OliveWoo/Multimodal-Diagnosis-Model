@@ -3,8 +3,9 @@
 Decision stages are completed and hashed before benchmark answers are loaded.
 The release rebuilds compact taxonomy, the analytical scorer, the 48-hour
 timeline, phenotype packets, v4C history routing, clinical scoring, evidence
-rehydration, promotion v8, unified reporting v3 Route A, and mutually
+rehydration, promotion v9, unified reporting v7, and mutually
 exclusive fallback.  OBER/Luna are deliberately outside this entry point.
+For the source-bound CMV integration use tools.run_current_integrated_pipeline.
 """
 
 from __future__ import annotations
@@ -34,6 +35,7 @@ from tools import promote_test_aware_clinical_high_shadow_v9 as promotion
 from tools import rehydrate_clinical_hospital_evidence_shadow as rehydrate
 from tools.pathogen_normalization import canonical_key
 from tools.run_kh_integrated_decision_pipeline import build_integrated_results
+from tools import current_pipeline_defaults as current_defaults
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -47,22 +49,22 @@ DEFAULT_REFERENCE = ROOT / "outputs/runs/2026-09-29_KH_integrated_decision_pipel
 FROZEN_HOSPITAL_SUMMARY_SUFFIX = "final_summary_selected_dna_20260918"
 CURRENT_SUMMARY_SUFFIX = "release_input_current_host"
 
-COMPACT_POLICY = ROOT / "rules/manual_style_multi_assay_entry_v2.json"
-ANALYTICAL_POLICY = ROOT / "rules/test_aware_deterministic_shadow_v3_route_a.json"
-HISTORY_POLICY = ROOT / "rules/test_aware_history_route_v4c_combined.json"
-CLINICAL_POLICY = ROOT / "rules/test_aware_clinical_deterministic_shadow_v1.json"
-PROMOTION_POLICY = ROOT / "rules/test_aware_clinical_promotion_v8_respiratory_group_convergence.json"
-REPORTING_POLICY = ROOT / "rules/test_aware_unified_reporting_v3_route_a.json"
+COMPACT_POLICY = ROOT / "rules/manual_style_multi_assay_entry_v2_20261020.json"
+ANALYTICAL_POLICY = current_defaults.ANALYTICAL_POLICY
+HISTORY_POLICY = current_defaults.HISTORY_POLICY
+CLINICAL_POLICY = current_defaults.CLINICAL_POLICY
+PROMOTION_POLICY = current_defaults.PROMOTION_POLICY
+REPORTING_POLICY = current_defaults.REPORTING_POLICY
 IDENTITY_ALIAS_FILE = ROOT / "rules/pathogen_aliases.json"
-TAXONOMY_BASE_FILE = ROOT / "rules/organism_taxonomy_rules.json"
-TAXONOMY_GAP_FILE = ROOT / "rules/organism_taxonomy_gap_resolution_v1.json"
+TAXONOMY_BASE_FILE = ROOT / "rules/organism_taxonomy_rules_20261020.json"
+TAXONOMY_GAP_FILE = ROOT / "rules/organism_taxonomy_gap_resolution_v1_20261020.json"
 TAXONOMY_AUTO_FILE = Path(
     os.environ.get(
         "MNGS_TAXONOMY_AUTO_OVERLAY",
         ROOT / "rules/organism_taxonomy_auto_v1.json",
     )
 )
-TAXONOMY_REVIEWED_FILE = ROOT / "rules/organism_taxonomy_reviewed_v1.json"
+TAXONOMY_REVIEWED_FILE = ROOT / "rules/organism_taxonomy_reviewed_v1_20261020.json"
 EPISODE_IDENTITY_FILE = ROOT / "rules/phenotype_episode_identity_v1.json"
 SCHEMA_VERSION = "kh_integrated_release.v2"
 

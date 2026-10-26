@@ -20,16 +20,16 @@ from tools import pathogen_normalization as pathogen_names
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-RULES_PATH = REPO_ROOT / "rules" / "organism_taxonomy_rules.json"
+RULES_PATH = REPO_ROOT / "rules" / "organism_taxonomy_rules_20261020.json"
 RULE_OVERLAY_PATHS = (
-    REPO_ROOT / "rules" / "organism_taxonomy_gap_resolution_v1.json",
+    REPO_ROOT / "rules" / "organism_taxonomy_gap_resolution_v1_20261020.json",
     Path(
         os.environ.get(
             "MNGS_TAXONOMY_AUTO_OVERLAY",
             REPO_ROOT / "rules" / "organism_taxonomy_auto_v1.json",
         )
     ),
-    REPO_ROOT / "rules" / "organism_taxonomy_reviewed_v1.json",
+    REPO_ROOT / "rules" / "organism_taxonomy_reviewed_v1_20261020.json",
 )
 FORBIDDEN_ANSWER_KEYS = {
     "answer",
@@ -140,7 +140,13 @@ def rules_payload() -> dict[str, Any]:
         payload["key_prefix_profiles"].extend(_as_list(overlay.get("key_prefix_profiles")))
         if overlay.get("profile_version"):
             payload["profile_version"] = overlay["profile_version"]
-        overlay_sources.append(overlay_path.relative_to(REPO_ROOT).as_posix())
+        try:
+            source_name = overlay_path.relative_to(REPO_ROOT).as_posix()
+        except ValueError:
+            # Private run snapshots may live outside the public checkout.
+            # Preserve provenance rather than requiring clinical data in Git.
+            source_name = overlay_path.resolve().as_posix()
+        overlay_sources.append(source_name)
     payload["overlay_sources"] = overlay_sources
     _validate_rules(payload)
     return payload

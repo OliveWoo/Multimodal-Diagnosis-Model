@@ -1,0 +1,24 @@
+{
+  "policy_id": "cmv_evidence_reporting_shadow_v1_20261020",
+  "status": "research_shadow_not_production",
+  "organism_keys": ["humanbetaherpesvirus5"],
+  "respiratory_specimens": ["BALF", "BAL", "bronchoalveolar lavage", "sputum", "Sputum (Endo)", "endotracheal aspirate", "tracheal aspirate", "lower respiratory"],
+  "independent_detection_classes": ["independent_clinical_assay", "independent_biological_specimen"],
+  "possible_route": "credible_mngs_with_independent_event_aligned_respiratory_detection",
+  "possible_label_zh": "Possible：可能肺部相關，低信心；肺炎歸因尚未確認",
+  "unknown_label_zh": "CMV已檢出；肺部致病意義未知，供醫師覆核",
+  "constraints": [
+    "Possible is a research reporting category, not clinical probable/proven CMV pneumonia.",
+    "An independent, exact-identity, event-aligned respiratory detection can support a low-confidence Possible together with credible mNGS detection.",
+    "Assay independence may be explicitly user-confirmed, but the assay name, qPCR method, units and viral activity are not inferred.",
+    "Rank, reads, RPM, molecule combinations and fixed technical test counts are not disease gates.",
+    "Missing hospital confirmation does not erase the candidate or imply negativity; it leaves the etiologic interpretation unknown unless another accepted attribution path is available.",
+    "Blood-only corroboration is not a pulmonary Possible path.",
+    "Other pathogens never automatically veto an independently supported CMV candidate; co-detection is not automatically confirmed co-infection.",
+    "Activity and organ-attribution axes remain separate from reporting. This route does not manufacture an O2/O3 or A1/A2 claim.",
+    "Reviewed lung-specific attribution paths remain available without minimum rank or technical test count requirements.",
+    "Fallback alone does not establish pulmonary positivity. Keep detection visible with unknown significance.",
+    "Explicit resolved/asymptomatic-shedding evidence conflicts with automatic etiologic selection and requires review.",
+    "No benchmark answer or patient identifier is used by the decision function. Apply identically to all CMV candidates."
+  ]
+}

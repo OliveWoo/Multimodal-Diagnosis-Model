@@ -1,0 +1,30 @@
+{
+  "schema_version": "viral_evidence_axes_shadow.v1",
+  "policy_id": "viral_evidence_axes_shadow_v1_20261019",
+  "status": "proposal_shadow_requires_source_verified_clinical_claims",
+  "families": ["herpes_or_reactivation_virus", "polyomavirus_persistence_or_shedding"],
+  "detection_qc_statuses": ["evaluable", "partial_evaluable"],
+  "activity_claims": ["clinician_current_activity", "validated_activity_interpretation", "resolved_or_asymptomatic_shedding"],
+  "organ_claims": ["compatible_pulmonary_syndrome", "reviewed_probable_pulmonary_disease", "reviewed_proven_pulmonary_disease"],
+  "organ_attribution_bases": {
+    "reviewed_probable_pulmonary_disease": ["lung_specific_pathology", "lower_respiratory_assay_interpreted", "virus_specific_clinical_definition"],
+    "reviewed_proven_pulmonary_disease": ["lung_specific_pathology", "virus_specific_validated_strong_disease_definition"]
+  },
+  "required_claim_provenance": ["evidence_id", "organism_key", "episode_id", "specimen", "collected_time", "source_file", "source_row"],
+  "forbidden_disease_thresholds": ["reads", "rpm", "rank", "positive_test_count", "cross_molecule", "technical_repeat_count"],
+  "unknown_reporting_label": "Detected — clinical significance unknown",
+  "unknown_reporting_tier": "Context",
+  "unknown_is_formal_pulmonary_positive": false,
+  "probable_reporting_tier": "Possible",
+  "proven_reporting_tier": "Picked",
+  "constraints": [
+    "Technical branches contribute analytical detection support only.",
+    "Blood detection and activity do not establish pulmonary disease.",
+    "mNGS reads/RPM are not qPCR viral load.",
+    "Clinician activity interpretation and pulmonary attribution require source-verified, organism-specific, episode-aligned claims.",
+    "A qPCR number alone is not proof of replication or organ disease; interpretation depends on virus, assay, specimen and host.",
+    "Clinical claims must declare review_complete=true. Unstructured history flags alone cannot establish activity or organ disease.",
+    "An empty structured-claim set means evidence extraction/verification incomplete, not clinical absence.",
+    "This shadow does not change production decisions or benchmark answers."
+  ]
+}

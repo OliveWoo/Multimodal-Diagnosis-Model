@@ -1,6 +1,12 @@
 # Multimodal-Diagnosis-Model
 
-## 最新公開版本：2026-10-13
+## 最新公開版本：2026-10-20 整合流程（2026-10-26 同步）
+
+目前新版入口為 `current_pipeline/tools/run_current_integrated_pipeline.py`，包含統一預設版本、來源可追溯的 CMV 三軸證據路徑，以及全病例 fallback 互斥重算。**這個新版入口不包含 OBER。** 執行方式、必要的私有設定、歷史版本差異與輸出說明見 [最新流程文件](docs/PIPELINE_UPDATE_20261020.md)。
+
+公開內容只有程式、通用規則、合成測試與方法文件。病例分組、來源確認、醫師答案及逐病人結果須留在本機私有設定，不會隨本倉庫提供。10/13 凍結政策保留原檔，新政策另存日期版本；下方根目錄的舊版流程與 OBER 說明不代表本次新版入口。
+
+## 2026-10-13 公開版本（歷史）
 
 目前流程的程式、通用規則及測試已同步至 [`current_pipeline/`](current_pipeline/)，包含小 agents 缺失資料處理、多次 DNA／RNA、自動 taxonomy 補齊與 scorer 前的完成檢查，以及舊版相容和 OBER 重播／兩階段複核工具。
 

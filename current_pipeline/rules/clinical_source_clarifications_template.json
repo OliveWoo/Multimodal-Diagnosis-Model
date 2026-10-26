@@ -1,0 +1,7 @@
+{
+  "schema_version": "clinical_source_clarifications.v1",
+  "source_kind": "explicit_private_source_metadata",
+  "clinical_adjudication": false,
+  "clarifications": [],
+  "note": "Empty template only. Supply verified per-source metadata privately; never invent an assay method."
+}

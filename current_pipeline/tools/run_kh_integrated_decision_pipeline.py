@@ -2,7 +2,7 @@
 
 This orchestrator deliberately starts from the frozen, history-integrated
 clinical scorer output.  It does not recompute taxonomy, history extraction,
-or the upstream analytical scorer.  It applies the cumulative v8 promotion
+or the upstream analytical scorer.  It applies the cumulative v9 promotion
 policy, builds the unified Picked/Possible/Fallback-Possible/Context report,
 emits one compact patient result, and optionally runs post-hoc evaluation and
 parity checks against previously frozen outputs.
@@ -14,6 +14,7 @@ only after the answer-blind outputs have been written.
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import hashlib
 import json
@@ -25,13 +26,12 @@ from typing import Any, Iterable
 from tools import build_test_aware_possible_pathogen_shadow as reporting
 from tools import evaluate_test_aware_clinical_deterministic_shadow as eval_clinical
 from tools import evaluate_test_aware_possible_pathogen_shadow as eval_reporting
-from tools import promote_test_aware_clinical_high_shadow_v8 as promotion_v8
+from tools import promote_test_aware_clinical_high_shadow_v9 as promotion_current
+from tools import current_pipeline_defaults as current_defaults
 
 
-DEFAULT_PROMOTION_POLICY = Path(
-    "rules/test_aware_clinical_promotion_v6_analytically_compelling_rpm5.json"
-)
-DEFAULT_REPORTING_POLICY = Path("rules/test_aware_unified_reporting_v2.json")
+DEFAULT_PROMOTION_POLICY = current_defaults.PROMOTION_POLICY
+DEFAULT_REPORTING_POLICY = current_defaults.REPORTING_POLICY
 SCHEMA_VERSION = "kh_integrated_decision_pipeline.v1"
 
 
@@ -163,7 +163,7 @@ def _compact_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
     history_route = candidate.get("history_adjusted_route")
     pre_promotion = candidate.get("pre_promotion_decision")
     final_tier = candidate.get("final_reporting_tier")
-    return {
+    output = {
         "patient_id": str(candidate.get("patient_id") or ""),
         "organism_name": candidate.get("organism_name"),
         "organism_key": candidate.get("organism_key"),
@@ -246,6 +246,9 @@ def _compact_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
             ),
         },
     }
+    if "viral_evidence" in candidate:
+        output["viral_evidence"] = copy.deepcopy(candidate["viral_evidence"])
+    return output
 
 
 def build_integrated_results(reporting_root: Path, output_root: Path) -> dict[str, Any]:
@@ -493,7 +496,7 @@ def run(
     decision_root = output_root / "decision_engine"
     reporting_root = output_root / "reporting"
 
-    decision_summary = promotion_v8.run(
+    decision_summary = promotion_current.run(
         input_root,
         decision_root,
         policy_path=promotion_policy,
@@ -565,8 +568,8 @@ def run(
         "implementation": {
             "orchestrator": str(Path(__file__).resolve()),
             "orchestrator_sha256": sha256_file(Path(__file__)),
-            "promotion_module": str(Path(promotion_v8.__file__).resolve()),
-            "promotion_module_sha256": sha256_file(Path(promotion_v8.__file__)),
+            "promotion_module": str(Path(promotion_current.__file__).resolve()),
+            "promotion_module_sha256": sha256_file(Path(promotion_current.__file__)),
             "reporting_module": str(Path(reporting.__file__).resolve()),
             "reporting_module_sha256": sha256_file(Path(reporting.__file__)),
         },

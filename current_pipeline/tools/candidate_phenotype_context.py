@@ -20,7 +20,7 @@ from tools import pathogen_normalization as pathogen_names
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-POLICY_PATH = REPO_ROOT / "rules" / "phenotype_candidate_policy.json"
+POLICY_PATH = REPO_ROOT / "rules" / "phenotype_candidate_policy_20261020.json"
 SCHEMA_VERSION = "candidate_phenotype_context_v1.0"
 LINKAGE_MODES = {"disabled", "same_number_shadow", "verified"}
 FORBIDDEN_KEYS = {"answer", "answers", "benchmark_answer", "answer_hit", "is_answer"}

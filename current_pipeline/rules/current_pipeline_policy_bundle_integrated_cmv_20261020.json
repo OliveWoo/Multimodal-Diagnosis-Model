@@ -1,0 +1,67 @@
+{
+  "schema_version": "frozen_pipeline_policy_bundle.v1",
+  "bundle_id": "public_integrated_cmv_20261020_published_20261026",
+  "status": "frozen_reference",
+  "frozen_on": "2026-10-26",
+  "components": [
+    {
+      "role": "analytical_scorer",
+      "path": "rules/test_aware_deterministic_shadow_v6_identity_resolved_20261020.json",
+      "policy_id": "test_aware_deterministic_shadow_v6_identity_resolved_20261020",
+      "sha256": "a1e6deafe7b8749b83781c4196475d15480202c66df590faf2a4d288438f1253"
+    },
+    {
+      "role": "history_route",
+      "path": "rules/test_aware_history_route_v4c_combined.json",
+      "policy_id": "test_aware_history_route_v4c_combined",
+      "sha256": "50f515eb2cbbd48fca657989e9272c2e1644d95ed777390f70969b00976d9a4d"
+    },
+    {
+      "role": "clinical_scorer",
+      "path": "rules/test_aware_clinical_deterministic_shadow_v1_20261020.json",
+      "policy_id": "test_aware_clinical_deterministic_shadow_v1_20261020",
+      "sha256": "03c775dc6ee0f4885ad11184e717cfd3313c3727158c298a7b7b19cf8bce2def"
+    },
+    {
+      "role": "promotion",
+      "path": "rules/test_aware_clinical_promotion_v9_pathogen_specific_convergence_20261020.json",
+      "policy_id": "test_aware_clinical_promotion_v9_pathogen_specific_convergence_20261020",
+      "sha256": "4168bce1ca737a7c7c2bbf5199374afaeed42032b2a55f9b4627bd035fe40e16"
+    },
+    {
+      "role": "reporting",
+      "path": "rules/test_aware_unified_reporting_v7_respiratory_virus_possible_20261020.json",
+      "policy_id": "test_aware_unified_reporting_v7_respiratory_virus_possible_answer_blind_20261020",
+      "sha256": "3e252912d4582db3282ec467be7e67d50660dda03715d89669eb25fbf714c4c0"
+    },
+    {
+      "role": "cmv",
+      "path": "rules/cmv_evidence_reporting_shadow_v1.json",
+      "policy_id": "cmv_evidence_reporting_shadow_v1_20261020",
+      "sha256": "d49e61e93ed709b3c2f9a4134d13726e9b5eee34ede52effe6e4bc09b1e217e5"
+    },
+    {
+      "role": "fallback",
+      "path": "rules/cmv_evidence_reporting_shadow_v2_fallback.json",
+      "policy_id": "cmv_evidence_reporting_shadow_v2_preserve_fallback_20261020",
+      "sha256": "d206c8d96ed2e474837bce008e7f5375ea7ddd8d41fb5aa7eb29082457c99dea"
+    },
+    {
+      "role": "viral_axes",
+      "path": "rules/viral_evidence_axes_shadow_v1.json",
+      "policy_id": "viral_evidence_axes_shadow_v1_20261019",
+      "sha256": "36d98541f9f3c30101e46ed9ec7ac7815d34944c125a6894090badb72cd6fe0d"
+    },
+    {
+      "role": "viral_binding",
+      "path": "rules/viral_evidence_binding_shadow_v1.json",
+      "policy_id": "viral_evidence_binding_shadow_v1_20261019",
+      "sha256": "0b961f914b1a2f39acbb33d224a983a69daee93c15eee7425fbb051bc252ad35"
+    }
+  ],
+  "constraints": [
+    "Private inputs and source clarifications are not included.",
+    "Clinical thresholds and core decision functions are not retuned for publication.",
+    "The historical 20261013 bundle and its component files remain unchanged."
+  ]
+}
