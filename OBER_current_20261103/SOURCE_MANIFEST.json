@@ -1,0 +1,269 @@
+{
+  "snapshot_date": "2026-11-03",
+  "purpose": "Source-only OBER research snapshot; original research files are unchanged.",
+  "private_inputs_and_runs_included": false,
+  "default_setting": "QC_CONSENSUS_F0_match_k2",
+  "experimental_core_split_is_default": false,
+  "sources": [
+    {
+      "path": "OBER_A1_S_k_20261031/a1_articles.py",
+      "sha256": "3250d0da9a67a132cd78aa51b98ff526b59928771aa0e238b7f5189a571bf264",
+      "bytes": 10419
+    },
+    {
+      "path": "OBER_A1_S_k_20261031/a1s_common.py",
+      "sha256": "23c12947df4bc940db86c340a7207c3c3d994f02b7aa7b0f002cc587e781b2c9",
+      "bytes": 1641
+    },
+    {
+      "path": "OBER_QC_core_split_20261103/offline_replay.py",
+      "sha256": "03ba804ab6e8195dc4dbdb1dcce42da8e90f1a0c316683461f790d6e132774d5",
+      "bytes": 16938
+    },
+    {
+      "path": "OBER_QC_core_split_20261103/split_policy.py",
+      "sha256": "93385af9b20bee68a37d2cbd1399377fc4c814928141923addbb53d38c79d3dc",
+      "bytes": 2279
+    },
+    {
+      "path": "OBER_QC_core_split_20261103/test_split_policy.py",
+      "sha256": "3aa90558d1a900edca3a8b0e490d7e9bc84f91d53a640060b65505e1b99e4c8c",
+      "bytes": 3361
+    },
+    {
+      "path": "OBER_QC_core_split_20261103/README.md",
+      "sha256": "f08255d1cd8c97c8a75e52f6557b368b1b0c50fb09cdc6eacd5fcf14388a70e3",
+      "bytes": 3218
+    },
+    {
+      "path": "OBER_QC_repeat_20261103/compare_runs.py",
+      "sha256": "0f49fb356a4f6d51504900a274e3f96d0e574ef44733210868bc12c1f6c090fc",
+      "bytes": 14810
+    },
+    {
+      "path": "OBER_QC_repeat_20261103/repeat_driver.py",
+      "sha256": "f64a0b6fed3ed263ab1828d41ae5fc6fcd85c1507f1e9fb62186cf9eeb83711b",
+      "bytes": 7607
+    },
+    {
+      "path": "OBER_QC_repeat_20261103/repeat_entry.py",
+      "sha256": "78680c02791c6a4740527ea9d1e01fa73111b51145b2aaadaa123f4a983735d2",
+      "bytes": 1042
+    },
+    {
+      "path": "OBER_QC_repeat_20261103/test_repeat.py",
+      "sha256": "00a978c837c6d808e702dfec6bcef12b69fb7feff74a58912a3277f51cf1be44",
+      "bytes": 1776
+    },
+    {
+      "path": "OBER_QC_repeat_20261103/test_profile_mapping.py",
+      "sha256": "34ced930f8614bc29565936f30c5768d70c6488f15b33d3e0bd64fd3ea0b2a6b",
+      "bytes": 820
+    },
+    {
+      "path": "OBER_QC_repeat_20261103/PROTOCOL_zh.md",
+      "sha256": "38216b0f0ebbf6e07d719a5e962270a55f70530d237f884d939572fc7797a04c",
+      "bytes": 3500
+    },
+    {
+      "path": "OBER_QC_repeat_20261103/README.md",
+      "sha256": "0e66940f67d7a0322bedd00ddb1c153fb019db5b04d3eaf4e63964187395b4f3",
+      "bytes": 1820
+    },
+    {
+      "path": "OBER_QC_repeat_20261103/START_HERE.md",
+      "sha256": "3954c172b9d0573a2dc95494d3708b9b14f6689cdd1cb8b6f3809fdb0e446db4",
+      "bytes": 1285
+    },
+    {
+      "path": "OBER_QC_repeat_20261103/REPORT_MAPPING_zh.md",
+      "sha256": "f6a0a778a2a44e59f852330ec0e5a139b721958d3cf5ef9d408cf1bf14f58705",
+      "bytes": 547
+    },
+    {
+      "path": "OBER_article_only_isolation_20261102/iso_common.py",
+      "sha256": "0762bad0a72ae1b697f776a6dd0bb0a99c04280c0c9e6fbc8a101bdfbc535533",
+      "bytes": 6298
+    },
+    {
+      "path": "OBER_clinical_framework_20261031/clinical_rules.py",
+      "sha256": "5378ddaaaa6ed8058ba9cf881e43197a2dfa9b48d45dfa5fc986a954ba5ed456",
+      "bytes": 7416
+    },
+    {
+      "path": "OBER_clinical_framework_20261031/experiment.py",
+      "sha256": "8654784f83128b6f964cc7f70d8f16f1f9be48a4c5e8caa5c0d14804f72b77ca",
+      "bytes": 24155
+    },
+    {
+      "path": "OBER_clinical_framework_20261031/extraction_prompt.txt",
+      "sha256": "eabd1ec2bbd58c757a3a6cda54729bafd092e9aac819196f59b721d7d99bcffb",
+      "bytes": 2999
+    },
+    {
+      "path": "OBER_literature_reflection_20261031/data_and_pubmed.py",
+      "sha256": "15848b2532ff9ddc1108b9fa10416edcefb36eac7358e9ef49978fd45eae6fbe",
+      "bytes": 12335
+    },
+    {
+      "path": "OBER_literature_reflection_20261031/reflection.py",
+      "sha256": "875feed26cbc985759b3710ba63bb608b583f0fbedfc8f9b33865dfbd04871bc",
+      "bytes": 25829
+    },
+    {
+      "path": "OBER_literature_reflection_20261031/reflection_prompt.txt",
+      "sha256": "d229bb59ad77d5d167e010e835b19018a858a41dc5ee4fa6b266c45647008f0b",
+      "bytes": 4868
+    },
+    {
+      "path": "OBER_postreview_modules_20261031/modules.py",
+      "sha256": "7cd6162668021ea4caac1396e6d9597cbaeb94097e73fd9becc81202c0694f3d",
+      "bytes": 5254
+    },
+    {
+      "path": "OBER_postreview_modules_20261031/source_guard.py",
+      "sha256": "0c535020ca1e16f1a874f60581159a2aef74083aa5600c20b35a74c17a331d23",
+      "bytes": 2378
+    },
+    {
+      "path": "OBER_reason_reflection_20261031/native_signal.py",
+      "sha256": "b51a94b65512c6432bf6a64bd0b5dad4844aa81905614b3f399078454dabf1ec",
+      "bytes": 9301
+    },
+    {
+      "path": "OBER_reason_reflection_20261031/reason_common.py",
+      "sha256": "8f278bb5792cb85018aa739e0d23d6e15673c7cc12823c07d98bb509d34f6dbd",
+      "bytes": 6495
+    },
+    {
+      "path": "OBER_reason_reflection_20261031/reason_judge.py",
+      "sha256": "b822a73ac51c79f5b5f99cd9ecba3bcd15a96793fe1a74d574b42bcb23fae717",
+      "bytes": 16155
+    },
+    {
+      "path": "OBER_reason_reflection_20261031/reason_planning.py",
+      "sha256": "dbe83243836e885ef4f943942b753a1074e16f8dec952ec7ad1f4b8ed91cd8cb",
+      "bytes": 6236
+    },
+    {
+      "path": "OBER_reason_reflection_20261031/reason_retrieval.py",
+      "sha256": "c2592c68435c26ac4740af9265ae8747878d0a65fb6ec573d5db9c6bedbef38f",
+      "bytes": 10648
+    },
+    {
+      "path": "OBER_reason_reflection_20261031/run_resilient_judge.py",
+      "sha256": "03c12cfd7779d99c4526d0b419690414a8dd76929e1459ee8e37f1bca9b37829",
+      "bytes": 1737
+    },
+    {
+      "path": "OBER_rule_QC_20261103/qc_common.py",
+      "sha256": "962c32a6d9c69dd93f8a1ade9331f0a350cb6cdde8da50a17d00ebdba22d4d29",
+      "bytes": 5869
+    },
+    {
+      "path": "OBER_rule_QC_20261103/qc_eval.py",
+      "sha256": "29241411d9f4cf89c9de720cfdc3323803a287bf40e72ae25eedd747b1b4789c",
+      "bytes": 14705
+    },
+    {
+      "path": "OBER_rule_QC_20261103/qc_queue.py",
+      "sha256": "92bb5afb040e0ca0e53ddfd6e2b15a11ff30d315375167193d6f71c6c4048dd5",
+      "bytes": 4627
+    },
+    {
+      "path": "OBER_rule_QC_20261103/qc_review.py",
+      "sha256": "6b71ae430b4b8ea64de32ea85feb6325472fabb0ac06e37e60276c24bb7134df",
+      "bytes": 5631
+    },
+    {
+      "path": "OBER_rule_QC_20261103/qc_rules.py",
+      "sha256": "408df7473bd04515faf76dfc5f7643712bea2cc151df5adfe26f296d6852050a",
+      "bytes": 3537
+    },
+    {
+      "path": "OBER_rule_QC_20261103/qc_runner.py",
+      "sha256": "e9c19c8d9edf1eeac275069e65d5c6abd7510db9fdad462ccd8f51b0ca147f47",
+      "bytes": 15469
+    },
+    {
+      "path": "OBER_rule_QC_20261103/test_qc.py",
+      "sha256": "5d48953335220b59983369c3e1c7a63e1a3891b3ad4d688bd048d8b19fed44f4",
+      "bytes": 5883
+    },
+    {
+      "path": "OBER_rule_QC_20261103/PROTOCOL_zh.md",
+      "sha256": "00c91e612741057fa9f79a15fa97c23e1cd7bab52c4df2a24e9365abbdda3e8e",
+      "bytes": 6220
+    },
+    {
+      "path": "OBER_rule_QC_20261103/README.md",
+      "sha256": "bcf791ffeac735d2b775af0683aec9f87281de640d86b7e27cd619cd8d302530",
+      "bytes": 2606
+    },
+    {
+      "path": "OBER_rule_QC_20261103/START_HERE.md",
+      "sha256": "8eef80a12ac608f34bbf238fa0b52b54bf30b28dd4c4585fc136517f6dcd3c0d",
+      "bytes": 1321
+    },
+    {
+      "path": "OBER_v7_review_20261030/api_probe.py",
+      "sha256": "4a6749c727ffa070373c80317bd1d6cfa22294cf8dd5121fe9542426af1fe047",
+      "bytes": 1828
+    },
+    {
+      "path": "OBER_v7_review_20261030/audit_A1_B_causes.py",
+      "sha256": "f1d21b3bb928c0cf4d396ac41e2fbc740968bc85973d6ba5372e606f860f6207",
+      "bytes": 12383
+    },
+    {
+      "path": "OBER_v7_review_20261030/information_pilot.py",
+      "sha256": "2dc15613cc6360c66dd4e3c4f840cfae8c38dc0bf165acca7ea024e12f918fef",
+      "bytes": 39588
+    },
+    {
+      "path": "OBER_v7_review_20261030/information_pilot_recovery.py",
+      "sha256": "13bf3eed6d875b877cf45bacb57cf0d3a9ec6b9edc793d2d2421640f23c2bbc5",
+      "bytes": 6222
+    },
+    {
+      "path": "OBER_v7_review_20261030/inspect_release.py",
+      "sha256": "92e187ae2abf54ae9be53a4821e7a62c3642525b9fc3720df10b06c4ace63e4f",
+      "bytes": 16525
+    },
+    {
+      "path": "OBER_v7_review_20261030/literature_rule_pilot.py",
+      "sha256": "01af10f848447b55eee8342902a8c211d35aed48c73eb51ac893f36681968c3d",
+      "bytes": 33320
+    },
+    {
+      "path": "OBER_v7_review_20261030/pilot.py",
+      "sha256": "2147bcecbc22ba9a743f254b97a561f5ad53fa8a68274da692637beddac35089",
+      "bytes": 34646
+    },
+    {
+      "path": "OBER_v7_review_20261030/pilot_v4.py",
+      "sha256": "61f82ce428bac82d9f79e9c3e8744da0082e65e805ed2cbc0def5b479ed6c83b",
+      "bytes": 35706
+    },
+    {
+      "path": "RAG_re_casefit/rag_re_casefit/__init__.py",
+      "sha256": "f4c4117e6df2f53b7f673de0fd027d267907864f1bad5bb38fdcf88bccaf2e1f",
+      "bytes": 354
+    },
+    {
+      "path": "RAG_re_casefit/rag_re_casefit/case_card.py",
+      "sha256": "29392bdd076499916a1ab680ad639ced3d8212d74e8205c95312b7a6e89d1e4b",
+      "bytes": 11517
+    },
+    {
+      "path": "RAG_re_casefit/rag_re_casefit/rules.py",
+      "sha256": "d2ab4208d0ed3ff0d4982ab7c31b909368cd91991948f4779eb0412f67193821",
+      "bytes": 8203
+    },
+    {
+      "path": "RAG_re_casefit/prompts/article_casefit_v1.txt",
+      "sha256": "e495aef6064075cfca5362a1327304b7a943b2a59507b4552c01a525750008cc",
+      "bytes": 2031
+    }
+  ]
+}
